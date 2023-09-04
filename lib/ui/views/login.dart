@@ -1,20 +1,53 @@
 import 'package:flutter/material.dart';
 
-class MenuView extends StatefulWidget {
-  const MenuView({super.key});
+class LoginView extends StatefulWidget {
+  const LoginView({super.key});
 
   @override
-  State<MenuView> createState() => _MenuViewState();
+  State<LoginView> createState() => _LoginViewState();
 }
 
-class _MenuViewState extends State<MenuView> {
+class _LoginViewState extends State<LoginView> {
+  final Image logo = Image.asset('assets/ipvc.png');
+
   @override
   Widget build(BuildContext context) {
-    return const Center(
+    return Scaffold(
+      body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[Text('Login')],
+          children: <Widget>[
+            Padding(
+              padding: const EdgeInsets.fromLTRB(64,0,64,32),
+              child: logo,
+            ),
+            const Padding(
+              padding: EdgeInsets.fromLTRB(32,0,32,16),
+              child: TextField(
+                decoration: InputDecoration(
+                    border: OutlineInputBorder(),
+                    labelText: "Utilizador"
+                ),
+              ),
+            ),
+            const Padding(
+              padding: EdgeInsets.fromLTRB(32,0,32,16),
+              child: TextField(
+                obscureText: true,
+                decoration: InputDecoration(
+                    border: OutlineInputBorder(),
+                    labelText: "Palavra-passe"
+                ),
+              ),
+            ),
+            FilledButton.icon(
+              label: const Text("Entrar"),
+              icon: const Icon(Icons.login),
+              onPressed: () {}
+            ),
+          ],
         )
+      )
     );
   }
 
