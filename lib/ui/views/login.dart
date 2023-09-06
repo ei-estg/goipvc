@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:myipvc_budget_flutter/services/myipvc_api.dart';
+import 'package:myipvc_budget_flutter/ui/widgets/ipvc_logo.dart';
 
 class LoginView extends StatefulWidget {
   const LoginView({super.key});
@@ -9,7 +10,6 @@ class LoginView extends StatefulWidget {
 }
 
 class _LoginViewState extends State<LoginView> {
-  final Image logo = Image.asset('assets/ipvc.png');
   final _usernameController = TextEditingController();
   final _passwordController = TextEditingController();
 
@@ -20,9 +20,9 @@ class _LoginViewState extends State<LoginView> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            Padding(
-              padding: const EdgeInsets.fromLTRB(64,0,64,32),
-              child: logo,
+            const Padding(
+              padding: EdgeInsets.fromLTRB(64,0,64,32),
+              child: IpvcLogo(),
             ),
             Padding(
               padding: const EdgeInsets.fromLTRB(32,0,32,16),

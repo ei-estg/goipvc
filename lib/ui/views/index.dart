@@ -3,6 +3,7 @@ import 'package:myipvc_budget_flutter/ui/views/grades.dart';
 import 'package:myipvc_budget_flutter/ui/views/home.dart';
 import 'package:myipvc_budget_flutter/ui/views/menu.dart';
 import 'package:myipvc_budget_flutter/ui/views/schedule.dart';
+import 'package:myipvc_budget_flutter/ui/widgets/ipvc_logo.dart';
 
 class IndexView extends StatefulWidget {
   const IndexView({super.key});
@@ -13,15 +14,14 @@ class IndexView extends StatefulWidget {
 
 class _IndexViewState extends State<IndexView> {
   int currentPageIndex = 0;
-  final Image titleImage = Image.asset('assets/ipvc.png');
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: Padding(
-            padding: const EdgeInsets.fromLTRB(0,0,96.0,0),
-            child: titleImage,
+          title: const Padding(
+            padding: EdgeInsets.fromLTRB(0,0,96.0,0),
+            child: IpvcLogo(),
           ),
           actions: const <Widget>[
             Padding(

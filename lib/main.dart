@@ -29,9 +29,9 @@ class MyIPVCApp extends StatelessWidget {
           colorScheme: darkColorScheme ?? _defaultDarkColorScheme,
           useMaterial3: true,
         ),
-        themeMode: ThemeMode.light,
+        themeMode: ThemeMode.system,
         debugShowCheckedModeBanner: false,
-        home: const TokenLoginView(),
+        home: const IndexView(),
       );
     });
   }

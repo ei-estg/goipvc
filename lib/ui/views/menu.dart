@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:myipvc_budget_flutter/ui/views/settings.dart';
 import 'package:myipvc_budget_flutter/ui/widgets/menu_list_tile.dart';
 
 class MenuView extends StatefulWidget {
@@ -47,7 +48,9 @@ class _MenuViewState extends State<MenuView> {
         MenuListTile(
           icon: const Icon(Icons.settings),
           text: const Text("Definições"),
-          onTap: () {}
+          onTap: () {
+            Navigator.push(context, MaterialPageRoute(builder: (context) => const SettingsView()));
+          }
         ),
         MenuListTile(
             icon: const Icon(Icons.logout),

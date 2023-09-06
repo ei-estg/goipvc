@@ -12,7 +12,7 @@ class TokenLoginView extends StatefulWidget {
 class _TokenLoginViewState extends State<TokenLoginView> {
   final _tokenController = TextEditingController();
 
-  Future<void> setToken(String token) async {
+  Future<void> _setToken(String token) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
 
     prefs.setString("token", token);
@@ -40,7 +40,7 @@ class _TokenLoginViewState extends State<TokenLoginView> {
                     icon: const Icon(Icons.login),
                     onPressed: () {
                       if(_tokenController.text.isNotEmpty) {
-                        setToken(_tokenController.text);
+                        _setToken(_tokenController.text);
                         Navigator.pushReplacement(context,
                             MaterialPageRoute(builder: (context) => const IndexView()));
                       }
