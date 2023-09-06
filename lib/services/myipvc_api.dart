@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:convert';
 import 'package:cryptography/cryptography.dart';
 import 'package:dio/dio.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../models/myipvc_grade.dart';
 import '../models/myipvc_user.dart';
@@ -35,6 +36,12 @@ class MyIPVCAPI {
     _dio.options.headers["x-version"] = "999999";
   }
 
+  Future<String> getToken() async{
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+
+    return prefs.getString("token")!;
+  }
+
   Future<bool> login(String username, String password) async {
     final algorithm = AesCbc.with128bits(macAlgorithm: MacAlgorithm.empty);
     var key = await algorithm.newSecretKeyFromBytes(utf8.encode("sAFasfe35/{ssF?A"));
@@ -49,11 +56,6 @@ class MyIPVCAPI {
         'username': username,
         'password': concatenatedBytes
       }),
-      /*options: Options(
-        headers: {
-          "x-version": "999999"
-        }
-      )*/
     );
 
     if(response.statusCode == 200) {
@@ -69,7 +71,7 @@ class MyIPVCAPI {
     final response = await _dio.post(
       "$_baseURL/api/academicos/getNotas",
       data: jsonEncode(<String, String>{
-        'token': "",
+        'token': await getToken(),
       }),
     );
 
@@ -89,7 +91,7 @@ class MyIPVCAPI {
     final response = await _dio.post(
       "$_baseURL/api/academicos/getMediaFinal",
       data: jsonEncode(<String, String>{
-        'token': "",
+        'token': await getToken(),
       }),
     );
 

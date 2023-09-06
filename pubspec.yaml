@@ -41,6 +41,7 @@ dependencies:
   cryptography_flutter: ^2.3.1
   dio: ^5.3.2
   json_annotation: ^4.8.1
+  shared_preferences: ^2.2.1
 
 dev_dependencies:
   flutter_test:
