@@ -1,5 +1,6 @@
 import 'package:dynamic_color/dynamic_color.dart';
 import 'package:flutter/material.dart';
+import 'package:myipvc_budget_flutter/ui/views/index.dart';
 import 'package:myipvc_budget_flutter/ui/views/login.dart';
 
 void main() {
@@ -27,7 +28,7 @@ class MyIPVCApp extends StatelessWidget {
         ),
         themeMode: ThemeMode.light,
         debugShowCheckedModeBanner: false,
-        home: const LoginView(),
+        home: const IndexView(),
       );
     });
   }
