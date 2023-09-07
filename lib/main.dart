@@ -1,8 +1,6 @@
 import 'package:dynamic_color/dynamic_color.dart';
 import 'package:flutter/material.dart';
-import 'package:myipvc_budget_flutter/ui/views/index.dart';
-import 'package:myipvc_budget_flutter/ui/views/login.dart';
-import 'package:myipvc_budget_flutter/ui/views/temp_token_login.dart';
+import 'package:myipvc_budget_flutter/ui/views/verify_auth.dart';
 
 void main() {
   runApp(const MyIPVCApp());
@@ -13,8 +11,6 @@ class MyIPVCApp extends StatelessWidget {
 
   static final _defaultLightColorScheme = ColorScheme.fromSwatch(primarySwatch: Colors.blue);
   static final _defaultDarkColorScheme = ColorScheme.fromSwatch(primarySwatch: Colors.blue, brightness: Brightness.dark);
-
-
 
   @override
   Widget build(BuildContext context) {
@@ -31,7 +27,7 @@ class MyIPVCApp extends StatelessWidget {
         ),
         themeMode: ThemeMode.system,
         debugShowCheckedModeBanner: false,
-        home: const IndexView(),
+        home: const VerifyAuthView(),
       );
     });
   }

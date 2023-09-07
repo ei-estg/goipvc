@@ -1,36 +1,15 @@
 import 'dart:async';
 import 'dart:convert';
-import 'package:cryptography/cryptography.dart';
 import 'package:dio/dio.dart';
+import 'package:myipvc_budget_flutter/services/encryptor.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../models/myipvc_grade.dart';
 import '../models/myipvc_user.dart';
 
-const String _baseURL = "https://app.ipvc.pt";
-
-class MyIPVCLoginResponse {
-  final bool status;
-  final String jwtToken;
-  final MyIPVCUser user;
-
-  MyIPVCLoginResponse({
-    required this.status,
-    required this.jwtToken,
-    required this.user
-  });
-
-  factory MyIPVCLoginResponse.fromJson(Map<String, dynamic> json) {
-    return MyIPVCLoginResponse(
-      status: json['status'],
-      jwtToken: json['jwtToken'],
-      user: json['user']
-    );
-  }
-}
-
 class MyIPVCAPI {
   final _dio = Dio();
+  final String _baseURL = "https://app.ipvc.pt";
 
   MyIPVCAPI() {
     _dio.options.headers["x-version"] = "999999";
@@ -42,29 +21,54 @@ class MyIPVCAPI {
     return prefs.getString("token")!;
   }
 
-  Future<bool> login(String username, String password) async {
-    final algorithm = AesCbc.with128bits(macAlgorithm: MacAlgorithm.empty);
-    var key = await algorithm.newSecretKeyFromBytes(utf8.encode("sAFasfe35/{ssF?A"));
-    final secret = await algorithm.encryptString(password, secretKey: key);
-    final concatenatedBytes = base64Encode(secret.concatenation());
+  Future<void> saveToken(String token) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
 
-    print(concatenatedBytes);
+    prefs.setString("token", token);
+  }
+  
+  Future<MyIPVCUser> getUser() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+
+    String userData = prefs.getString("user")!;
+    
+    return MyIPVCUser.fromJson(jsonDecode(userData));
+  }
+
+  Future<void> saveUser(String user) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+
+    prefs.setString("user", user);
+  }
+
+  Future<bool> login(String username, String password) async {
+    String encryptedPassword = encryptAESCryptoJS(password, "sAFasfe35/{ssF?A");
 
     final response = await _dio.post(
       "$_baseURL/api/Ipvc/Login",
       data: jsonEncode(<String, String>{
         'username': username,
-        'password': concatenatedBytes
+        'password': encryptedPassword
       }),
     );
 
     if(response.statusCode == 200) {
-      //final MyIPVCLoginResponse res = MyIPVCLoginResponse.fromJson(response.data);
-      print(response.data["status"]);
+      if(response.data["status"] == true) {
+        await saveToken(response.data["jwtToken"]);
+        await saveUser(jsonEncode(response.data["user"]));
+      }
+
       return response.data["status"];
     } else {
       throw Exception("Erro ao iniciar sessão");
     }
+  }
+
+  Future<void> logout() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+
+    prefs.remove("token");
+    prefs.remove("user");
   }
 
   Future<List<MyIPVCGrade>> getGrades() async {
@@ -96,5 +100,20 @@ class MyIPVCAPI {
     );
 
     return double.parse(response.data["data"]);
+  }
+
+  Future<bool> verifyAuth() async {
+    try {
+      await _dio.get(
+        "$_baseURL/api/myipvc/profile",
+        data: jsonEncode(<String, String>{
+          'token': await getToken(),
+        }),
+      );
+
+      return true;
+    } catch (error) {
+      return false;
+    }
   }
 }
