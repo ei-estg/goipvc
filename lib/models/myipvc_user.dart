@@ -1,19 +1,9 @@
-class MyIPVCUser {
-  final String id_utilizador;
-  final String nome;
-  final String email;
-  final String num_utilizador;
-  final String grupo_disciplinar;
-  final String unidade_organica;
-  final String id_candidato;
-  final String passo;
-  final String id_regime;
-  final String id_curso;
-  final String nm_curso;
-  final String sigla_curso;
-  final String tipo;
-  final String fotografia;
+import 'package:json_annotation/json_annotation.dart';
 
+part 'myipvc_user.g.dart';
+
+@JsonSerializable()
+class MyIPVCUser {
   MyIPVCUser({
     required this.id_utilizador,
     required this.nome,
@@ -31,22 +21,21 @@ class MyIPVCUser {
     required this.fotografia
   });
 
-  factory MyIPVCUser.fromJson(Map<String, dynamic> json) {
-    return MyIPVCUser(
-        id_utilizador: json['id_utilizador'],
-        nome: json['nome'],
-        email: json['email'],
-        num_utilizador: json['num_utilizador'],
-        grupo_disciplinar: json['grupo_disciplinar'],
-        unidade_organica: json['unidade_organica'],
-        id_candidato: json['id_candidato'],
-        passo: json['passo'],
-        id_regime: json['id_regime'],
-        id_curso: json['id_curso'],
-        nm_curso: json['nm_curso'],
-        sigla_curso: json['sigla_curso'],
-        tipo: json['tipo'],
-        fotografia: json['fotografia']
-    );
-  }
+  String id_utilizador;
+  String nome;
+  String email;
+  String num_utilizador;
+  String grupo_disciplinar;
+  String unidade_organica;
+  String id_candidato;
+  String passo;
+  String id_regime;
+  String id_curso;
+  String nm_curso;
+  String sigla_curso;
+  String tipo;
+  String fotografia;
+
+  factory MyIPVCUser.fromJson(Map<String, dynamic> json) => _$MyIPVCUserFromJson(json);
+  Map<String, dynamic> toJson() => _$MyIPVCUserToJson(this);
 }
