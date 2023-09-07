@@ -21,7 +21,10 @@ class _IndexViewState extends State<IndexView> {
         appBar: AppBar(
           title: const Padding(
             padding: EdgeInsets.fromLTRB(0,0,96.0,0),
-            child: IpvcLogo(),
+            child: SizedBox(
+              height: 48,
+              child: IpvcLogo(),
+            ),
           ),
           actions: const <Widget>[
             Padding(
