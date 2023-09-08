@@ -16,9 +16,9 @@ class _SettingsViewState extends State<SettingsView> {
         title: const Text("Definições"),
       ),
       body: ListView(
-        children: <Widget>[
+        children: const <Widget>[
           ThemeSettings(),
-          const Divider(),
+          Divider(),
         ],
       ),
     );
