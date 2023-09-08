@@ -16,12 +16,12 @@ class _SettingsViewState extends State<SettingsView> {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: const Text("Select Appearance"),
+          title: const Text("Selecionar aparência"),
           content: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
               ListTile(
-                title: const Text("Use Device"),
+                title: const Text("Tema do dispositivo"),
                 onTap: () {
                   setState(() {
                     selectedAppearanceOption = 'Use Device';
@@ -30,7 +30,7 @@ class _SettingsViewState extends State<SettingsView> {
                 },
               ),
               ListTile(
-                title: const Text("Light"),
+                title: const Text("Claro"),
                 onTap: () {
                   setState(() {
                     selectedAppearanceOption = 'Light';
@@ -39,7 +39,7 @@ class _SettingsViewState extends State<SettingsView> {
                 },
               ),
               ListTile(
-                title: const Text("Dark"),
+                title: const Text("Escuro"),
                 onTap: () {
                   setState(() {
                     selectedAppearanceOption = 'Dark';
@@ -67,7 +67,7 @@ class _SettingsViewState extends State<SettingsView> {
             child: Builder(
               builder: (BuildContext context) {
                 return Text(
-                  "Aparencia ",
+                  "Aparência",
                   style: TextStyle(
                     fontWeight: FontWeight.bold,
                     fontSize: 15,
@@ -85,7 +85,7 @@ class _SettingsViewState extends State<SettingsView> {
             trailing: Text(selectedAppearanceOption),
           ),
           ListTile(
-            title: const Text("Material You"),
+            title: const Text("Utilizar cores do dispositivo"),
             trailing: Switch(
               value: isSwitched,
               onChanged: (bool newValue) {
