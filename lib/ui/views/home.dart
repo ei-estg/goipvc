@@ -39,7 +39,7 @@ class HomeView extends ConsumerWidget {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [ProfilePicture(
                         imageData: profile.fotografia,
-                        size: 125,
+                        size: 100,
                       )],
                     )
                   )
