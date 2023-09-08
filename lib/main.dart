@@ -1,19 +1,22 @@
 import 'package:dynamic_color/dynamic_color.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:myipvc_budget_flutter/ui/views/verify_auth.dart';
 
 void main() {
-  runApp(const MyIPVCApp());
+  runApp(const ProviderScope(
+    child: MyIPVCApp(),
+  ));
 }
 
-class MyIPVCApp extends StatelessWidget {
+class MyIPVCApp extends ConsumerWidget {
   const MyIPVCApp({super.key});
 
   static final _defaultLightColorScheme = ColorScheme.fromSwatch(primarySwatch: Colors.blue);
   static final _defaultDarkColorScheme = ColorScheme.fromSwatch(primarySwatch: Colors.blue, brightness: Brightness.dark);
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return DynamicColorBuilder(builder: (lightColorScheme, darkColorScheme) {
       return MaterialApp(
         title: 'my ipvc',
