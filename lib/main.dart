@@ -1,6 +1,7 @@
 import 'package:dynamic_color/dynamic_color.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:myipvc_budget_flutter/providers/theme_provider.dart';
 import 'package:myipvc_budget_flutter/ui/views/verify_auth.dart';
 
 void main() {
@@ -17,6 +18,8 @@ class MyIPVCApp extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    var theme = ref.watch(themeProvider);
+
     return DynamicColorBuilder(builder: (lightColorScheme, darkColorScheme) {
       return MaterialApp(
         title: 'my ipvc',
@@ -28,7 +31,7 @@ class MyIPVCApp extends ConsumerWidget {
           colorScheme: darkColorScheme ?? _defaultDarkColorScheme,
           useMaterial3: true,
         ),
-        themeMode: ThemeMode.system,
+        themeMode: theme,
         debugShowCheckedModeBanner: false,
         home: const VerifyAuthView(),
       );

@@ -59,8 +59,8 @@ class _LoginViewState extends State<LoginView> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            const Padding(
-              padding: EdgeInsets.fromLTRB(64,0,64,32),
+            Padding(
+              padding: const EdgeInsets.fromLTRB(64,0,64,32),
               child: IpvcLogo(),
             ),
             Padding(
