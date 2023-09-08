@@ -16,7 +16,7 @@ MyIPVCLesson _$MyIPVCLessonFromJson(Map<String, dynamic> json) => MyIPVCLesson(
       emailsDocentes: json['emailsDocentes'] as String,
       nomesDocentes: json['nomesDocentes'] as String,
       hor_evento_id: json['hor_evento_id'] as String,
-      id_estado: json['id_estado'] as String,
+      id_estado: json['id_estado'] as int,
       cor_valor: json['cor_valor'] as String,
     );
 

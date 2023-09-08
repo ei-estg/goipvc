@@ -27,7 +27,7 @@ class MyIPVCLesson {
   String emailsDocentes;
   String nomesDocentes;
   String hor_evento_id;
-  String id_estado;
+  int id_estado;
   String cor_valor;
 
   factory MyIPVCLesson.fromJson(Map<String, dynamic> json) => _$MyIPVCLessonFromJson(json);

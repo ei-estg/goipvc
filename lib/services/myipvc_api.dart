@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:convert';
 import 'package:dio/dio.dart';
+import 'package:myipvc_budget_flutter/models/myipvc_lesson.dart';
 import 'package:myipvc_budget_flutter/services/encryptor.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -115,5 +116,23 @@ class MyIPVCAPI {
     } catch (error) {
       return false;
     }
+  }
+
+  Future<List<MyIPVCLesson>> getSchedule() async {
+    final response = await _dio.get(
+      // "$_baseURL/api/ipvc/GetHorario"
+      "https://mocki.io/v1/66336d77-0214-40c0-90c5-c87a541707ff",
+      /*data: jsonEncode(<String, String>{
+        'token': await getToken(),
+      }),*/
+    );
+
+    List<MyIPVCLesson> schedule = [];
+
+    for(var lesson in response.data){
+      schedule.add(MyIPVCLesson.fromJson(lesson));
+    }
+
+    return schedule;
   }
 }
