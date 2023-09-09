@@ -12,19 +12,28 @@ class GradeCard<T> extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    String epocaAvaliacao = grade.epocaAvaliacao;
+
+    if (epocaAvaliacao.contains("Avaliação por ")) {
+      epocaAvaliacao = epocaAvaliacao.replaceFirst("Avaliação por ", "");
+    }
     return Padding(
-      padding: const EdgeInsets.fromLTRB(8, 0, 8, 0),
+      padding: const EdgeInsets.fromLTRB(0, 2, 0, 2),
       child: Card(
         child: Row(
           mainAxisSize: MainAxisSize.min,
           children: <Widget>[
             Expanded(
               child: ListTile(
-                title: Text(grade.disciplina, overflow: TextOverflow.ellipsis,),
+                title:
+                  Text(
+                    grade.disciplina,
+                    overflow: TextOverflow.ellipsis,
+                    style: TextStyle(color: Theme.of(context).colorScheme.primary, fontSize: 20, fontWeight: FontWeight.bold),
+                  ),
                 subtitle: Text(
                     "${grade.duracao}\n"
-                    "${grade.epocaAvaliacao}\n"
-                    "Data de avaliação: ${grade.dataAvaliacao}"
+                    "$epocaAvaliacao: ${grade.dataAvaliacao}"
                 ),
               ),
             ),

@@ -38,7 +38,14 @@ class GradesView extends ConsumerWidget {
                         ],
                       )
                   ),
-                  for(var grade in grades) GradeCard(grade: grade)
+                  Padding(
+                      padding: const EdgeInsets.fromLTRB(10, 0, 10, 40),
+                      child: Column(
+                      children: <Widget>[
+                        for(var grade in grades) GradeCard(grade: grade)
+                      ]
+                    )
+                  )
                 ],
               );
             },
