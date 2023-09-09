@@ -34,8 +34,11 @@ class HomeView extends ConsumerWidget {
                       children: [
                         Text(
                           "Olá,\n${profile.nome.split(" ")[0]}",
-                          style: const TextStyle(fontSize: 32),
-                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                              fontSize: 32,
+                              color: Theme.of(context).colorScheme.primary,
+                          ),
+                          textAlign: TextAlign.left,
                         )
                       ],
                     )
