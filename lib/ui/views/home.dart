@@ -4,8 +4,10 @@ import 'package:myipvc_budget_flutter/models/myipvc_lesson.dart';
 import 'package:myipvc_budget_flutter/models/myipvc_user.dart';
 import 'package:myipvc_budget_flutter/providers/profile_provider.dart';
 import 'package:myipvc_budget_flutter/providers/schedule_provider.dart';
+import 'package:myipvc_budget_flutter/services/date_verification.dart';
 import 'package:myipvc_budget_flutter/ui/views/error.dart';
 import 'package:myipvc_budget_flutter/ui/views/loading.dart';
+import 'package:myipvc_budget_flutter/ui/widgets/lesson_card.dart';
 import 'package:myipvc_budget_flutter/ui/widgets/profile_picture.dart';
 
 class HomeView extends ConsumerWidget {
@@ -49,26 +51,51 @@ class HomeView extends ConsumerWidget {
                 ],
                )
               ),
-              const Padding(padding: EdgeInsets.fromLTRB(0, 0, 0, 32)),
               Flexible(flex: 2, child: Column(
                 children: <Widget>[
-                  const Text("Hoje:", style: TextStyle(fontSize: 24)),
-                  Expanded(child: Card(
-                    elevation: 0,
-                    shape: RoundedRectangleBorder(
-                      side: BorderSide(
-                        color: Theme.of(context).colorScheme.outline,
-                      ),
-                      borderRadius: const BorderRadius.all(Radius.circular(12)),
-                    ),
-                    child: schedule.when(
+                  Expanded(
+                    flex: 1,
+                    child: Card(
+                      elevation: 4, // Optional: Add elevation for a shadow effect
+                      margin: const EdgeInsets.all(16.0),
+                      child: schedule.when(
                         loading: () => const LoadingView(),
                         error: (err, stack) => ErrorView(error: "$err"),
                         data: (schedule) {
-                          return Text(schedule[0].hor_nome);
+                          schedule.removeWhere((lesson) =>
+                            verifyIfLessonExpired(lesson));
+
+                          if(schedule.isEmpty){
+                            return const Center(
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [Text("Não existem aulas hoje")],
+                              ),
+                            );
+                          }
+
+                          return Column(
+                            children: [
+                              const ListTile(
+                                title: Text(
+                                    'Hoje:',
+                                    style: TextStyle(fontSize: 20)
+                                ),
+                              ),
+                              Expanded(
+                                child: ListView(
+                                  children: [
+                                    for(var lesson in schedule)
+                                      LessonCard(lesson: lesson)
+                                  ],
+                                )
+                              ),
+                            ],
+                          );
                         }
+                      )
                     ),
-                  ))
+                  ),
                 ],
               ))
             ],

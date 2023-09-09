@@ -77,7 +77,7 @@ class _IndexViewState extends State<IndexView> {
             return FadeTransition(opacity: animation, child: child);
           },
           child: <Widget>[
-            HomeView(),
+            const HomeView(),
             const ScheduleView(),
             const GradesView(),
             const MenuView()

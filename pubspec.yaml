@@ -44,6 +44,7 @@ dependencies:
   tuple: ^2.0.2
   encrypt: ^5.0.1
   flutter_riverpod: ^2.4.0
+  intl: ^0.18.1
 
 dev_dependencies:
   flutter_test:
