@@ -20,7 +20,7 @@ MyIPVCUser _$MyIPVCUserFromJson(Map<String, dynamic> json) => MyIPVCUser(
       nm_curso: json['nm_curso'] as String,
       sigla_curso: json['sigla_curso'] as String,
       tipo: json['tipo'] as String,
-      fotografia: json['fotografia'] as String,
+      fotografia: json['fotografia'] as String?,
     );
 
 Map<String, dynamic> _$MyIPVCUserToJson(MyIPVCUser instance) =>
