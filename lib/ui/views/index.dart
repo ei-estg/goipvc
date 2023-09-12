@@ -20,7 +20,7 @@ class _IndexViewState extends State<IndexView> {
     return Scaffold(
         appBar: AppBar(
           title: Padding(
-            padding: const EdgeInsets.fromLTRB(0,0,96.0,0),
+            padding: const EdgeInsets.fromLTRB(0,20,96.0,0),
             child: SizedBox(
               height: 48,
               child: IpvcLogo(),
@@ -28,10 +28,13 @@ class _IndexViewState extends State<IndexView> {
           ),
           actions: const <Widget>[
             Padding(
-                padding: EdgeInsets.fromLTRB(0, 0, 8, 0),
+                padding: EdgeInsets.fromLTRB(0, 15, 10, 0),
                 child: IconButton(
                     onPressed: null,
-                    icon: Icon(Icons.notifications_none_outlined),
+                    icon: Icon(
+                        Icons.notifications_none_outlined,
+                        size: 28,
+                    ),
                     // TODO: detect notifications, and use this badge
                     /*Badge(
                       child: Icon(Icons.notifications_none_outlined),
