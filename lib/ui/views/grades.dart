@@ -23,6 +23,18 @@ class GradesView extends ConsumerWidget {
         return finalGrade.when(
             error: (err, stack) => ErrorView(error: "$err"),
             data: (finalGrade) {
+              if(finalGrade == -1) {
+                return const Center(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget>[
+                        Icon(Icons.info, size: 48),
+                        Text("Não existem avaliações", textAlign: TextAlign.center)
+                      ],
+                    )
+                );
+              }
+
               return ListView(
                 children: <Widget>[
                   Padding(

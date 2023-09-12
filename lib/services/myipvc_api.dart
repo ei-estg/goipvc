@@ -98,7 +98,16 @@ class MyIPVCAPI {
       data: jsonEncode(<String, String>{
         'token': await getToken(),
       }),
+      options: Options(
+        validateStatus: (status) {
+          return status! < 500;
+        },
+      )
     );
+
+    if(response.statusCode == 400){
+      return -1;
+    }
 
     return double.parse(response.data["data"]);
   }
