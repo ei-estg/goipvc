@@ -34,7 +34,7 @@ class MyIPVCUser {
   String nm_curso;
   String sigla_curso;
   String tipo;
-  String fotografia;
+  String? fotografia;
 
   factory MyIPVCUser.fromJson(Map<String, dynamic> json) => _$MyIPVCUserFromJson(json);
   Map<String, dynamic> toJson() => _$MyIPVCUserToJson(this);
