@@ -34,23 +34,26 @@ class CurricularPlanView extends ConsumerWidget {
           // Just to be sure
           years.sort();
 
-          return ListView(
-            children: [
-              for(var year in years) Card(
-                elevation: 2,
-                child: Theme(
-                  data: Theme.of(context).copyWith(dividerColor: Colors.transparent),
-                  child: ExpansionTile(
-                    title: Text("$yearº ano"),
-                    children: [
-                      for(var curricularUnit in curricularPlan)
-                        if(curricularUnit.ano_curricular == year)
-                          CurricularUnitButton(curricularUnit: curricularUnit)
-                    ],
-                  ),
+          return Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 10),
+            child: ListView(
+              children: [
+                for(var year in years) Card(
+                    elevation: 2,
+                    child: Theme(
+                      data: Theme.of(context).copyWith(dividerColor: Colors.transparent),
+                      child: ExpansionTile(
+                        title: Text("$yearº ano"),
+                        children: [
+                          for(var curricularUnit in curricularPlan)
+                            if(curricularUnit.ano_curricular == year)
+                              CurricularUnitButton(curricularUnit: curricularUnit)
+                        ],
+                      ),
+                    )
                 )
-              )
-            ],
+              ],
+            ),
           );
         }
       )

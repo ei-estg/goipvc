@@ -19,7 +19,10 @@ class CurricularUnitInfoCard<T> extends StatelessWidget {
         child: ExpansionTile(
           title: Text(title),
           children: [
-            body
+            Padding(
+              padding: const EdgeInsets.all(12),
+              child: body,
+            )
           ],
         ),
       )
