@@ -59,7 +59,7 @@ class HomeView extends ConsumerWidget {
                   Expanded(
                     flex: 1,
                     child: Card(
-                      elevation: 4, // Optional: Add elevation for a shadow effect
+                      elevation: 2,
                       margin: const EdgeInsets.all(16.0),
                       child: schedule.when(
                         loading: () => const LoadingView(),

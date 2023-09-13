@@ -3,6 +3,7 @@ import 'package:myipvc_budget_flutter/services/myipvc_api.dart';
 import 'package:myipvc_budget_flutter/ui/views/login.dart';
 import 'package:myipvc_budget_flutter/ui/views/settings.dart';
 import 'package:myipvc_budget_flutter/ui/widgets/menu_list_tile.dart';
+import 'package:myipvc_budget_flutter/ui/widgets/profile_card.dart';
 
 class MenuView extends StatefulWidget {
   const MenuView({super.key});
@@ -16,11 +17,7 @@ class _MenuViewState extends State<MenuView> {
   Widget build(BuildContext context) {
     return ListView(
       children: [
-        MenuListTile(
-            icon: const Icon(Icons.person),
-            text: const Text("Perfil"),
-            onTap: () {}
-        ),
+        const ProfileCard(),
         MenuListTile(
             icon: const Icon(Icons.date_range),
             text: const Text("Calendário académico"),
