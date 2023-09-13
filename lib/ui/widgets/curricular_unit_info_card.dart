@@ -17,10 +17,11 @@ class CurricularUnitInfoCard<T> extends StatelessWidget {
       child: Theme(
         data: Theme.of(context).copyWith(dividerColor: Colors.transparent),
         child: ExpansionTile(
+          expandedAlignment: Alignment.centerLeft,
           title: Text(title),
           children: [
             Padding(
-              padding: const EdgeInsets.all(12),
+              padding: const EdgeInsets.fromLTRB(12, 0, 12, 12),
               child: body,
             )
           ],

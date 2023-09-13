@@ -175,6 +175,25 @@ class MyIPVCAPI {
       data: jsonEncode(params),
     );
 
-    return MyIPVCDetailedCurricularUnit.fromJson(response.data["data"][0]);
+    MyIPVCDetailedCurricularUnit data = MyIPVCDetailedCurricularUnit.fromJson(response.data["data"][0]);
+
+    data.docentes = data.docentes.replaceAll(RegExp(r'::\d::\d*.\d*\|\|'), "\n").trim();
+    data.objetivos = data.objetivos
+        .replaceAll(RegExp(r'::\d\|\|'), "\n")
+        .replaceAll(RegExp(r'\d*-(?= *[A-Z])'), "");
+
+    data.objetivos = data.objetivos
+        .replaceRange(data.objetivos.length - 1, data.objetivos.length, "");
+
+    data.conteudos = data.conteudos
+        .replaceAll(RegExp(r' (?=\d+.\d+)'), "\n")
+        .replaceAll(RegExp(r'::\d*.\d*::\|\|'), "\n\n")
+        .replaceAll(RegExp(r'(?<=\d\.) (?=\d)'), "")
+        .replaceAll(RegExp(r'(?<=[a-zA-Z]+)(?<=.)(?!$)(?=(\d\.)*\d)'), "\n")
+        .replaceAll(RegExp(r'(?<=[a-zA-Z])\.(?=\d)'), ".\n")
+        .replaceAll(RegExp(r'::\d*\.\d*::\d*\|\|'), "\n\n")
+        .trim();
+
+    return data;
   }
 }

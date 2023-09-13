@@ -71,6 +71,7 @@ class CurricularUnitView extends StatelessWidget {
                       ],
                     ),
 
+                    const Padding(padding: EdgeInsets.symmetric(vertical: 4)),
 
                     CurricularUnitInfoCard(
                         title: "Responsável",
