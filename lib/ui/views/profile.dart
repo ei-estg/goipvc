@@ -32,12 +32,16 @@ class ProfileView extends ConsumerWidget {
                         )
                       ],
                     ),
-                    const Padding(padding: EdgeInsets.all(6)),
-                    const Divider(),
-                    ListTile(
-                      leading: const Icon(Icons.person),
-                      title: Text(profile.nome),
+                    const Padding(padding: EdgeInsets.all(8)),
+                    Text(
+                      profile.nome,
+                      textAlign: TextAlign.center,
+                      style: const TextStyle(
+                        fontSize: 16
+                      ),
                     ),
+                    const Padding(padding: EdgeInsets.all(4)),
+                    const Divider(),
                     ListTile(
                       leading: const Icon(Icons.tag),
                       title: Text(
