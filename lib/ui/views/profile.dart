@@ -43,7 +43,7 @@ class ProfileView extends ConsumerWidget {
                     const Padding(padding: EdgeInsets.all(4)),
                     const Divider(),
                     ListTile(
-                      leading: const Icon(Icons.tag),
+                      leading: const Icon(Icons.badge),
                       title: Text(
                           "Aluno Nº${profile.num_utilizador}",
                       ),
