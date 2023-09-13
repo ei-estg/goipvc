@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:myipvc_budget_flutter/services/myipvc_api.dart';
+import 'package:myipvc_budget_flutter/ui/views/curricular_plan.dart';
 import 'package:myipvc_budget_flutter/ui/views/login.dart';
 import 'package:myipvc_budget_flutter/ui/views/settings.dart';
 import 'package:myipvc_budget_flutter/ui/widgets/menu_list_tile.dart';
@@ -35,8 +36,13 @@ class _MenuViewState extends State<MenuView> {
         ),
         MenuListTile(
             icon: const Icon(Icons.school),
-            text: const Text("Plano Curricular"),
-            onTap: () {}
+            text: const Text("Plano curricular"),
+            onTap: () {
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const CurricularPlanView())
+              );
+            }
         ),
         MenuListTile(
             icon: const Icon(Icons.map),

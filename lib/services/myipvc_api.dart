@@ -1,10 +1,12 @@
 import 'dart:async';
 import 'dart:convert';
 import 'package:dio/dio.dart';
+import 'package:myipvc_budget_flutter/models/myipvc_curricular_unit.dart';
 import 'package:myipvc_budget_flutter/models/myipvc_lesson.dart';
 import 'package:myipvc_budget_flutter/services/encryptor.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../models/myipvc_detailed_curricular_unit.dart';
 import '../models/myipvc_grade.dart';
 import '../models/myipvc_user.dart';
 
@@ -143,5 +145,36 @@ class MyIPVCAPI {
     }
 
     return schedule;
+  }
+
+  Future<List<MyIPVCCurricularUnit>> getCurricularPlan() async {
+    final response = await _dio.post(
+      "$_baseURL/api/Ipvc/GetPlanoEstudosByCurso",
+      data: jsonEncode(<String, String>{
+        'token': await getToken(),
+      }),
+    );
+
+    List<MyIPVCCurricularUnit> curricularPlan = [];
+
+    for(var curricularUnit in response.data["data"]){
+      curricularPlan.add(MyIPVCCurricularUnit.fromJson(curricularUnit));
+    }
+
+    return curricularPlan;
+  }
+
+  Future<MyIPVCDetailedCurricularUnit> getDetailedCurricularUnit(MyIPVCCurricularUnit curricularUnit) async {
+    final params = {
+      "lang": "pt",
+      "params": curricularUnit.toJson()
+    };
+
+    final response = await _dio.post(
+      "$_baseURL/api/Ipvc/getPUC",
+      data: jsonEncode(params),
+    );
+
+    return MyIPVCDetailedCurricularUnit.fromJson(response.data["data"][0]);
   }
 }
