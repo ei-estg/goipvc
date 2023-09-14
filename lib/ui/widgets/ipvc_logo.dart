@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../../providers/theme_provider.dart';
+import '../../providers/future_theme_provider.dart';
 
 class IpvcLogo<T> extends ConsumerWidget {
   IpvcLogo({super.key});
@@ -23,7 +23,7 @@ class IpvcLogo<T> extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    var theme = ref.watch(themeProvider);
+    var theme = ref.watch(futureThemeProvider);
     var systemBrightness = SchedulerBinding.instance.platformDispatcher.platformBrightness;
 
     // Adapted from https://stackoverflow.com/a/56307575

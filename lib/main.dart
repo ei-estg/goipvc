@@ -1,6 +1,7 @@
 import 'package:dynamic_color/dynamic_color.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:myipvc_budget_flutter/providers/future_theme_provider.dart';
 import 'package:myipvc_budget_flutter/providers/theme_provider.dart';
 import 'package:myipvc_budget_flutter/ui/views/verify_auth.dart';
 
@@ -13,25 +14,27 @@ void main() {
 class MyIPVCApp extends ConsumerWidget {
   const MyIPVCApp({super.key});
 
-  static final _defaultLightColorScheme = ColorScheme.fromSwatch(primarySwatch: Colors.blue);
-  static final _defaultDarkColorScheme = ColorScheme.fromSwatch(primarySwatch: Colors.blue, brightness: Brightness.dark);
-
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    var theme = ref.watch(themeProvider);
+    ref.watch(futureThemeProvider);
+    final theme = ref.watch(themeProvider);
 
     return DynamicColorBuilder(builder: (lightColorScheme, darkColorScheme) {
       return MaterialApp(
         title: 'my ipvc',
-        theme: ThemeData(
-          colorScheme: lightColorScheme ?? _defaultLightColorScheme,
-          useMaterial3: true,
-        ),
-        darkTheme: ThemeData(
-          colorScheme: darkColorScheme ?? _defaultDarkColorScheme,
-          useMaterial3: true,
-        ),
-        themeMode: theme,
+        theme: theme == null
+          ? ThemeData(
+              colorScheme: lightColorScheme,
+              useMaterial3: true,
+            )
+          : theme["light"],
+        darkTheme: theme == null
+          ? ThemeData(
+            colorScheme: darkColorScheme,
+            useMaterial3: true,
+          )
+          : theme["dark"],
+        themeMode: ThemeMode.system,
         debugShowCheckedModeBanner: false,
         home: const VerifyAuthView(),
       );
