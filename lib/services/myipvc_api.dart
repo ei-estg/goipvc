@@ -38,13 +38,7 @@ class MyIPVCAPI {
     return MyIPVCUser.fromJson(jsonDecode(userData));
   }
 
-  Future<void> saveUser(String user) async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-
-    prefs.setString("user", user);
-  }
-
-  Future<bool> login(String username, String password) async {
+  Future<String?> login(String username, String password) async {
     String encryptedPassword = encryptAESCryptoJS(password, "sAFasfe35/{ssF?A");
 
     final response = await _dio.post(
@@ -58,10 +52,10 @@ class MyIPVCAPI {
     if(response.statusCode == 200) {
       if(response.data["status"] == true) {
         await saveToken(response.data["jwtToken"]);
-        await saveUser(jsonEncode(response.data["user"]));
+        return jsonEncode(response.data["user"]);
       }
 
-      return response.data["status"];
+      return null;
     } else {
       throw Exception("Erro ao iniciar sessão");
     }

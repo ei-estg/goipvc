@@ -67,7 +67,7 @@ class _MenuViewState extends State<MenuView> {
               MyIPVCAPI().logout();
               Navigator.pushReplacement(
                   context,
-                  MaterialPageRoute(builder: (context) => const LoginView())
+                  MaterialPageRoute(builder: (context) => LoginView())
               );
             }
         )

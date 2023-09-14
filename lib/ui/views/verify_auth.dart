@@ -20,7 +20,7 @@ class _VerifyAuthViewState extends State<VerifyAuthView> {
           context,
           data // If user is authenticated (token exists)
             ? MaterialPageRoute(builder: (context) => const IndexView())
-            : MaterialPageRoute(builder: (context) => const LoginView())
+            : MaterialPageRoute(builder: (context) => LoginView())
       );
     });
   }

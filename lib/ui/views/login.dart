@@ -1,34 +1,39 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:myipvc_budget_flutter/providers/profile_provider.dart';
 import 'package:myipvc_budget_flutter/services/myipvc_api.dart';
 import 'package:myipvc_budget_flutter/ui/views/index.dart';
 import 'package:myipvc_budget_flutter/ui/widgets/ipvc_logo.dart';
 
-class LoginView extends StatefulWidget {
-  const LoginView({super.key});
-
-  @override
-  State<LoginView> createState() => _LoginViewState();
+class _LoadingNotifier extends StateNotifier<bool> {
+  _LoadingNotifier() : super(false);
+  void set(bool val) {state = val;}
 }
 
-class _LoginViewState extends State<LoginView> {
+final _loadingProvider = StateNotifierProvider<_LoadingNotifier, bool>(
+        (ref) => _LoadingNotifier()
+);
+
+class LoginView extends ConsumerWidget {
   final _usernameController = TextEditingController();
   final _passwordController = TextEditingController();
-  var _loading = false;
 
-  Future<void> _login() async {
-    setState(() {
-      _loading = true;
-    });
+  LoginView({super.key});
 
+  Future<void> _login(BuildContext context, WidgetRef ref) async {
+    ref.read(_loadingProvider.notifier).set(true);
+    
     try {
-      var status = await MyIPVCAPI().login(
+      String? user = await MyIPVCAPI().login(
           _usernameController.text,
           _passwordController.text
       );
 
-      if(status == false) {
+      if(user == null) {
         throw Exception("Utilizador/Palavra-Passe incorreto");
       } else {
+        ref.read(profileProvider.notifier).set(user);
+
         if(context.mounted) {
           Navigator.pushReplacement(
               context,
@@ -47,13 +52,13 @@ class _LoginViewState extends State<LoginView> {
       }
     }
 
-    setState(() {
-      _loading = false;
-    });
+    ref.read(_loadingProvider.notifier).set(false);
   }
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    bool loading = ref.watch(_loadingProvider);
+
     return Scaffold(
       body: Center(
         child: Column(
@@ -87,7 +92,7 @@ class _LoginViewState extends State<LoginView> {
             FilledButton.icon(
               label: const Text("Entrar"),
               icon: const Icon(Icons.login),
-              onPressed: _loading ? null : () => _login(),
+              onPressed: loading ? null : () => _login(context,ref),
             ),
           ],
         )
