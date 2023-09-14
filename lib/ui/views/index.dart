@@ -25,19 +25,16 @@ class _IndexViewState extends State<IndexView> {
             child: IpvcLogo(),
           ),
           actions: const <Widget>[
-            Padding(
-                padding: EdgeInsets.fromLTRB(0, 15, 10, 0),
-                child: IconButton(
-                    onPressed: null,
-                    icon: Icon(
-                        Icons.notifications_none_outlined,
-                        size: 28,
-                    ),
-                    // TODO: detect notifications, and use this badge
-                    /*Badge(
-                      child: Icon(Icons.notifications_none_outlined),
-                    ),*/
-                )
+            IconButton(
+                onPressed: null,
+                icon: Icon(
+                    Icons.notifications_none_outlined,
+                    size: 28,
+                ),
+                // TODO: detect notifications, and use this badge
+                /*Badge(
+                  child: Icon(Icons.notifications_none_outlined),
+                ),*/
             )
           ],
         ),
