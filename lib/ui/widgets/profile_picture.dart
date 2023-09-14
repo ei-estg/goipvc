@@ -1,8 +1,11 @@
 import 'dart:convert';
 import 'dart:typed_data';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class ProfilePicture<T> extends StatelessWidget {
+import '../../providers/picture_alignment_provider.dart';
+
+class ProfilePicture<T> extends ConsumerWidget {
   final String? imageData;
   final double size;
 
@@ -13,8 +16,9 @@ class ProfilePicture<T> extends StatelessWidget {
   });
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     if (imageData != null){
+      var pictureAlignment = ref.watch(pictureAlignmentProvider);
       Uint8List bytes = base64.decode(imageData!);
 
       return ClipOval(
@@ -23,7 +27,7 @@ class ProfilePicture<T> extends StatelessWidget {
           width: size,
           height: size,
           fit: BoxFit.cover,
-          alignment: Alignment.topCenter,
+          alignment: pictureAlignment,
         ),
       );
     } else {

@@ -2,6 +2,7 @@ import 'package:dynamic_color/dynamic_color.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:myipvc_budget_flutter/providers/future_theme_provider.dart';
+import 'package:myipvc_budget_flutter/providers/picture_alignment_provider.dart';
 import 'package:myipvc_budget_flutter/providers/theme_provider.dart';
 import 'package:myipvc_budget_flutter/ui/views/verify_auth.dart';
 
@@ -16,6 +17,8 @@ class MyIPVCApp extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    ref.read(pictureAlignmentProvider.notifier).fetch();
+
     ref.watch(futureThemeProvider);
     final theme = ref.watch(themeProvider);
 
