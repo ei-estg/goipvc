@@ -1,9 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:myipvc_budget_flutter/ui/themes/ipvc.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-
-import '../../../providers/theme_provider.dart';
+import 'package:myipvc_budget_flutter/providers/settings_provider.dart';
 
 class _PopUpNotifier extends StateNotifier<bool> {
   _PopUpNotifier() : super(false);
@@ -20,12 +17,6 @@ final _popUpProvider = StateNotifierProvider<_PopUpNotifier, bool>(
 class ThemeSettings<T> extends ConsumerWidget {
   const ThemeSettings({super.key});
 
-  void updateThemePreference(String value) async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-
-    prefs.setString("theme", value);
-  }
-
   void _showAppearanceMenu(BuildContext context, WidgetRef ref) {
     showDialog(
       context: context,
@@ -35,30 +26,50 @@ class ThemeSettings<T> extends ConsumerWidget {
           content: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              ListTile(
-                title: const Text("Tema do dispositivo"),
-                onTap: () {
-                  ref.read(themeProvider.notifier).set("device");
-                  updateThemePreference("device");
-                  Navigator.pop(context);
+              DropdownMenu<String>(
+                dropdownMenuEntries: const <DropdownMenuEntry<String>>[
+                  DropdownMenuEntry<String>(
+                      value: "device",
+                      label: "Dispositivo",
+                  ),
+                  DropdownMenuEntry<String>(
+                    value: "school",
+                    label: "Escola",
+                  ),
+                  DropdownMenuEntry<String>(
+                    value: "normal",
+                    label: "Normal",
+                  ),
+                ],
+                initialSelection: ref.read(settingsProvider).theme,
+                label: const Text("Cores"),
+                onSelected: (String? theme) {
+                  ref.read(settingsProvider.notifier).setTheme(theme ?? "normal");
                 },
               ),
-              ListTile(
-                title: const Text("Escola"),
-                onTap: () {
-                  ref.read(themeProvider.notifier).set("school");
-                  updateThemePreference("school");
-                  Navigator.pop(context);
+              const Padding(padding: EdgeInsets.symmetric(vertical: 8)),
+              DropdownMenu<String>(
+                dropdownMenuEntries: const <DropdownMenuEntry<String>>[
+                  DropdownMenuEntry<String>(
+                    value: "system",
+                    label: "Dispositivo",
+                  ),
+                  DropdownMenuEntry<String>(
+                    value: "light",
+                    label: "Claro",
+                  ),
+                  DropdownMenuEntry<String>(
+                    value: "dark",
+                    label: "Escuro",
+                  ),
+                ],
+                initialSelection: ref.read(settingsProvider).brightness,
+                label: const Text("Luminosidade"),
+                onSelected: (String? brightness) {
+                  ref.read(settingsProvider.notifier)
+                      .setBrightness(brightness ?? "system");
                 },
-              ),
-              ListTile(
-                title: const Text("Normal"),
-                onTap: () {
-                  ref.read(themeProvider.notifier).set("normal");
-                  updateThemePreference("normal");
-                  Navigator.pop(context);
-                },
-              ),
+              )
             ],
           ),
         );
@@ -68,8 +79,8 @@ class ThemeSettings<T> extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    var theme = ref.watch(themeProvider);
-    bool isSwitched = ref.watch(_popUpProvider);
+    var settings = ref.watch(settingsProvider);
+    ref.watch(_popUpProvider);
 
     return Wrap(
       children: <Widget>[
@@ -91,26 +102,17 @@ class ThemeSettings<T> extends ConsumerWidget {
         ListTile(
           title: const Text("Tema"),
           onTap: () {
-            _showAppearanceMenu(context, ref); // Show the appearance menu
+            _showAppearanceMenu(context, ref);
           },
           trailing: Text((() {
-            if(theme == IPVCTheme) {
+            if(settings.theme == "normal") {
               return "Normal";
-            } else if (theme == null) {
+            } else if (settings.theme == "device") {
               return "Dispositivo";
             }
 
             return "Escola";
           })()),
-        ),
-        ListTile(
-          title: const Text("Modo noturno"),
-          trailing: Switch(
-            value: isSwitched,
-            onChanged: (bool newValue) {
-              ref.read(_popUpProvider.notifier).set(newValue);
-            },
-          ),
         )
       ],
     );

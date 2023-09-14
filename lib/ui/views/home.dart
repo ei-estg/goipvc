@@ -15,96 +15,92 @@ class HomeView extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    AsyncValue<MyIPVCUser> profile = ref.watch(profileProvider);
+    MyIPVCUser? profile = ref.watch(profileProvider);
     AsyncValue<List<MyIPVCLesson>> schedule = ref.watch(scheduleProvider);
 
-    return profile.when(
-      loading: () => const LoadingView(),
-      error: (err, stack) => ErrorView(error: "$err"),
-      data: (profile) {
-        return Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [
-              Flexible(flex: 1, child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  Expanded(child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Text(
-                          "Olá,\n${profile.nome.split(" ")[0]}",
-                          style: TextStyle(
-                              fontSize: 32,
-                              color: Theme.of(context).colorScheme.primary,
-                          ),
-                          textAlign: TextAlign.left,
-                        )
-                      ],
+    return profile != null
+    ? Center(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        children: [
+          Flexible(flex: 1, child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              Expanded(child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      "Olá,\n${profile.nome.split(" ")[0]}",
+                      style: TextStyle(
+                          fontSize: 32,
+                          color: Theme.of(context).colorScheme.primary,
+                      ),
+                      textAlign: TextAlign.left,
                     )
-                  ),
-                  Expanded(child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [ProfilePicture(
-                        imageData: profile.fotografia,
-                        size: 100,
-                      )],
-                    )
-                  )
-                ],
-               )
+                  ],
+                )
               ),
-              Flexible(flex: 2, child: Column(
-                children: <Widget>[
-                  Expanded(
-                    flex: 1,
-                    child: Card(
-                      elevation: 2,
-                      margin: const EdgeInsets.all(16.0),
-                      child: schedule.when(
-                        loading: () => const LoadingView(),
-                        error: (err, stack) => ErrorView(error: "$err"),
-                        data: (schedule) {
-                          schedule.removeWhere((lesson) =>
-                            verifyIfLessonExpired(lesson));
-
-                          if(schedule.isEmpty){
-                            return const Center(
-                              child: Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [Text("Não existem aulas hoje")],
-                              ),
-                            );
-                          }
-
-                          return Column(
-                            children: [
-                              const ListTile(
-                                title: Text(
-                                    'Hoje:',
-                                    style: TextStyle(fontSize: 20)
-                                ),
-                              ),
-                              Expanded(
-                                child: ListView(
-                                  children: [
-                                    for(var lesson in schedule)
-                                      LessonCard(lesson: lesson)
-                                  ],
-                                )
-                              ),
-                            ],
-                          );
-                        }
-                      )
-                    ),
-                  ),
-                ],
-              ))
+              Expanded(child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [ProfilePicture(
+                    imageData: profile.fotografia,
+                    size: 100,
+                  )],
+                )
+              )
             ],
-          )
-        );
-      }
-    );
+           )
+          ),
+          Flexible(flex: 2, child: Column(
+            children: <Widget>[
+              Expanded(
+                flex: 1,
+                child: Card(
+                  elevation: 2,
+                  margin: const EdgeInsets.all(16.0),
+                  child: schedule.when(
+                    loading: () => const LoadingView(),
+                    error: (err, stack) => ErrorView(error: "$err"),
+                    data: (schedule) {
+                      schedule.removeWhere((lesson) =>
+                        verifyIfLessonExpired(lesson));
+
+                      if(schedule.isEmpty){
+                        return const Center(
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [Text("Não existem aulas hoje")],
+                          ),
+                        );
+                      }
+
+                      return Column(
+                        children: [
+                          const ListTile(
+                            title: Text(
+                                'Hoje:',
+                                style: TextStyle(fontSize: 20)
+                            ),
+                          ),
+                          Expanded(
+                            child: ListView(
+                              children: [
+                                for(var lesson in schedule)
+                                  LessonCard(lesson: lesson)
+                              ],
+                            )
+                          ),
+                        ],
+                      );
+                    }
+                  )
+                ),
+              ),
+            ],
+          ))
+        ],
+      )
+    )
+    : const ErrorView(error: "Erro a obter perfil");
   }
 }

@@ -2,8 +2,7 @@ import 'dart:convert';
 import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-
-import '../../providers/picture_alignment_provider.dart';
+import 'package:myipvc_budget_flutter/providers/settings_provider.dart';
 
 class ProfilePicture<T> extends ConsumerWidget {
   final String? imageData;
@@ -18,7 +17,7 @@ class ProfilePicture<T> extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     if (imageData != null){
-      var pictureAlignment = ref.watch(pictureAlignmentProvider);
+      ref.watch(settingsProvider);
       Uint8List bytes = base64.decode(imageData!);
 
       return ClipOval(
@@ -27,7 +26,7 @@ class ProfilePicture<T> extends ConsumerWidget {
           width: size,
           height: size,
           fit: BoxFit.cover,
-          alignment: pictureAlignment,
+          alignment: ref.read(settingsProvider.notifier).getPictureAlignment(),
         ),
       );
     } else {

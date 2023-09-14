@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:myipvc_budget_flutter/providers/picture_alignment_provider.dart';
+import 'package:myipvc_budget_flutter/providers/settings_provider.dart';
 
 class _PopUpNotifier extends StateNotifier<bool> {
   _PopUpNotifier() : super(false);
@@ -26,14 +26,29 @@ class ProfilePictureAlignmentSettings<T> extends ConsumerWidget {
           content: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              for(var alignment in ref.read(pictureAlignmentProvider.notifier).getKeys())
+              /*for(var alignment in ref.read(settingsProvider.notifier).getAlignmentMapKeys())
                 ListTile(
                   title: Text(alignment),
                   onTap: () {
-                    ref.read(pictureAlignmentProvider.notifier).set(alignment);
+                    ref.read(settingsProvider.notifier).setPictureAlignment(alignment);
                     Navigator.pop(context);
                   },
-                ),
+                ),*/
+              DropdownMenu<String>(
+                dropdownMenuEntries: <DropdownMenuEntry<String>>[
+                  for(var alignment in ref.read(settingsProvider.notifier).getAlignmentMapKeys())
+                    DropdownMenuEntry<String>(
+                      value: alignment,
+                      label: alignment,
+                    ),
+                ],
+                initialSelection: ref.read(settingsProvider).pictureAlignment,
+                label: const Text("Alinhamento"),
+                onSelected: (String? alignment) {
+                  ref.read(settingsProvider.notifier)
+                      .setPictureAlignment(alignment ?? "center");
+                },
+              )
             ],
           ),
         );
@@ -44,7 +59,7 @@ class ProfilePictureAlignmentSettings<T> extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     ref.watch(_popUpProvider);
-    ref.watch(pictureAlignmentProvider);
+    ref.watch(settingsProvider);
 
     return Wrap(
       children: <Widget>[
@@ -54,7 +69,7 @@ class ProfilePictureAlignmentSettings<T> extends ConsumerWidget {
             _showAppearanceMenu(context, ref);
           },
           trailing: Text((() {
-            return ref.read(pictureAlignmentProvider.notifier).toString();
+            return ref.read(settingsProvider.notifier).getAlignmentString();
           })()),
         )
       ],
