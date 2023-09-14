@@ -19,12 +19,10 @@ class _IndexViewState extends State<IndexView> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: Padding(
-            padding: const EdgeInsets.fromLTRB(0,20,96.0,0),
-            child: SizedBox(
-              height: 48,
-              child: IpvcLogo(),
-            ),
+          centerTitle: false,
+          title: SizedBox(
+            height: 48,
+            child: IpvcLogo(),
           ),
           actions: const <Widget>[
             Padding(
