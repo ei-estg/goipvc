@@ -49,7 +49,7 @@ class _IndexViewState extends State<IndexView> {
               currentPageIndex = index;
             });
           },
-          indicatorColor: Theme.of(context).colorScheme.inversePrimary,
+          indicatorColor: Theme.of(context).colorScheme.primary,
           selectedIndex: currentPageIndex,
           destinations: const <Widget>[
             NavigationDestination(
