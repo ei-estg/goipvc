@@ -22,7 +22,7 @@ class ProfilePictureAlignmentSettings<T> extends ConsumerWidget {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: const Text("Selecionar alinhamento da foto"),
+          title: const Text("Alinhamento de foto"),
           content: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
@@ -63,6 +63,21 @@ class ProfilePictureAlignmentSettings<T> extends ConsumerWidget {
 
     return Wrap(
       children: <Widget>[
+        Padding(
+          padding: const EdgeInsets.fromLTRB(20, 2, 0, 2),
+          child: Builder(
+            builder: (BuildContext context) {
+              return Text(
+                "Perfil",
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 15,
+                  color: Theme.of(context).colorScheme.primary,
+                ),
+              );
+            },
+          ),
+        ),
         ListTile(
           title: const Text("Alinhamento da foto"),
           onTap: () {
