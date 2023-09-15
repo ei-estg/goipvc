@@ -80,7 +80,6 @@ class _IndexViewState extends State<IndexView> {
       const HomeView(),
       const ScheduleView(),
       const SchoolMapView(),
-      const MealsView(),
       const MenuView()
     ];
 
@@ -130,11 +129,6 @@ class _IndexViewState extends State<IndexView> {
                   selectedIcon: Icon(Icons.map),
                   icon: Icon(Icons.map_outlined),
                   label: 'Plantas',
-                ),
-                NavigationDestination(
-                  selectedIcon: Icon(Icons.restaurant_menu),
-                  icon: Icon(Icons.restaurant_menu_outlined),
-                  label: 'Ementas',
                 ),
                 NavigationDestination(
                   selectedIcon: Icon(Icons.menu),
