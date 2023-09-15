@@ -126,7 +126,7 @@ class MyIPVCAPI {
   Future<List<MyIPVCLesson>> getSchedule() async {
     final response = await _dio.get(
       // "$_baseURL/api/ipvc/GetHorario"
-      "https://mocki.io/v1/88a93557-40b8-4c85-b40d-d8dcc8f3ba3a",
+      "https://mocki.io/v1/45fdefe8-eb97-407b-bf16-de7d1077b7c7",
       /*data: jsonEncode(<String, String>{
         'token': await getToken(),
       }),*/

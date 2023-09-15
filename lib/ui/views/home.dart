@@ -148,10 +148,15 @@ class HomeViewState extends State<HomeView> with SingleTickerProviderStateMixin 
                                           loading: () => const LoadingView(),
                                           error: (err, stack) => ErrorView(error: "$err"),
                                           data: (schedule) {
-                                            schedule.removeWhere((lesson) =>
-                                                verifyIfLessonExpired(lesson));
+                                            List<MyIPVCLesson> todaySchedule = [];
 
-                                            if(schedule.isEmpty){
+                                            for(var lesson in schedule){
+                                              if(!verifyIfLessonExpired(lesson)){
+                                                todaySchedule.add(lesson);
+                                              }
+                                            }
+
+                                            if(todaySchedule.isEmpty){
                                               return const Center(
                                                 child: Column(
                                                   mainAxisAlignment: MainAxisAlignment.center,
@@ -171,7 +176,7 @@ class HomeViewState extends State<HomeView> with SingleTickerProviderStateMixin 
                                                 Expanded(
                                                   child: ListView(
                                                     children: [
-                                                      for(var lesson in schedule)
+                                                      for(var lesson in todaySchedule)
                                                         LessonCard(lesson: lesson)
                                                     ],
                                                   ),
