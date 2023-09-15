@@ -43,7 +43,10 @@ class CurricularPlanView extends ConsumerWidget {
                     child: Theme(
                       data: Theme.of(context).copyWith(dividerColor: Colors.transparent),
                       child: ExpansionTile(
-                        title: Text("$yearº ano"),
+                        title: Text(
+                            "$yearº ano",
+                            style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold)
+                        ),
                         children: [
                           for(var curricularUnit in curricularPlan)
                             if(curricularUnit.ano_curricular == year)

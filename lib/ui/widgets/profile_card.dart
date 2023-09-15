@@ -29,41 +29,53 @@ class ProfileCard<T> extends ConsumerWidget {
               },
               child: Padding(
                   padding: const EdgeInsets.all(16),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start ,
                     children: [
-                      Flexible(
-                          flex: 8,
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              ProfilePicture(
-                                imageData: profile.fotografia,
-                                size: 60,
-                              ),
-                              const Padding(padding: EdgeInsets.all(8)),
-                              Expanded(
-                                  child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                      "${splitName[0]} "
-                                      "${splitName[splitName.length - 1]}",
-                                      overflow: TextOverflow.ellipsis),
-                                  Text(
-                                      "${profile.sigla_curso} - ${profile.unidade_organica}",
-                                      style: const TextStyle(fontSize: 12),
-                                      overflow: TextOverflow.ellipsis),
-                                  Text("Nº${profile.num_utilizador}",
-                                      style: const TextStyle(fontSize: 12),
-                                      overflow: TextOverflow.ellipsis)
-                                ],
-                              )),
-                            ],
-                          )),
-                      const Flexible(flex: 1, child: Icon(Icons.arrow_forward))
+                      const Text("Perfil", style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+                      Padding(
+                        padding: const EdgeInsets.fromLTRB(0, 8, 0, 0),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Flexible(
+                                flex: 8,
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    ProfilePicture(
+                                      imageData: profile.fotografia,
+                                      size: 60,
+                                    ),
+                                    const Padding(padding: EdgeInsets.all(8)),
+                                    Expanded(
+                                        child: Column(
+                                          crossAxisAlignment: CrossAxisAlignment.start,
+                                          children: [
+                                            Text(
+                                                "${splitName[0]} "
+                                                    "${splitName[splitName.length - 1]}",
+                                                overflow: TextOverflow.ellipsis),
+                                            Text(
+                                                "${profile.sigla_curso} - ${profile.unidade_organica}",
+                                                style: const TextStyle(fontSize: 12),
+                                                overflow: TextOverflow.ellipsis),
+                                            Text("Nº${profile.num_utilizador}",
+                                                style: const TextStyle(fontSize: 12),
+                                                overflow: TextOverflow.ellipsis)
+                                          ],
+                                        )),
+                                  ],
+                                )),
+                            const Flexible(flex: 1, child: Icon(Icons.arrow_forward))
+                          ],
+                        )
+                      )
                     ],
-                  ))));
+                  )
+            )
+          )
+      );
     } else {
       return const ErrorView(error: "Erro a obter perfil");
     }

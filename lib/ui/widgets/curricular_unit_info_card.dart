@@ -18,7 +18,7 @@ class CurricularUnitInfoCard<T> extends StatelessWidget {
         data: Theme.of(context).copyWith(dividerColor: Colors.transparent),
         child: ExpansionTile(
           expandedAlignment: Alignment.centerLeft,
-          title: Text(title),
+          title: Text(title, style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
           children: [
             Padding(
               padding: const EdgeInsets.fromLTRB(12, 0, 12, 12),
