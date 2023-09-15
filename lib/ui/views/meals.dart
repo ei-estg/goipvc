@@ -57,7 +57,7 @@ class _MealsViewState extends State<MealsView> {
       ),
     );
 
-    //request to get dinner meals same shit just swap lunch with meals
+    //request to get dinner meals same shit just swap lunch with dinner
     // TODO: validate if you need the query param for the taxes cause im pretty sure you don't the file might be handy to get the image of the dish if you want to be sexy with images in the app
 
     for(var meal in lunchMeals.data['data']) {
