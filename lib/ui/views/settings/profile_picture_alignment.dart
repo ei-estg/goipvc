@@ -10,6 +10,19 @@ class _PopUpNotifier extends StateNotifier<bool> {
   }
 }
 
+final Map<String, String> translationMap = {
+  'topLeft': 'Superior Esquerda',
+  'topCenter': 'Superior Centro',
+  'topRight': 'Superior Direita',
+  'centerLeft': 'Centro Esquerda',
+  'center': 'Centro',
+  'centerRight': 'Centro Direita',
+  'bottomLeft': 'Inferior Esquerda',
+  'bottomCenter': 'Inferior Centro',
+  'bottomRight': 'Inferior Direita',
+};
+
+
 final _popUpProvider = StateNotifierProvider<_PopUpNotifier, bool>(
         (ref) => _PopUpNotifier()
 );
@@ -26,20 +39,12 @@ class ProfilePictureAlignmentSettings<T> extends ConsumerWidget {
           content: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              /*for(var alignment in ref.read(settingsProvider.notifier).getAlignmentMapKeys())
-                ListTile(
-                  title: Text(alignment),
-                  onTap: () {
-                    ref.read(settingsProvider.notifier).setPictureAlignment(alignment);
-                    Navigator.pop(context);
-                  },
-                ),*/
               DropdownMenu<String>(
                 dropdownMenuEntries: <DropdownMenuEntry<String>>[
                   for(var alignment in ref.read(settingsProvider.notifier).getAlignmentMapKeys())
                     DropdownMenuEntry<String>(
                       value: alignment,
-                      label: alignment,
+                      label: translationMap[alignment] ?? alignment,
                     ),
                 ],
                 initialSelection: ref.read(settingsProvider).pictureAlignment,
@@ -84,7 +89,7 @@ class ProfilePictureAlignmentSettings<T> extends ConsumerWidget {
             _showAppearanceMenu(context, ref);
           },
           trailing: Text((() {
-            return ref.read(settingsProvider.notifier).getAlignmentString();
+            return translationMap[ref.read(settingsProvider.notifier).getAlignmentString()] ?? ref.read(settingsProvider.notifier).getAlignmentString();
           })()),
         )
       ],
