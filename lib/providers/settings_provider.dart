@@ -19,7 +19,7 @@ class SettingsNotifier extends StateNotifier<Settings> {
   final SharedPreferences sharedPreferences;
   final MyIPVCUser? profile;
 
-  final Map<String, dynamic> _themeMap = HashMap.from({
+  final Map<String, dynamic> _colorSchemeMap = HashMap.from({
     "ESA": ESTGTheme,
     "ESCE": ESCETheme,
     "ESDL": ESDLTheme,
@@ -29,7 +29,7 @@ class SettingsNotifier extends StateNotifier<Settings> {
     "IPVC": IPVCTheme,
   });
 
-  final Map<String, ThemeMode> _brightnessMap = HashMap.from({
+  final Map<String, ThemeMode> _themeMap = HashMap.from({
     "system": ThemeMode.system,
     "dark": ThemeMode.dark,
     "light": ThemeMode.light,
@@ -49,8 +49,8 @@ class SettingsNotifier extends StateNotifier<Settings> {
 
   SettingsNotifier(this.sharedPreferences, this.profile)
     : super(Settings(
-        theme: sharedPreferences.getString("theme") ?? 'default',
-        brightness: sharedPreferences.getString("brightness") ?? 'system',
+        colorScheme: sharedPreferences.getString("colorScheme") ?? 'system',
+        theme: sharedPreferences.getString("theme") ?? 'system',
         pictureAlignment: sharedPreferences.getString("pictureAlignment") ?? 'center'
       ));
 
@@ -58,25 +58,25 @@ class SettingsNotifier extends StateNotifier<Settings> {
     sharedPreferences.setString("theme", theme);
     state = state.copyWith(theme: theme);
   }
-  void setBrightness(String brightness){
-    sharedPreferences.setString("brightness", brightness);
-    state = state.copyWith(brightness: brightness);
+  void setColorScheme(String colorScheme){
+    sharedPreferences.setString("colorScheme", colorScheme);
+    state = state.copyWith(colorScheme: colorScheme);
   }
   void setPictureAlignment(String alignment){
     sharedPreferences.setString("pictureAlignment", alignment);
     state = state.copyWith(pictureAlignment: alignment);
   }
 
-  dynamic getTheme() {
-    if(state.theme == "school" && profile != null){
-      return _themeMap[profile!.unidade_organica] ?? IPVCTheme;
+  dynamic getColorScheme() {
+    if(state.colorScheme == "school" && profile != null){
+      return _colorSchemeMap[profile!.unidade_organica] ?? IPVCTheme;
     }
 
     return IPVCTheme;
   }
 
-  ThemeMode getBrightness() {
-    return _brightnessMap[state.brightness] ?? ThemeMode.system;
+  ThemeMode getTheme() {
+    return _themeMap[state.theme] ?? ThemeMode.system;
   }
 
   Alignment getPictureAlignment(){

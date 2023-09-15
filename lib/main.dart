@@ -29,19 +29,19 @@ class MyIPVCApp extends ConsumerWidget {
     return DynamicColorBuilder(builder: (lightColorScheme, darkColorScheme) {
       return MaterialApp(
         title: 'my ipvc',
-        theme: settings.theme == "device"
+        theme: settings.colorScheme == "system"
           ? ThemeData(
               colorScheme: lightColorScheme,
               useMaterial3: true,
             )
-          : ref.read(settingsProvider.notifier).getTheme()["light"],
-        darkTheme: settings.theme == "device"
+          : ref.read(settingsProvider.notifier).getColorScheme()["light"],
+        darkTheme: settings.colorScheme == "system"
           ? ThemeData(
             colorScheme: darkColorScheme,
             useMaterial3: true,
           )
-          : ref.read(settingsProvider.notifier).getTheme()["dark"],
-        themeMode: ref.read(settingsProvider.notifier).getBrightness(),
+          : ref.read(settingsProvider.notifier).getColorScheme()["dark"],
+        themeMode: ref.read(settingsProvider.notifier).getTheme(),
         debugShowCheckedModeBanner: false,
         home: const VerifyAuthView(),
       );
