@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'package:myipvc_budget_flutter/ui/views/grades.dart';
 import 'package:myipvc_budget_flutter/ui/views/home.dart';
+import 'package:myipvc_budget_flutter/ui/views/meals.dart';
 import 'package:myipvc_budget_flutter/ui/views/menu.dart';
 import 'package:myipvc_budget_flutter/ui/views/schedule.dart';
 import 'package:myipvc_budget_flutter/ui/widgets/logo.dart';
@@ -24,13 +25,13 @@ class _IndexViewState extends State<IndexView> {
           title: const Logo(),
           actions: const <Widget>[
             IconButton(
-                onPressed: null,
-                icon: Icon(
-                    Icons.notifications_none_outlined,
-                    size: 28,
-                ),
-                // TODO: detect notifications, and use this badge
-                /*Badge(
+              onPressed: null,
+              icon: Icon(
+                Icons.notifications_none_outlined,
+                size: 28,
+              ),
+              // TODO: detect notifications, and use this badge
+              /*Badge(
                   child: Icon(Icons.notifications_none_outlined),
                 ),*/
             )
@@ -61,6 +62,11 @@ class _IndexViewState extends State<IndexView> {
               label: 'Avaliações',
             ),
             NavigationDestination(
+              selectedIcon: Icon(Icons.restaurant_menu),
+              icon: Icon(Icons.restaurant_menu_outlined),
+              label: 'Ementas',
+            ),
+            NavigationDestination(
               selectedIcon: Icon(Icons.menu),
               icon: Icon(Icons.menu_outlined),
               label: 'Menu',
@@ -76,9 +82,9 @@ class _IndexViewState extends State<IndexView> {
             const HomeView(),
             const ScheduleView(),
             const GradesView(),
+            MealsView(),
             const MenuView()
           ][currentPageIndex],
-        )
-    );
+        ));
   }
 }
