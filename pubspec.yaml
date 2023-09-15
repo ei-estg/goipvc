@@ -75,6 +75,13 @@ flutter:
   assets:
      - assets/ipvc.png
      - assets/ipvc-divider.svg
+     - assets/ipvc-logo.svg
+     - assets/ESA-logo.svg
+     - assets/ESCE-logo.svg
+     - assets/ESDL-logo.svg
+     - assets/ESE-logo.svg
+     - assets/ESS-logo.svg
+     - assets/ESTG-logo.svg
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware

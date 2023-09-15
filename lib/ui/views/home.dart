@@ -110,7 +110,6 @@ class HomeViewState extends State<HomeView> with SingleTickerProviderStateMixin 
                           SvgPicture.asset(
                             'assets/ipvc-divider.svg',
                             width: 1000,
-
                           ),
                       ),
                     ]

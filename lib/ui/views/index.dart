@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
+
 import 'package:myipvc_budget_flutter/ui/views/grades.dart';
 import 'package:myipvc_budget_flutter/ui/views/home.dart';
 import 'package:myipvc_budget_flutter/ui/views/menu.dart';
 import 'package:myipvc_budget_flutter/ui/views/schedule.dart';
-import 'package:myipvc_budget_flutter/ui/widgets/ipvc_logo.dart';
+import 'package:myipvc_budget_flutter/ui/widgets/logo.dart';
 
 class IndexView extends StatefulWidget {
   const IndexView({super.key});
@@ -20,10 +21,7 @@ class _IndexViewState extends State<IndexView> {
     return Scaffold(
         appBar: AppBar(
           centerTitle: false,
-          title: SizedBox(
-            height: 48,
-            child: IpvcLogo(),
-          ),
+          title: const Logo(),
           actions: const <Widget>[
             IconButton(
                 onPressed: null,
