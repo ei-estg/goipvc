@@ -3,45 +3,9 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../models/myipvc_user.dart';
 import '../../providers/profile_provider.dart';
+import '../widgets/digital_card_container.dart';
 import '../widgets/profile_picture.dart';
 import 'error.dart';
-
-enum Sides { front, back }
-
-class SingleChoice extends StatefulWidget {
-  const SingleChoice({super.key});
-
-  @override
-  State<SingleChoice> createState() => _SingleChoiceState();
-}
-
-class _SingleChoiceState extends State<SingleChoice> {
-  Sides sidesView = Sides.front;
-
-  @override
-  Widget build(BuildContext context) {
-    return SegmentedButton<Sides>(
-      segments: const <ButtonSegment<Sides>>[
-        ButtonSegment<Sides>(
-            value: Sides.front,
-            label: Text('Front'),
-        ),
-        ButtonSegment<Sides>(
-            value: Sides.back,
-            label: Text('Back'),
-        )
-      ],
-      selected: <Sides>{sidesView},
-      onSelectionChanged: (Set<Sides> newSelection) {
-        setState(() {
-          sidesView = newSelection.first;
-        });
-      },
-    );
-  }
-}
-
-
 
 class ProfileView extends ConsumerWidget {
   const ProfileView({super.key});
@@ -52,36 +16,14 @@ class ProfileView extends ConsumerWidget {
 
     final scaffoldKey = GlobalKey<ScaffoldState>();
 
-    Future<void> showBottomSheet(BuildContext context) async {
+    Future<void> showBottomSheet(BuildContext context, WidgetRef ref) async {
       await showModalBottomSheet(
         context: context,
         builder: (context) {
-          return GestureDetector(
-            onTap: () {
-              Navigator.of(context).pop();
-            },
-            child: const Padding(
-              padding: EdgeInsets.all(16),
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Padding(
-                    padding: EdgeInsets.fromLTRB(0, 32, 0, 16),
-                    child: SingleChoice(),
-                  ),
-                  Padding(
-                    padding: EdgeInsets.fromLTRB(0, 16, 0, 32),
-                    child: Text("Cartão"),
-                  ),
-                ],
-              ),
-            )
-          );
+          return const DigitalCardContainer();
         },
       );
     }
-
 
     return Scaffold(
       key: scaffoldKey,
@@ -135,7 +77,7 @@ class ProfileView extends ConsumerWidget {
           ),
           ElevatedButton.icon(
             onPressed: () {
-              showBottomSheet(context);
+              showBottomSheet(context, ref);
             },
             icon: const Icon(Icons.badge), // Add the card icon here.
             label: const Text("Cartão Digital"),
