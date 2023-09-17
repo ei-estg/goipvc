@@ -37,8 +37,10 @@ class MyIPVCApp extends ConsumerWidget {
           GlobalWidgetsLocalizations.delegate,
           SfGlobalLocalizations.delegate
         ],
-        supportedLocales: const [Locale("pt", "PT")],
-        locale: const Locale("pt", "PT"),
+        // If only pt_PT worked correctly
+        // WHY???
+        supportedLocales: const [Locale("pt", "BR")],
+        locale: const Locale("pt", "BR"),
 
         theme: settings.colorScheme == "system"
           ? ThemeData(

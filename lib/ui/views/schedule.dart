@@ -40,6 +40,7 @@ class ScheduleView extends ConsumerWidget {
           dataSource: MeetingDataSource(_getDataSource(schedule)),
           timeSlotViewSettings: const TimeSlotViewSettings(
             timeFormat: 'H:mm',
+            dayFormat: "EEE"
           ),
           firstDayOfWeek: 1,
         );
