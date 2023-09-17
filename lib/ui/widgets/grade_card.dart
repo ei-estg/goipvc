@@ -29,7 +29,7 @@ class GradeCard<T> extends StatelessWidget {
                   Text(
                     grade.disciplina,
                     overflow: TextOverflow.ellipsis,
-                    style: TextStyle(color: Theme.of(context).colorScheme.primary, fontSize: 20, fontWeight: FontWeight.bold),
+                    style: TextStyle(color: Theme.of(context).colorScheme.primary, fontSize: 18, fontWeight: FontWeight.bold),
                   ),
                 subtitle: Text(
                     "${grade.duracao}\n"

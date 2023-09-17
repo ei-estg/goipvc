@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:myipvc_budget_flutter/ui/views/settings/profile_picture_alignment.dart';
 import 'package:myipvc_budget_flutter/ui/views/settings/theme.dart';
+import 'package:myipvc_budget_flutter/ui/views/settings/notifications.dart';
 
 class SettingsView extends StatefulWidget {
   const SettingsView({Key? key}) : super(key: key);
@@ -19,6 +21,9 @@ class _SettingsViewState extends State<SettingsView> {
         children: const <Widget>[
           ThemeSettings(),
           Divider(),
+          ProfilePictureAlignmentSettings(),
+          Divider(),
+          NotificationsSettings()
         ],
       ),
     );

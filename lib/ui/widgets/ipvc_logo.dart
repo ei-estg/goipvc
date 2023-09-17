@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-
-import '../../providers/theme_provider.dart';
+import 'package:myipvc_budget_flutter/providers/settings_provider.dart';
 
 class IpvcLogo<T> extends ConsumerWidget {
   IpvcLogo({super.key});
@@ -23,8 +22,8 @@ class IpvcLogo<T> extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    var theme = ref.watch(themeProvider);
-    var systemBrightness = SchedulerBinding.instance.platformDispatcher.platformBrightness;
+    var settings = ref.watch(settingsProvider);
+    var systemTheme = SchedulerBinding.instance.platformDispatcher.platformBrightness;
 
     // Adapted from https://stackoverflow.com/a/56307575
 
@@ -33,33 +32,18 @@ class IpvcLogo<T> extends ConsumerWidget {
     // https://stackoverflow.com/a/75045907
     return ColorFiltered(
       colorFilter: ColorFilter.matrix((() {
-        if(theme == ThemeMode.dark) {
+        if(settings.theme == "dark") {
           return darkModeFilter;
-        } else if (theme == ThemeMode.light) {
+        } else if (settings.theme == "light") {
           return lightModeFilter;
         } else {
-          if(systemBrightness == Brightness.dark) {
+          if(systemTheme == Brightness.dark) {
             return darkModeFilter;
           } else {
             return lightModeFilter;
           }
         }
       })()),
-
-
-      /*theme == ThemeMode.dark
-          ? const ColorFilter.matrix(<double>[
-              -1.0, 0.0, 0.0, 0.0, 255.0,
-              0.0, -1.0, 0.0, 0.0, 255.0,
-              0.0, 0.0, -1.0, 0.0, 255.0,
-              0.0, 0.0, 0.0, 1.0, 0.0,
-            ])
-          : const ColorFilter.matrix(<double>[
-              1.0, 0.0, 0.0, 0.0, 0.0, //
-              0.0, 1.0, 0.0, 0.0, 0.0, //
-              0.0, 0.0, 1.0, 0.0, 0.0, //
-              0.0, 0.0, 0.0, 1.0, 0.0, //
-            ]),*/
       child: logo,
     );
   }

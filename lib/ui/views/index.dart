@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
+
 import 'package:myipvc_budget_flutter/ui/views/grades.dart';
 import 'package:myipvc_budget_flutter/ui/views/home.dart';
 import 'package:myipvc_budget_flutter/ui/views/menu.dart';
 import 'package:myipvc_budget_flutter/ui/views/schedule.dart';
-import 'package:myipvc_budget_flutter/ui/widgets/ipvc_logo.dart';
+import 'package:myipvc_budget_flutter/ui/widgets/logo.dart';
 
 class IndexView extends StatefulWidget {
   const IndexView({super.key});
@@ -20,24 +21,18 @@ class _IndexViewState extends State<IndexView> {
     return Scaffold(
         appBar: AppBar(
           centerTitle: false,
-          title: SizedBox(
-            height: 48,
-            child: IpvcLogo(),
-          ),
+          title: const Logo(),
           actions: const <Widget>[
-            Padding(
-                padding: EdgeInsets.fromLTRB(0, 15, 10, 0),
-                child: IconButton(
-                    onPressed: null,
-                    icon: Icon(
-                        Icons.notifications_none_outlined,
-                        size: 28,
-                    ),
-                    // TODO: detect notifications, and use this badge
-                    /*Badge(
-                      child: Icon(Icons.notifications_none_outlined),
-                    ),*/
-                )
+            IconButton(
+                onPressed: null,
+                icon: Icon(
+                    Icons.notifications_none_outlined,
+                    size: 28,
+                ),
+                // TODO: detect notifications, and use this badge
+                /*Badge(
+                  child: Icon(Icons.notifications_none_outlined),
+                ),*/
             )
           ],
         ),
@@ -47,7 +42,7 @@ class _IndexViewState extends State<IndexView> {
               currentPageIndex = index;
             });
           },
-          indicatorColor: Theme.of(context).colorScheme.inversePrimary,
+          indicatorColor: Theme.of(context).colorScheme.primary,
           selectedIndex: currentPageIndex,
           destinations: const <Widget>[
             NavigationDestination(

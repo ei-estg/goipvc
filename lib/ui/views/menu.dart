@@ -25,11 +25,6 @@ class _MenuViewState extends State<MenuView> {
             onTap: () {}
         ),
         MenuListTile(
-            icon: const Icon(Icons.badge),
-            text: const Text("Cartão digital"),
-            onTap: () {}
-        ),
-        MenuListTile(
             icon: const Icon(Icons.calendar_today),
             text: const Text("Exames"),
             onTap: () {}
@@ -67,7 +62,7 @@ class _MenuViewState extends State<MenuView> {
               MyIPVCAPI().logout();
               Navigator.pushReplacement(
                   context,
-                  MaterialPageRoute(builder: (context) => const LoginView())
+                  MaterialPageRoute(builder: (context) => LoginView())
               );
             }
         )

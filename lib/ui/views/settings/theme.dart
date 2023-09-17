@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-
-import '../../../providers/theme_provider.dart';
+import 'package:myipvc_budget_flutter/providers/settings_provider.dart';
 
 class _PopUpNotifier extends StateNotifier<bool> {
   _PopUpNotifier() : super(false);
@@ -23,33 +22,104 @@ class ThemeSettings<T> extends ConsumerWidget {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: const Text("Selecionar aparência"),
+          title: const Text("Esquema de Cores"),
           content: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              ListTile(
-                title: const Text("Tema do dispositivo"),
-                onTap: () {
-                  ref.read(themeProvider.notifier).set(ThemeMode.system);
-                  Navigator.pop(context); // Close the dialog
+              RadioListTile<String>(
+                title: const Text("Dispositvo"),
+                value: "system",
+                groupValue: ref.read(settingsProvider).colorScheme,
+                onChanged: (String? colorScheme) {
+                  ref.read(settingsProvider.notifier)
+                      .setColorScheme("system");
                 },
               ),
-              ListTile(
-                title: const Text("Claro"),
-                onTap: () {
-                  ref.read(themeProvider.notifier).set(ThemeMode.light);
-                  Navigator.pop(context); // Close the dialog
+              RadioListTile<String>(
+                title: const Text("Escola"),
+                value: "school",
+                groupValue: ref.read(settingsProvider).colorScheme,
+                onChanged: (String? colorScheme) {
+                  ref.read(settingsProvider.notifier)
+                      .setColorScheme("school");
                 },
               ),
-              ListTile(
-                title: const Text("Escuro"),
-                onTap: () {
-                  ref.read(themeProvider.notifier).set(ThemeMode.dark);
-                  Navigator.pop(context); // Close the dialog
+              RadioListTile<String>(
+                title: const Text("Normal"),
+                value: "normal",
+                groupValue: ref.read(settingsProvider).colorScheme,
+                onChanged: (String? colorScheme) {
+                  ref.read(settingsProvider.notifier)
+                      .setColorScheme("normal");
                 },
               ),
             ],
           ),
+          actions: [
+            TextButton(
+              style: TextButton.styleFrom(
+                textStyle: Theme.of(context).textTheme.labelLarge,
+              ),
+              child: const Text('Ok'),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  void _showThemeMenu(BuildContext context, WidgetRef ref) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text("Tema"),
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              RadioListTile<String>(
+                title: const Text("Dispositvo"),
+                value: "system",
+                groupValue: ref.read(settingsProvider).theme,
+                onChanged: (String? theme) {
+                  ref.read(settingsProvider.notifier)
+                      .setTheme("system");
+                },
+              ),
+              RadioListTile<String>(
+                title: const Text("Claro"),
+                value: "light",
+                groupValue: ref.read(settingsProvider).theme,
+                onChanged: (String? theme) {
+                  ref.read(settingsProvider.notifier)
+                      .setTheme("light");
+                },
+              ),
+              RadioListTile<String>(
+                title: const Text("Escuro"),
+                value: "dark",
+                groupValue: ref.read(settingsProvider).theme,
+                onChanged: (String? theme) {
+                  ref.read(settingsProvider.notifier)
+                      .setTheme("dark");
+                },
+              ),
+            ],
+          ),
+          actions: [
+            TextButton(
+              style: TextButton.styleFrom(
+                textStyle: Theme.of(context).textTheme.labelLarge,
+              ),
+              child: const Text('Ok'),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
         );
       },
     );
@@ -57,8 +127,8 @@ class ThemeSettings<T> extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    var theme = ref.watch(themeProvider);
-    bool isSwitched = ref.watch(_popUpProvider);
+    var settings = ref.watch(settingsProvider);
+    ref.watch(_popUpProvider);
 
     return Wrap(
       children: <Widget>[
@@ -78,28 +148,34 @@ class ThemeSettings<T> extends ConsumerWidget {
           ),
         ),
         ListTile(
-          title: const Text("Tema"),
+          title: const Text("Esquema de Cores"),
           onTap: () {
-            _showAppearanceMenu(context, ref); // Show the appearance menu
+            _showAppearanceMenu(context, ref);
           },
           trailing: Text((() {
-            if(theme == ThemeMode.dark) {
-              return "Escuro";
-            } else if (theme == ThemeMode.light) {
+            if(settings.colorScheme == "normal") {
+              return "Normal";
+            } else if (settings.colorScheme == "system") {
+              return "Dispositivo";
+            }
+
+            return "Escola";
+          })()),
+        ),
+        ListTile(
+          title: const Text("Tema"),
+          onTap: () {
+            _showThemeMenu(context, ref);
+          },
+          trailing: Text((() {
+            if(settings.theme == "light") {
               return "Claro";
+            } else if (settings.theme == "dark") {
+              return "Escuro";
             }
 
             return "Dispositivo";
           })()),
-        ),
-        ListTile(
-          title: const Text("Utilizar cores do dispositivo"),
-          trailing: Switch(
-            value: isSwitched,
-            onChanged: (bool newValue) {
-              ref.read(_popUpProvider.notifier).set(newValue);
-            },
-          ),
         )
       ],
     );
