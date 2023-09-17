@@ -64,6 +64,16 @@ class DigitalCardContainer extends ConsumerWidget {
             mainAxisSize: MainAxisSize.min,
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
+              SizedBox(
+                width: 42.0,
+                height: 10,
+                child: DecoratedBox(
+                  decoration: BoxDecoration(
+                      color: Theme.of(context).colorScheme.primary,
+                      borderRadius: BorderRadius.circular(15.0)
+                  ),
+                ),
+              ),
               const Padding(
                 padding: EdgeInsets.fromLTRB(0, 32, 0, 16),
                 child: SingleChoice(),

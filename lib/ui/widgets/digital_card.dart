@@ -27,8 +27,9 @@ class DigitalCard extends ConsumerWidget {
     // TODO: Stop card containing this image from flickering
     // when the side is changed
 
-    return Image.memory(
-      bytes
+    return ClipRRect(
+      borderRadius: BorderRadius.circular(10.0), // You can adjust the radius as per your preference
+      child: Image.memory(bytes),
     );
   }
 }
