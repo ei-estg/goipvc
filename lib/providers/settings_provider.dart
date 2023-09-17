@@ -14,13 +14,14 @@ import 'package:myipvc_budget_flutter/ui/themes/ipvc.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../models/settings.dart';
+import '../ui/themes/esa.dart';
 
 class SettingsNotifier extends StateNotifier<Settings> {
   final SharedPreferences sharedPreferences;
   final MyIPVCUser? profile;
 
   final Map<String, dynamic> _colorSchemeMap = HashMap.from({
-    "ESA": ESTGTheme,
+    "ESA": ESATheme,
     "ESCE": ESCETheme,
     "ESDL": ESDLTheme,
     "ESE": ESETheme,
