@@ -17,14 +17,6 @@ class LessonDetails extends StatelessWidget {
         "${details.teacher}\n"
         "${details.room}"
       ),
-      actions: [
-        TextButton(
-          onPressed: () {
-            Navigator.of(context).pop();
-          },
-          child: const Text('Fechar'),
-        ),
-      ],
     );
   }
 }
