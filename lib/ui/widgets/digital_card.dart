@@ -18,18 +18,21 @@ class DigitalCard extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     int selectedSide = ref.watch(cardSideProvider);
-    Uint8List bytes = base64.decode(
-      selectedSide == 0
-        ? data.front
-        : data.back
-    );
+    Uint8List bytesFront = base64.decode(data.front);
+    Uint8List bytesBack = base64.decode(data.back);
 
     // TODO: Stop card containing this image from flickering
     // when the side is changed
 
     return ClipRRect(
       borderRadius: BorderRadius.circular(10.0),
-      child: Image.memory(bytes),
+      child: AnimatedSwitcher(
+        duration: const Duration(milliseconds: 200),
+        child: Image.memory(
+          selectedSide == 0 ? bytesFront : bytesBack,
+          key: ValueKey<bool>(selectedSide == 0),
+        ),
+      )
     );
   }
 }
