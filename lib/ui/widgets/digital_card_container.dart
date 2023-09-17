@@ -30,11 +30,11 @@ class SingleChoice extends ConsumerWidget {
       segments: const <ButtonSegment<int>>[
         ButtonSegment<int>(
           value: 0,
-          label: Text('Front'),
+          label: Text('Frente'),
         ),
         ButtonSegment<int>(
           value: 1,
-          label: Text('Back'),
+          label: Text('Verso'),
         )
       ],
       selected: <int>{cardSide},
