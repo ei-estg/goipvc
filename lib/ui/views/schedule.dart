@@ -56,8 +56,13 @@ class ScheduleView extends ConsumerWidget {
             dayFormat: "EEE"
           ),
           firstDayOfWeek: 1,
+          selectionDecoration: const BoxDecoration(
+            color: Colors.transparent, // Set the border color to transparent
+          ),
           onTap: (CalendarTapDetails tap) {
-            _showPopup(context,tap.appointments![0]);
+            if(tap.targetElement == CalendarElement.appointment) {
+              _showPopup(context,tap.appointments![0]);
+            }
           },
         );
       }
