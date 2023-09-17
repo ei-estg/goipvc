@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import 'package:flutter_svg/flutter_svg.dart';
 import '../../models/myipvc_user.dart';
 import '../../providers/profile_provider.dart';
+import '../widgets/digital_card_container.dart';
 import '../widgets/profile_picture.dart';
 import 'error.dart';
 
@@ -14,97 +14,14 @@ class ProfileView extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     MyIPVCUser? profile = ref.watch(profileProvider);
 
-    // Define a GlobalKey to access the scaffold state for showing the bottom sheet.
     final scaffoldKey = GlobalKey<ScaffoldState>();
 
-    void showBottomSheet() {
-      scaffoldKey.currentState?.showBottomSheet(
-        (context) => Container(
-          color: Colors.white,
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Card(
-                  child: Padding(
-                      padding: const EdgeInsets.all(16),
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              SvgPicture.asset(
-                                'assets/ipvc-logo.svg',
-                                height: 30,
-                              ),
-                              ProfilePicture(
-                                imageData: profile?.fotografia,
-                                size: 80,
-                              ),
-                            ],
-                          ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            children: [
-                              Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  const Column(
-                                    mainAxisAlignment: MainAxisAlignment.start,
-                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                    children: [
-                                      Text(
-                                        "Cartão",
-                                        style: TextStyle(
-                                          fontSize: 16,
-                                          fontWeight: FontWeight.bold,
-                                        ),
-                                      ),
-                                      Text(
-                                        "De Aluno",
-                                        style: TextStyle(
-                                          fontSize: 16,
-                                          fontWeight: FontWeight.bold,
-                                        ),
-                                      ),
-                                      Text(
-                                        "Student Card",
-                                        style: TextStyle(
-                                          fontSize: 8,
-                                          fontWeight: FontWeight.bold,
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-
-                                  Column(
-                                    mainAxisAlignment: MainAxisAlignment.start,
-                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                    children: [
-                                      Text(
-                                        profile?.nome ?? '',
-                                        style: const TextStyle(
-                                          fontSize: 16,
-                                          fontWeight: FontWeight.bold,
-                                        ),
-                                      ),
-                                      Text(
-                                        profile?.email ?? '',
-                                        style: const TextStyle(fontSize: 16),
-                                      ),
-                                    ],
-                                  ),
-                                ],
-                              )
-                            ],
-                          )
-                        ],
-                      )
-                  )
-              )
-            ],
-          ),
-        ),
+    Future<void> showBottomSheet(BuildContext context, WidgetRef ref) async {
+      await showModalBottomSheet(
+        context: context,
+        builder: (context) {
+          return const DigitalCardContainer();
+        },
       );
     }
 
@@ -114,7 +31,7 @@ class ProfileView extends ConsumerWidget {
         title: const Text("Perfil"),
       ),
       body: profile != null
-          ? ListView(
+      ? ListView(
         padding: const EdgeInsets.all(16),
         children: [
           Row(
@@ -159,13 +76,15 @@ class ProfileView extends ConsumerWidget {
             ),
           ),
           ElevatedButton.icon(
-            onPressed: showBottomSheet,
+            onPressed: () {
+              showBottomSheet(context, ref);
+            },
             icon: const Icon(Icons.badge), // Add the card icon here.
             label: const Text("Cartão Digital"),
           ),
         ],
       )
-          : const ErrorView(error: "Erro a obter perfil"),
+      : const ErrorView(error: "Erro a obter perfil"),
     );
   }
 }
