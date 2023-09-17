@@ -21,9 +21,6 @@ class DigitalCard extends ConsumerWidget {
     Uint8List bytesFront = base64.decode(data.front);
     Uint8List bytesBack = base64.decode(data.back);
 
-    // TODO: Stop card containing this image from flickering
-    // when the side is changed
-
     return ClipRRect(
       borderRadius: BorderRadius.circular(10.0),
       child: AnimatedSwitcher(
