@@ -66,10 +66,10 @@ class DigitalCardContainer extends ConsumerWidget {
             children: [
               SizedBox(
                 width: 42.0,
-                height: 10,
+                height: 4,
                 child: DecoratedBox(
                   decoration: BoxDecoration(
-                      color: Theme.of(context).colorScheme.primary,
+                      color: Theme.of(context).colorScheme.outlineVariant,
                       borderRadius: BorderRadius.circular(15.0)
                   ),
                 ),

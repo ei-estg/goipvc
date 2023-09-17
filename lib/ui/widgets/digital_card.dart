@@ -28,7 +28,7 @@ class DigitalCard extends ConsumerWidget {
     // when the side is changed
 
     return ClipRRect(
-      borderRadius: BorderRadius.circular(10.0), // You can adjust the radius as per your preference
+      borderRadius: BorderRadius.circular(10.0),
       child: Image.memory(bytes),
     );
   }
