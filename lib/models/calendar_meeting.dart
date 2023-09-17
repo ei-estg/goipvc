@@ -33,11 +33,14 @@ class MeetingDataSource extends CalendarDataSource {
 }
 
 class Meeting {
-  Meeting(this.eventName, this.from, this.to, this.background, this.isAllDay);
+  Meeting(this.eventName, this.from, this.to, this.fullName, this.teacher, this.room, this.background, this.isAllDay);
 
   String eventName;
   DateTime from;
   DateTime to;
+  String fullName;
+  String teacher;
+  String room;
   Color background;
   bool isAllDay;
 }

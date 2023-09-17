@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:myipvc_budget_flutter/ui/widgets/lesson_details.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart';
 
 import '../../models/calendar_meeting.dart';
@@ -19,12 +20,24 @@ class ScheduleView extends ConsumerWidget {
         "${lesson.sigla}\n${lesson.sala}",
         DateTime.parse(lesson.data_hora_ini),
         DateTime.parse(lesson.data_hora_fim),
+        lesson.hor_nome,
+        lesson.nomesDocentes,
+        lesson.sala,
         Color(int.parse(lesson.cor_valor.substring(1), radix: 16) + 0xFF000000),
         false
       ));
     }
 
     return meetings;
+  }
+
+  void _showPopup(BuildContext context, Meeting details) {
+    showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return LessonDetails(details: details);
+        }
+    );
   }
 
   @override
@@ -43,6 +56,9 @@ class ScheduleView extends ConsumerWidget {
             dayFormat: "EEE"
           ),
           firstDayOfWeek: 1,
+          onTap: (CalendarTapDetails tap) {
+            _showPopup(context,tap.appointments![0]);
+          },
         );
       }
     );
