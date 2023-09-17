@@ -1,11 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:myipvc_budget_flutter/models/myipvc_lesson.dart';
 import 'package:myipvc_budget_flutter/models/myipvc_user.dart';
 import 'package:myipvc_budget_flutter/providers/profile_provider.dart';
+import 'package:myipvc_budget_flutter/providers/schedule_provider.dart';
+import 'package:myipvc_budget_flutter/services/date_verification.dart';
 import 'package:myipvc_budget_flutter/ui/views/error.dart';
+import 'package:myipvc_budget_flutter/ui/views/loading.dart';
+import 'package:myipvc_budget_flutter/ui/widgets/lesson_card.dart';
 import 'package:myipvc_budget_flutter/ui/widgets/profile_picture.dart';
-import 'package:myipvc_budget_flutter/ui/widgets/schedule_tab.dart';
 
 class HomeView extends StatefulWidget {
   const HomeView({Key? key}) : super(key: key);
