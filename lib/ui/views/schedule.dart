@@ -23,6 +23,7 @@ class ScheduleView extends ConsumerWidget {
         lesson.hor_nome,
         lesson.nomesDocentes,
         lesson.sala,
+        lesson.cor_valor,
         Color(int.parse(lesson.cor_valor.substring(1), radix: 16) + 0xFF000000),
         false
       ));
@@ -52,8 +53,8 @@ class ScheduleView extends ConsumerWidget {
           view: CalendarView.week,
           dataSource: MeetingDataSource(_getDataSource(schedule)),
           timeSlotViewSettings: const TimeSlotViewSettings(
-            timeFormat: 'H:mm',
-            dayFormat: "EEE"
+              timeFormat: 'H:mm',
+              dayFormat: "EEE"
           ),
           firstDayOfWeek: 1,
           selectionDecoration: const BoxDecoration(

@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:myipvc_budget_flutter/services/get_status_from_color.dart';
 
 import '../../models/calendar_meeting.dart';
 
@@ -11,11 +12,11 @@ class LessonDetails extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-      title: const Text("Detalhes da aula"),
+      title: Text(details.fullName),
       content: Text(
-        "${details.fullName}\n"
-        "${details.teacher}\n"
-        "${details.room}"
+        "Prof.: ${details.teacher}\n"
+        "Sala: ${details.room}\n"
+        "Estado: ${getStatusFromColor(details.originalColor)}"
       ),
     );
   }
