@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:myipvc_budget_flutter/services/get_status_from_color.dart';
 
 import '../../models/calendar_meeting.dart';
@@ -12,10 +13,28 @@ class LessonDetails extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-      title: Text(details.fullName),
+      title: Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          Text(details.fullName, textAlign: TextAlign.center),
+          Text("Sala ${details.room}", style: const TextStyle(fontSize: 16)),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              Text(
+                  "Inicio: ${DateFormat("HH:mm").format(details.from)}",
+                  style: const TextStyle(fontSize: 14)
+              ),
+              Text(
+                  "Fim: ${DateFormat("HH:mm").format(details.to)}",
+                  style: const TextStyle(fontSize: 14)
+              )
+            ],
+          )
+        ],
+      ),
       content: Text(
-        "Prof.: ${details.teacher}\n"
-        "Sala: ${details.room}\n"
+        "Prof(s).: ${details.teacher}\n"
         "Estado: ${getStatusFromColor(details.originalColor)}"
       ),
     );
