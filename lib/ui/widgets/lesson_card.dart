@@ -21,9 +21,17 @@ class LessonCard<T> extends StatelessWidget {
     var formatter = DateFormat('Hm');
 
     // Math for time in class
-    // double progress = (DateTime.now().millisecondsSinceEpoch - start.millisecondsSinceEpoch) / (end.millisecondsSinceEpoch - start.millisecondsSinceEpoch);
+    double progress = (
+        DateTime.now().millisecondsSinceEpoch - start.millisecondsSinceEpoch)
+        / (end.millisecondsSinceEpoch - start.millisecondsSinceEpoch
+    );
+
+    if(progress <= 0 || progress > 1){
+      progress = 0;
+    }
 
     return Card(
+      color: Theme.of(context).colorScheme.surfaceVariant,
       margin: const EdgeInsets.fromLTRB(12, 6, 12, 6),
       elevation: 2,
       child: Row(
@@ -66,9 +74,11 @@ class LessonCard<T> extends StatelessWidget {
                         height: 95,
                         width: 80,
                         child: LinearProgressIndicator(
-                          value: 0.6,
-                          backgroundColor: Theme.of(context).colorScheme.surfaceVariant,
-                          valueColor: AlwaysStoppedAnimation<Color>(Theme.of(context).colorScheme.primaryContainer)
+                          value: progress,
+                          backgroundColor: Theme.of(context).colorScheme.secondaryContainer,
+                          valueColor: AlwaysStoppedAnimation<Color>(
+                              Theme.of(context).colorScheme.secondary.withAlpha(80)
+                          )
                         ),
                       ),
                       SizedBox(
