@@ -37,6 +37,14 @@ class LessonDetails extends StatelessWidget {
         "Prof(s).: ${details.teacher}\n"
         "Estado: ${getStatusFromColor(details.originalColor)}"
       ),
+      actions: [
+        TextButton(
+          onPressed: () {
+            Navigator.of(context).pop(); // Close the dialog
+          },
+          child: const Text('Fechar'),
+        ),
+      ],
     );
   }
 }
