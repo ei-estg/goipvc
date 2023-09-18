@@ -6,6 +6,7 @@ import 'package:myipvc_budget_flutter/models/myipvc_lesson.dart';
 import 'package:myipvc_budget_flutter/services/encryptor.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../models/myipvc_card.dart';
 import '../models/myipvc_detailed_curricular_unit.dart';
 import '../models/myipvc_grade.dart';
 import '../models/myipvc_user.dart';
@@ -124,12 +125,11 @@ class MyIPVCAPI {
   }
 
   Future<List<MyIPVCLesson>> getSchedule() async {
-    final response = await _dio.get(
-      // "$_baseURL/api/ipvc/GetHorario"
-      "https://mocki.io/v1/d251482d-84dc-48c1-92c9-84b006ec494e",
-      /*data: jsonEncode(<String, String>{
+    final response = await _dio.post(
+      "$_baseURL/api/ipvc/GetHorario",
+      data: jsonEncode(<String, String>{
         'token': await getToken(),
-      }),*/
+      }),
     );
 
     List<MyIPVCLesson> schedule = [];
@@ -189,5 +189,25 @@ class MyIPVCAPI {
         .trim();
 
     return data;
+  }
+
+  Future<MyIPVCCard> getDigitalCard() async {
+    print("start");
+
+    final response = await _dio.get(
+      "$_baseURL/api/myipvc/digitalcard/",
+      data: jsonEncode(<String, String>{
+        'token': await getToken(),
+      }),
+    );
+
+    // Thank you to whoever thought an api should return
+    // data:image/png;base64, before the base64 data
+    response.data["front"] = response.data["front"].substring(22);
+    response.data["back"] = response.data["back"].substring(22);
+
+    print("hello?");
+
+    return MyIPVCCard.fromJson(response.data);
   }
 }
