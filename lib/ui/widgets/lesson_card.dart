@@ -25,12 +25,14 @@ class LessonCard<T> extends StatelessWidget {
 
     return Card(
       margin: const EdgeInsets.fromLTRB(12, 6, 12, 6),
+      elevation: 2,
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           Expanded(
               child: Padding(
-                  padding: const EdgeInsets.all(16),
+                  padding: const EdgeInsets
+                    .symmetric(horizontal: 16),
                   child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
