@@ -53,8 +53,10 @@ class ScheduleView extends ConsumerWidget {
           view: CalendarView.week,
           dataSource: MeetingDataSource(_getDataSource(schedule)),
           timeSlotViewSettings: const TimeSlotViewSettings(
-              timeFormat: 'H:mm',
-              dayFormat: "EEE"
+            timeFormat: 'H:mm',
+            dayFormat: "EEE",
+            startHour: 7,
+            endHour: 24
           ),
           firstDayOfWeek: 1,
           selectionDecoration: const BoxDecoration(
