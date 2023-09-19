@@ -113,8 +113,13 @@ class HomeViewState extends State<HomeView> with SingleTickerProviderStateMixin 
               )
             ),
             Expanded(
+                flex: 1,
                 child: Column(
                   children: <Widget>[
+                    const Padding(
+                      padding: EdgeInsets.symmetric(vertical: 6, horizontal: 0),
+                      child: Text("Hoje", style: TextStyle(fontSize: 20))
+                    ),
                     TabBar(
                       controller: _tabController,
                       tabs: const <Tab>[
@@ -133,9 +138,10 @@ class HomeViewState extends State<HomeView> with SingleTickerProviderStateMixin 
                       ],
                     ),
                     Expanded(
-                          child: Card(
-                          elevation: 2,
-                          margin: const EdgeInsets.all(16.0),
+                      flex: 1,
+                      child: Card(
+                        elevation: 2,
+                        margin: const EdgeInsets.all(16.0),
                             child: TabBarView(
                             controller: _tabController,
                             children: const <Widget>[

@@ -41,12 +41,6 @@ class ScheduleTab<T> extends StatelessWidget {
 
               return Column(
                 children: [
-                  const ListTile(
-                    title: Text(
-                        'Hoje:',
-                        style: TextStyle(fontSize: 20)
-                    ),
-                  ),
                   Expanded(
                     child: ListView(
                       children: [
