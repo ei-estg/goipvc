@@ -7,6 +7,10 @@ import 'package:goipvc/ui/views/error.dart';
 import 'package:goipvc/ui/views/loading.dart';
 import 'package:goipvc/ui/widgets/lesson_card.dart';
 
+final _refreshProvider = StreamProvider<void>((ref) {
+  return Stream.periodic(const Duration(seconds: 60), (count) => count);
+});
+
 class ScheduleTab<T> extends StatelessWidget {
   const ScheduleTab({super.key,});
 
@@ -15,6 +19,7 @@ class ScheduleTab<T> extends StatelessWidget {
     return Consumer(
       builder: (context, ref, child){
         AsyncValue<List<MyIPVCLesson>> schedule = ref.watch(scheduleProvider);
+        ref.watch(_refreshProvider);
 
         return Align(
           alignment: Alignment.center,
