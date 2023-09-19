@@ -10,7 +10,7 @@ bool verifyIfLessonExpired(MyIPVCLesson lesson) {
     return true;
   }
 
-  if(DateTime.now().isAfter(DateTime.parse(lesson.data_hora_ini))) {
+  if(DateTime.now().isAfter(DateTime.parse(lesson.data_hora_fim))) {
     return true;
   }
 
