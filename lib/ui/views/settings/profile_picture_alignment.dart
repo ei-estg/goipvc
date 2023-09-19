@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:goipvc/providers/settings_provider.dart';
+import 'package:goipvc/ui/widgets/profile_picture.dart';
+
+import '../../../models/myipvc_user.dart';
+import '../../../providers/profile_provider.dart';
 
 class _PopUpNotifier extends StateNotifier<bool> {
   _PopUpNotifier() : super(false);
@@ -10,19 +14,6 @@ class _PopUpNotifier extends StateNotifier<bool> {
   }
 }
 
-final Map<String, String> translationMap = {
-  'topLeft': 'Superior Esquerda',
-  'topCenter': 'Superior Centro',
-  'topRight': 'Superior Direita',
-  'centerLeft': 'Centro Esquerda',
-  'center': 'Centro',
-  'centerRight': 'Centro Direita',
-  'bottomLeft': 'Inferior Esquerda',
-  'bottomCenter': 'Inferior Centro',
-  'bottomRight': 'Inferior Direita',
-};
-
-
 final _popUpProvider = StateNotifierProvider<_PopUpNotifier, bool>(
         (ref) => _PopUpNotifier()
 );
@@ -31,6 +22,8 @@ class ProfilePictureAlignmentSettings<T> extends ConsumerWidget {
   const ProfilePictureAlignmentSettings({super.key});
 
   void _showAppearanceMenu(BuildContext context, WidgetRef ref) {
+    MyIPVCUser? profile = ref.watch(profileProvider);
+
     showDialog(
       context: context,
       builder: (BuildContext context) {
@@ -39,12 +32,18 @@ class ProfilePictureAlignmentSettings<T> extends ConsumerWidget {
           content: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
+              if(profile != null)
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(0, 0, 0, 16),
+                  child: ProfilePicture(imageData: profile.fotografia, size: 96)
+                ),
+              
               DropdownMenu<String>(
                 dropdownMenuEntries: <DropdownMenuEntry<String>>[
                   for(var alignment in ref.read(settingsProvider.notifier).getAlignmentMapKeys())
                     DropdownMenuEntry<String>(
                       value: alignment,
-                      label: translationMap[alignment] ?? alignment,
+                      label: alignment,
                     ),
                 ],
                 initialSelection: ref.read(settingsProvider).pictureAlignment,
@@ -89,7 +88,7 @@ class ProfilePictureAlignmentSettings<T> extends ConsumerWidget {
             _showAppearanceMenu(context, ref);
           },
           trailing: Text((() {
-            return translationMap[ref.read(settingsProvider.notifier).getAlignmentString()] ?? ref.read(settingsProvider.notifier).getAlignmentString();
+            return ref.read(settingsProvider.notifier).getAlignmentString();
           })()),
         )
       ],

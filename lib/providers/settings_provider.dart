@@ -37,15 +37,11 @@ class SettingsNotifier extends StateNotifier<Settings> {
   });
 
   final Map<String, Alignment> _alignmentMap = HashMap.from({
-    "topLeft": Alignment.topLeft,
-    "topCenter": Alignment.topCenter,
-    "topRight": Alignment.topRight,
-    "centerLeft": Alignment.centerLeft,
-    "center": Alignment.center,
-    "centerRight": Alignment.centerRight,
-    "bottomLeft": Alignment.bottomLeft,
-    "bottomCenter": Alignment.bottomCenter,
-    "bottomRight": Alignment.bottomRight,
+    "Cima": Alignment.topCenter,
+    "Esquerda": Alignment.centerLeft,
+    "Centro": Alignment.center,
+    "Direita": Alignment.centerRight,
+    "Baixo": Alignment.bottomCenter,
   });
 
   SettingsNotifier(this.sharedPreferences, this.profile)
