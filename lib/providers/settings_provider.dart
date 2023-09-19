@@ -2,15 +2,15 @@ import 'dart:collection';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:myipvc_budget_flutter/models/myipvc_user.dart';
-import 'package:myipvc_budget_flutter/providers/profile_provider.dart';
-import 'package:myipvc_budget_flutter/providers/sharedPreferencesProvider.dart';
-import 'package:myipvc_budget_flutter/ui/themes/esce.dart';
-import 'package:myipvc_budget_flutter/ui/themes/esdl.dart';
-import 'package:myipvc_budget_flutter/ui/themes/ese.dart';
-import 'package:myipvc_budget_flutter/ui/themes/ess.dart';
-import 'package:myipvc_budget_flutter/ui/themes/estg.dart';
-import 'package:myipvc_budget_flutter/ui/themes/ipvc.dart';
+import 'package:goipvc/models/myipvc_user.dart';
+import 'package:goipvc/providers/profile_provider.dart';
+import 'package:goipvc/providers/sharedPreferencesProvider.dart';
+import 'package:goipvc/ui/themes/esce.dart';
+import 'package:goipvc/ui/themes/esdl.dart';
+import 'package:goipvc/ui/themes/ese.dart';
+import 'package:goipvc/ui/themes/ess.dart';
+import 'package:goipvc/ui/themes/estg.dart';
+import 'package:goipvc/ui/themes/ipvc.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../models/settings.dart';

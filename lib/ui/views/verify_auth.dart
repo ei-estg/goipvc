@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:myipvc_budget_flutter/services/myipvc_api.dart';
-import 'package:myipvc_budget_flutter/ui/views/login.dart';
+import 'package:goipvc/services/myipvc_api.dart';
+import 'package:goipvc/ui/views/login.dart';
 
 import 'index.dart';
 

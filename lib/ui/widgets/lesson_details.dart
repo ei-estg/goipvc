@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:myipvc_budget_flutter/services/get_status_from_color.dart';
+import 'package:goipvc/services/get_status_from_color.dart';
 
 import '../../models/calendar_meeting.dart';
 

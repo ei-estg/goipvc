@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:myipvc_budget_flutter/providers/profile_provider.dart';
-import 'package:myipvc_budget_flutter/services/myipvc_api.dart';
-import 'package:myipvc_budget_flutter/ui/views/index.dart';
-import 'package:myipvc_budget_flutter/ui/widgets/ipvc_logo.dart';
+import 'package:goipvc/providers/profile_provider.dart';
+import 'package:goipvc/services/myipvc_api.dart';
+import 'package:goipvc/ui/views/index.dart';
+import 'package:goipvc/ui/widgets/ipvc_logo.dart';
 
 class _LoadingNotifier extends StateNotifier<bool> {
   _LoadingNotifier() : super(false);

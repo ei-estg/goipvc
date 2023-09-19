@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:myipvc_budget_flutter/ui/widgets/lesson_details.dart';
+import 'package:goipvc/ui/widgets/lesson_details.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart';
 
 import '../../models/calendar_meeting.dart';

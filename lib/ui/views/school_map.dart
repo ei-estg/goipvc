@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:myipvc_budget_flutter/ui/views/coming_soon.dart';
+import 'package:goipvc/ui/views/coming_soon.dart';
 
 class SchoolMapView extends StatelessWidget {
   const SchoolMapView({super.key});

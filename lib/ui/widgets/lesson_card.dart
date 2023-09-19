@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:myipvc_budget_flutter/models/myipvc_lesson.dart';
+import 'package:goipvc/models/myipvc_lesson.dart';
 
 class LessonCard<T> extends StatelessWidget {
   final MyIPVCLesson lesson;

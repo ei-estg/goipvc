@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:myipvc_budget_flutter/providers/settings_provider.dart';
+import 'package:goipvc/providers/settings_provider.dart';
 
 class IpvcLogo<T> extends ConsumerWidget {
   IpvcLogo({super.key});

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:myipvc_budget_flutter/models/myipvc_curricular_unit.dart';
-import 'package:myipvc_budget_flutter/ui/views/curricular_unit.dart';
+import 'package:goipvc/models/myipvc_curricular_unit.dart';
+import 'package:goipvc/ui/views/curricular_unit.dart';
 
 class CurricularUnitButton<T> extends StatelessWidget {
   final MyIPVCCurricularUnit curricularUnit;

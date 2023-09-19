@@ -1,9 +1,9 @@
 import 'dart:async';
 import 'dart:convert';
 import 'package:dio/dio.dart';
-import 'package:myipvc_budget_flutter/models/myipvc_curricular_unit.dart';
-import 'package:myipvc_budget_flutter/models/myipvc_lesson.dart';
-import 'package:myipvc_budget_flutter/services/encryptor.dart';
+import 'package:goipvc/models/myipvc_curricular_unit.dart';
+import 'package:goipvc/models/myipvc_lesson.dart';
+import 'package:goipvc/services/encryptor.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../models/myipvc_card.dart';

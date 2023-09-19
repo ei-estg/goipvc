@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:myipvc_budget_flutter/models/myipvc_lesson.dart';
-import 'package:myipvc_budget_flutter/providers/schedule_provider.dart';
-import 'package:myipvc_budget_flutter/services/date_verification.dart';
-import 'package:myipvc_budget_flutter/ui/views/error.dart';
-import 'package:myipvc_budget_flutter/ui/views/loading.dart';
-import 'package:myipvc_budget_flutter/ui/widgets/lesson_card.dart';
+import 'package:goipvc/models/myipvc_lesson.dart';
+import 'package:goipvc/providers/schedule_provider.dart';
+import 'package:goipvc/services/date_verification.dart';
+import 'package:goipvc/ui/views/error.dart';
+import 'package:goipvc/ui/views/loading.dart';
+import 'package:goipvc/ui/widgets/lesson_card.dart';
 
 class ScheduleTab<T> extends StatelessWidget {
   const ScheduleTab({super.key,});

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:myipvc_budget_flutter/providers/settings_provider.dart';
+import 'package:goipvc/providers/settings_provider.dart';
 
 class _PopUpNotifier extends StateNotifier<bool> {
   _PopUpNotifier() : super(false);
