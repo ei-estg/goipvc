@@ -1,9 +1,9 @@
 import 'dart:async';
 import 'dart:convert';
 import 'package:dio/dio.dart';
-import 'package:myipvc_budget_flutter/models/myipvc_curricular_unit.dart';
-import 'package:myipvc_budget_flutter/models/myipvc_lesson.dart';
-import 'package:myipvc_budget_flutter/services/encryptor.dart';
+import 'package:goipvc/models/myipvc_curricular_unit.dart';
+import 'package:goipvc/models/myipvc_lesson.dart';
+import 'package:goipvc/services/encryptor.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../models/myipvc_card.dart';
@@ -135,6 +135,28 @@ class MyIPVCAPI {
     List<MyIPVCLesson> schedule = [];
 
     for(var lesson in response.data){
+      // Filtering the title out of a string of random stuff
+      lesson["hor_nome"] = lesson["hor_nome"].split("-")[1];
+
+      // Trimming down the teachers names
+      List<String> teachers = lesson["nomesDocentes"].split("; ");
+      teachers.removeWhere((element) => element == "N/D");
+      for(int i = 0; i < teachers.length; i++) {
+        List<String> splitName = teachers[i].split(" ");
+
+        teachers[i] = "${splitName[0]} ${splitName[splitName.length - 1]}";
+      }
+      lesson["nomesDocentes"] = teachers
+          .map((e) => e)
+          .join("; ");
+
+      if(lesson["nomesDocentes"] == "") {
+        lesson["nomesDocentes"] = "Desconhecido";
+      }
+
+      // Removing the school name from the room string
+      lesson["sala"] = lesson["sala"].split(" - ")[1];
+
       schedule.add(MyIPVCLesson.fromJson(lesson));
     }
 

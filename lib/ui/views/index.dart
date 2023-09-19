@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 
-import 'package:myipvc_budget_flutter/ui/views/grades.dart';
-import 'package:myipvc_budget_flutter/ui/views/home.dart';
-import 'package:myipvc_budget_flutter/ui/views/menu.dart';
-import 'package:myipvc_budget_flutter/ui/views/schedule.dart';
-import 'package:myipvc_budget_flutter/ui/widgets/logo.dart';
+import 'package:goipvc/ui/views/grades.dart';
+import 'package:goipvc/ui/views/home.dart';
+import 'package:goipvc/ui/views/menu.dart';
+import 'package:goipvc/ui/views/schedule.dart';
+import 'package:goipvc/ui/widgets/logo.dart';
 
 class IndexView extends StatefulWidget {
   const IndexView({super.key});

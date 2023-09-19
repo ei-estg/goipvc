@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:myipvc_budget_flutter/models/myipvc_user.dart';
-import 'package:myipvc_budget_flutter/providers/profile_provider.dart';
-import 'package:myipvc_budget_flutter/ui/views/error.dart';
-import 'package:myipvc_budget_flutter/ui/widgets/profile_picture.dart';
+import 'package:goipvc/models/myipvc_user.dart';
+import 'package:goipvc/providers/profile_provider.dart';
+import 'package:goipvc/ui/views/coming_soon.dart';
+import 'package:goipvc/ui/views/error.dart';
+import 'package:goipvc/ui/widgets/profile_picture.dart';
 
 import '../widgets/schedule_tab.dart';
 
@@ -139,14 +140,8 @@ class HomeViewState extends State<HomeView> with SingleTickerProviderStateMixin 
                             controller: _tabController,
                             children: const <Widget>[
                               ScheduleTab(),
-                              Align(
-                                alignment: Alignment.center,
-                                child: Text("Não Existe Ementas Hoje"),
-                              ),
-                              Align(
-                                alignment: Alignment.center,
-                                child: Text("Não Existe Exames Hoje"),
-                              ),
+                              ComingSoonView(),
+                              ComingSoonView(),
                             ],
                           )
 

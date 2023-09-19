@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:myipvc_budget_flutter/ui/widgets/lesson_details.dart';
+import 'package:goipvc/ui/widgets/lesson_details.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart';
 
 import '../../models/calendar_meeting.dart';
@@ -53,8 +53,10 @@ class ScheduleView extends ConsumerWidget {
           view: CalendarView.week,
           dataSource: MeetingDataSource(_getDataSource(schedule)),
           timeSlotViewSettings: const TimeSlotViewSettings(
-              timeFormat: 'H:mm',
-              dayFormat: "EEE"
+            timeFormat: 'H:mm',
+            dayFormat: "EEE",
+            startHour: 7,
+            endHour: 24
           ),
           firstDayOfWeek: 1,
           selectionDecoration: const BoxDecoration(

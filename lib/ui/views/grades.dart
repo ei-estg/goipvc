@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:myipvc_budget_flutter/models/myipvc_grade.dart';
-import 'package:myipvc_budget_flutter/providers/final_grade_provider.dart';
-import 'package:myipvc_budget_flutter/providers/grades_provider.dart';
-import 'package:myipvc_budget_flutter/ui/views/error.dart';
-import 'package:myipvc_budget_flutter/ui/views/loading.dart';
+import 'package:goipvc/models/myipvc_grade.dart';
+import 'package:goipvc/providers/final_grade_provider.dart';
+import 'package:goipvc/providers/grades_provider.dart';
+import 'package:goipvc/ui/views/error.dart';
+import 'package:goipvc/ui/views/loading.dart';
 
 import '../widgets/grade_card.dart';
 

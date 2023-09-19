@@ -1,5 +1,5 @@
 import 'package:intl/intl.dart';
-import 'package:myipvc_budget_flutter/models/myipvc_lesson.dart';
+import 'package:goipvc/models/myipvc_lesson.dart';
 
 bool verifyIfLessonExpired(MyIPVCLesson lesson) {
   var dayFormatter = DateFormat('yyyy-MM-dd');

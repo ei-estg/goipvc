@@ -1,4 +1,4 @@
-package pt.joaoalves03.myipvc_budget_flutter
+package pt.joaoalves03.goipvc
 
 import io.flutter.embedding.android.FlutterActivity
 
