@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:goipvc/services/myipvc_api.dart';
+import 'package:goipvc/ui/views/about.dart';
 import 'package:goipvc/ui/views/academic_calendar.dart';
 import 'package:goipvc/ui/views/curricular_plan.dart';
 import 'package:goipvc/ui/views/exams.dart';
@@ -63,6 +64,16 @@ class _MenuViewState extends State<MenuView> {
             }
         ),
         const Divider(),
+        MenuListTile(
+            icon: const Icon(Icons.info),
+            text: const Text("Sobre"),
+            onTap: () {
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const AboutView())
+              );
+            }
+        ),
         MenuListTile(
           icon: const Icon(Icons.settings),
           text: const Text("Definições"),
