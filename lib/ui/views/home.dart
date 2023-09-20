@@ -22,7 +22,7 @@ class HomeViewState extends State<HomeView> with SingleTickerProviderStateMixin 
   @override
   void initState() {
     super.initState();
-    _tabController = TabController(length: 3, vsync: this);
+    _tabController = TabController(length: 2, vsync: this);
   }
 
   @override
@@ -130,11 +130,7 @@ class HomeViewState extends State<HomeView> with SingleTickerProviderStateMixin 
                         Tab(
                           text: "Ementas",
                           icon: Icon(Icons.restaurant_menu),
-                        ),
-                        Tab(
-                          text: "Exames",
-                          icon: Icon(Icons.assignment),
-                        ),
+                        )
                       ],
                     ),
                     Expanded(
@@ -146,8 +142,7 @@ class HomeViewState extends State<HomeView> with SingleTickerProviderStateMixin 
                             controller: _tabController,
                             children: const <Widget>[
                               ScheduleTab(),
-                              ComingSoonView(),
-                              ComingSoonView(),
+                              ComingSoonView()
                             ],
                           )
 
