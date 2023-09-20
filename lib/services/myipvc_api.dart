@@ -240,7 +240,7 @@ class MyIPVCAPI {
 
     List<MyIPVCExam> exams = [];
 
-    for(var exam in response.data){
+    for(var exam in response.data["data"]){
       exams.add(MyIPVCExam.fromJson(exam));
     }
 
