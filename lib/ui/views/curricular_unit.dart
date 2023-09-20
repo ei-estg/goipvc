@@ -40,6 +40,7 @@ class CurricularUnitView extends StatelessWidget {
               if (snapshot.hasData) {
                 return ListView(
                   children: [
+                    const Padding(padding: EdgeInsets.symmetric(vertical: 8)),
                     Text(
                       curricularUnit.nm_unidade_curricular,
                       style: const TextStyle(
