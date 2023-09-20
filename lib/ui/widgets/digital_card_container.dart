@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../../models/myipvc_card.dart';
+import '../../models/myipvc/card.dart';
 import '../../providers/digital_card_provider.dart';
 import '../views/error.dart';
 import '../views/loading.dart';

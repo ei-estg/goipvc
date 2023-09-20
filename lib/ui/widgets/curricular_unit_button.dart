@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:goipvc/models/myipvc_curricular_unit.dart';
+import 'package:goipvc/models/myipvc/curricular_unit.dart';
 import 'package:goipvc/ui/views/curricular_unit.dart';
 
 class CurricularUnitButton<T> extends StatelessWidget {

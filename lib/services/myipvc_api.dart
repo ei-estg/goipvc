@@ -1,15 +1,15 @@
 import 'dart:async';
 import 'dart:convert';
 import 'package:dio/dio.dart';
-import 'package:goipvc/models/myipvc_curricular_unit.dart';
-import 'package:goipvc/models/myipvc_lesson.dart';
+import 'package:goipvc/models/myipvc/curricular_unit.dart';
+import 'package:goipvc/models/myipvc/lesson.dart';
 import 'package:goipvc/services/encryptor.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import '../models/myipvc_card.dart';
-import '../models/myipvc_detailed_curricular_unit.dart';
-import '../models/myipvc_grade.dart';
-import '../models/myipvc_user.dart';
+import '../models/myipvc/card.dart';
+import '../models/myipvc/detailed_curricular_unit.dart';
+import '../models/myipvc/grade.dart';
+import '../models/myipvc/user.dart';
 
 class MyIPVCAPI {
   final _dio = Dio();

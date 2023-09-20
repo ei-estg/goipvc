@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:goipvc/models/myipvc_grade.dart';
+import 'package:goipvc/models/myipvc/grade.dart';
 
 class GradeCard<T> extends StatelessWidget {
   final MyIPVCGrade grade;

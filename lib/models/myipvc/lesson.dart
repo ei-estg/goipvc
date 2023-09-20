@@ -1,6 +1,6 @@
 import 'package:json_annotation/json_annotation.dart';
 
-part 'myipvc_lesson.g.dart';
+part 'lesson.g.dart';
 
 @JsonSerializable()
 class MyIPVCLesson {

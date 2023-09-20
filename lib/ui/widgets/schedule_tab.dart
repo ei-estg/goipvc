@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:goipvc/models/myipvc_lesson.dart';
+import 'package:goipvc/models/myipvc/lesson.dart';
 import 'package:goipvc/providers/schedule_provider.dart';
 import 'package:goipvc/services/date_verification.dart';
 import 'package:goipvc/ui/views/error.dart';

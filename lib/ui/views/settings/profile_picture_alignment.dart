@@ -3,7 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:goipvc/providers/settings_provider.dart';
 import 'package:goipvc/ui/widgets/profile_picture.dart';
 
-import '../../../models/myipvc_user.dart';
+import '../../../models/myipvc/user.dart';
 import '../../../providers/profile_provider.dart';
 
 class _PopUpNotifier extends StateNotifier<bool> {

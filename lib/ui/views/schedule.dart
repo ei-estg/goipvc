@@ -4,7 +4,7 @@ import 'package:goipvc/ui/widgets/lesson_details.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart';
 
 import '../../models/calendar_meeting.dart';
-import '../../models/myipvc_lesson.dart';
+import '../../models/myipvc/lesson.dart';
 import '../../providers/schedule_provider.dart';
 import 'error.dart';
 import 'loading.dart';
