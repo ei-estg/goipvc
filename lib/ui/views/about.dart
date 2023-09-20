@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:goipvc/ui/widgets/goipvc_logo.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class AboutView extends StatelessWidget {
@@ -21,7 +22,7 @@ class AboutView extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Image.asset("assets/logo.png"),
+            const GoIPVCLogo(),
             const Padding(
               padding: EdgeInsets.only(top: 16),
               child: Text("O goIPVC é uma interface alternativa à aplicação "
