@@ -47,12 +47,17 @@ class LessonCard<T> extends StatelessWidget {
                         Text(
                           lesson.hor_nome,
                           style: const TextStyle(fontSize: 18),
+                          overflow: TextOverflow.ellipsis,
                         ),
                         Text("Docente: ${lesson.nomesDocentes}",
                             style: const TextStyle(
                                 fontSize: 12, fontWeight: FontWeight.w300)
                         ),
                         Text("Sala: ${lesson.sala}",
+                            style: const TextStyle(
+                                fontSize: 12, fontWeight: FontWeight.w300)
+                        ),
+                        Text("Turno: ${lesson.hor_nome_turno}",
                             style: const TextStyle(
                                 fontSize: 12, fontWeight: FontWeight.w300)
                         ),

@@ -40,6 +40,7 @@ class Meeting {
     this.fullName,
     this.teacher,
     this.room,
+    this.type,
     this.originalColor,
     this.background,
     this.isAllDay
@@ -51,6 +52,7 @@ class Meeting {
   String fullName;
   String teacher;
   String room;
+  String type;
   String originalColor;
   Color background;
   bool isAllDay;

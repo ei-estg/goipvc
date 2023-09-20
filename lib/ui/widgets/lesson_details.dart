@@ -17,20 +17,36 @@ class LessonDetails extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           Text(details.fullName, textAlign: TextAlign.center),
-          Text("Sala ${details.room}", style: const TextStyle(fontSize: 16)),
+          const Padding(padding: EdgeInsets.symmetric(vertical: 8)),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
-              Text(
-                  "Inicio: ${DateFormat("HH:mm").format(details.from)}",
-                  style: const TextStyle(fontSize: 14)
+              Column(
+                children: [
+                  Text(
+                      "Turno: ${details.type}",
+                      style: const TextStyle(fontSize: 14)
+                  ),
+                  Text(
+                      "Inicio: ${DateFormat("HH:mm").format(details.from)}",
+                      style: const TextStyle(fontSize: 14)
+                  ),
+                ],
               ),
-              Text(
-                  "Fim: ${DateFormat("HH:mm").format(details.to)}",
-                  style: const TextStyle(fontSize: 14)
+              Column(
+                children: [
+                  Text(
+                      "Sala: ${details.room}",
+                      style: const TextStyle(fontSize: 14)
+                  ),
+                  Text(
+                      "Fim: ${DateFormat("HH:mm").format(details.to)}",
+                      style: const TextStyle(fontSize: 14)
+                  ),
+                ],
               )
             ],
-          )
+          ),
         ],
       ),
       content: Text(
