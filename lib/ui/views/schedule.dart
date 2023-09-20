@@ -23,6 +23,7 @@ class ScheduleView extends ConsumerWidget {
         lesson.hor_nome,
         lesson.nomesDocentes,
         lesson.sala,
+        lesson.hor_nome_turno,
         lesson.cor_valor,
         Color(int.parse(lesson.cor_valor.substring(1), radix: 16) + 0xFF000000),
         false

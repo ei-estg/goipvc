@@ -35,6 +35,8 @@ class ScheduleTab<T> extends StatelessWidget {
                 }
               }
 
+              todaySchedule.add(schedule[0]);
+
               if (todaySchedule.isEmpty) {
                 return const Center(
                   child: Column(
