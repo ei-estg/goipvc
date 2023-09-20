@@ -49,8 +49,10 @@ class ScheduleTab<T> extends StatelessWidget {
                   Expanded(
                     child: ListView(
                       children: [
+                        const Padding(padding: EdgeInsets.only(top: 4)),
                         for(var lesson in todaySchedule)
-                          LessonCard(lesson: lesson)
+                          LessonCard(lesson: lesson),
+                        const Padding(padding: EdgeInsets.only(bottom: 4)),
                       ],
                     ),
                   ),
