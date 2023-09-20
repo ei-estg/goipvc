@@ -48,7 +48,7 @@ class SettingsNotifier extends StateNotifier<Settings> {
     : super(Settings(
         colorScheme: sharedPreferences.getString("colorScheme") ?? 'system',
         theme: sharedPreferences.getString("theme") ?? 'system',
-        pictureAlignment: sharedPreferences.getString("pictureAlignment") ?? 'center'
+        pictureAlignment: sharedPreferences.getString("pictureAlignment") ?? 'Centro'
       ));
 
   void setTheme(String theme){
