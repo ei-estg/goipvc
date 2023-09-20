@@ -61,7 +61,7 @@ class LoginView extends ConsumerWidget {
 
     return Scaffold(
       body: Center(
-        child: Column(
+        child: AutofillGroup(child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             Padding(
@@ -70,22 +70,24 @@ class LoginView extends ConsumerWidget {
             ),
             Padding(
               padding: const EdgeInsets.fromLTRB(32,0,32,16),
-              child: TextField(
+              child: TextFormField(
                 decoration: const InputDecoration(
                     border: OutlineInputBorder(),
                     labelText: "Utilizador"
                 ),
+                autofillHints: const [AutofillHints.username],
                 controller: _usernameController,
               ),
             ),
             Padding(
               padding: const EdgeInsets.fromLTRB(32,0,32,16),
-              child: TextField(
+              child: TextFormField(
                 obscureText: true,
                 decoration: const InputDecoration(
                     border: OutlineInputBorder(),
                     labelText: "Palavra-passe"
                 ),
+                autofillHints: const [AutofillHints.password],
                 controller: _passwordController,
               ),
             ),
@@ -96,7 +98,7 @@ class LoginView extends ConsumerWidget {
             ),
           ],
         )
-      )
+      ))
     );
   }
 
