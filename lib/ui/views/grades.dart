@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:goipvc/models/myipvc_grade.dart';
+import 'package:goipvc/models/myipvc/grade.dart';
 import 'package:goipvc/providers/final_grade_provider.dart';
 import 'package:goipvc/providers/grades_provider.dart';
 import 'package:goipvc/ui/views/error.dart';
@@ -65,42 +65,6 @@ class GradesView extends ConsumerWidget {
         );
       }
     );
-
-
-    /*return FutureBuilder(
-      future: Future.wait([grades, finalGrade]),
-      builder: (context, AsyncSnapshot<List<dynamic>> snapshot) {
-        if(snapshot.hasData) {
-          return ListView(
-            children: <Widget>[
-              Padding(
-                  padding: const EdgeInsets.fromLTRB(20, 20, 20, 20),
-                  child: Column(
-                    children: <Widget>[
-                      const Text("Média global", style: TextStyle(fontSize: 32)),
-                      const Padding(padding: EdgeInsets.fromLTRB(0, 0, 0, 8)),
-                      Text(
-                        snapshot.data![1].toStringAsPrecision(4),
-                        style: const TextStyle(fontSize: 24),
-                      ),
-                    ],
-                  )
-              ),
-              for(var grade in snapshot.data![0]) GradeCard(grade: grade)
-            ],
-          );
-        } else if (snapshot.hasError) {
-          return ErrorView(error: "${snapshot.error}");
-        }
-
-        return const Center(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[CircularProgressIndicator()],
-            )
-        );
-      },
-    );*/
   }
 
 }

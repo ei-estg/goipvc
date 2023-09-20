@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../../models/myipvc_user.dart';
+import '../../models/myipvc/user.dart';
 import '../../providers/profile_provider.dart';
 import '../widgets/digital_card_container.dart';
 import '../widgets/profile_picture.dart';

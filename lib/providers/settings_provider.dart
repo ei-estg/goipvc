@@ -2,7 +2,7 @@ import 'dart:collection';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:goipvc/models/myipvc_user.dart';
+import 'package:goipvc/models/myipvc/user.dart';
 import 'package:goipvc/providers/profile_provider.dart';
 import 'package:goipvc/providers/sharedPreferencesProvider.dart';
 import 'package:goipvc/ui/themes/esce.dart';
@@ -48,7 +48,7 @@ class SettingsNotifier extends StateNotifier<Settings> {
     : super(Settings(
         colorScheme: sharedPreferences.getString("colorScheme") ?? 'system',
         theme: sharedPreferences.getString("theme") ?? 'system',
-        pictureAlignment: sharedPreferences.getString("pictureAlignment") ?? 'center'
+        pictureAlignment: sharedPreferences.getString("pictureAlignment") ?? 'Centro'
       ));
 
   void setTheme(String theme){

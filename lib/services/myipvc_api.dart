@@ -1,15 +1,16 @@
 import 'dart:async';
 import 'dart:convert';
 import 'package:dio/dio.dart';
-import 'package:goipvc/models/myipvc_curricular_unit.dart';
-import 'package:goipvc/models/myipvc_lesson.dart';
+import 'package:goipvc/models/myipvc/curricular_unit.dart';
+import 'package:goipvc/models/myipvc/exam.dart';
+import 'package:goipvc/models/myipvc/lesson.dart';
 import 'package:goipvc/services/encryptor.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import '../models/myipvc_card.dart';
-import '../models/myipvc_detailed_curricular_unit.dart';
-import '../models/myipvc_grade.dart';
-import '../models/myipvc_user.dart';
+import '../models/myipvc/card.dart';
+import '../models/myipvc/detailed_curricular_unit.dart';
+import '../models/myipvc/grade.dart';
+import '../models/myipvc/user.dart';
 
 class MyIPVCAPI {
   final _dio = Dio();
@@ -214,8 +215,6 @@ class MyIPVCAPI {
   }
 
   Future<MyIPVCCard> getDigitalCard() async {
-    print("start");
-
     final response = await _dio.get(
       "$_baseURL/api/myipvc/digitalcard/",
       data: jsonEncode(<String, String>{
@@ -228,8 +227,23 @@ class MyIPVCAPI {
     response.data["front"] = response.data["front"].substring(22);
     response.data["back"] = response.data["back"].substring(22);
 
-    print("hello?");
-
     return MyIPVCCard.fromJson(response.data);
+  }
+
+  Future<List<MyIPVCExam>> getExams() async {
+    final response = await _dio.post(
+      "$_baseURL/api/academicos/obtemCalendarioExames",
+      data: jsonEncode(<String, String>{
+        'token': await getToken(),
+      }),
+    );
+
+    List<MyIPVCExam> exams = [];
+
+    for(var exam in response.data["data"]){
+      exams.add(MyIPVCExam.fromJson(exam));
+    }
+
+    return exams;
   }
 }
