@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:goipvc/models/myipvc_curricular_unit.dart';
-import 'package:goipvc/models/myipvc_detailed_curricular_unit.dart';
+import 'package:goipvc/models/myipvc/curricular_unit.dart';
+import 'package:goipvc/models/myipvc/detailed_curricular_unit.dart';
 import 'package:goipvc/services/myipvc_api.dart';
 import 'package:goipvc/ui/views/error.dart';
 import 'package:goipvc/ui/views/loading.dart';

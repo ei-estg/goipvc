@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'myipvc_detailed_curricular_unit.dart';
+part of 'detailed_curricular_unit.dart';
 
 // **************************************************************************
 // JsonSerializableGenerator

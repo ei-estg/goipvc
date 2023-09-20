@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'myipvc_grade.dart';
+part of 'grade.dart';
 
 // **************************************************************************
 // JsonSerializableGenerator

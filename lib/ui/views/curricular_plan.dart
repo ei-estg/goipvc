@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:goipvc/models/myipvc_curricular_unit.dart';
+import 'package:goipvc/models/myipvc/curricular_unit.dart';
 import 'package:goipvc/providers/curricular_plan_provider.dart';
 import 'package:goipvc/ui/widgets/curricular_unit_button.dart';
 

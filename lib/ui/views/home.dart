@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:goipvc/models/myipvc_user.dart';
+import 'package:goipvc/models/myipvc/user.dart';
 import 'package:goipvc/providers/profile_provider.dart';
 import 'package:goipvc/ui/views/coming_soon.dart';
 import 'package:goipvc/ui/views/error.dart';
