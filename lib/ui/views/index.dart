@@ -36,35 +36,41 @@ class _IndexViewState extends State<IndexView> {
             )
           ],
         ),
-        bottomNavigationBar: NavigationBar(
-          onDestinationSelected: (int index) {
-            setState(() {
-              currentPageIndex = index;
-            });
-          },
-          indicatorColor: Theme.of(context).colorScheme.primary,
-          selectedIndex: currentPageIndex,
-          destinations: const <Widget>[
-            NavigationDestination(
-              selectedIcon: Icon(Icons.home),
-              icon: Icon(Icons.home_outlined),
-              label: 'Início',
-            ),
-            NavigationDestination(
-              selectedIcon: Icon(Icons.today),
-              icon: Icon(Icons.today_outlined),
-              label: 'Horário',
-            ),
-            NavigationDestination(
-              selectedIcon: Icon(Icons.description),
-              icon: Icon(Icons.description_outlined),
-              label: 'Avaliações',
-            ),
-            NavigationDestination(
-              selectedIcon: Icon(Icons.menu),
-              icon: Icon(Icons.menu_outlined),
-              label: 'Menu',
-            ),
+        bottomNavigationBar: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            const Divider(height: 0),
+            NavigationBar(
+              onDestinationSelected: (int index) {
+                setState(() {
+                  currentPageIndex = index;
+                });
+              },
+              indicatorColor: Theme.of(context).colorScheme.primary,
+              selectedIndex: currentPageIndex,
+              destinations: const <Widget>[
+                NavigationDestination(
+                  selectedIcon: Icon(Icons.home),
+                  icon: Icon(Icons.home_outlined),
+                  label: 'Início',
+                ),
+                NavigationDestination(
+                  selectedIcon: Icon(Icons.today),
+                  icon: Icon(Icons.today_outlined),
+                  label: 'Horário',
+                ),
+                NavigationDestination(
+                  selectedIcon: Icon(Icons.description),
+                  icon: Icon(Icons.description_outlined),
+                  label: 'Avaliações',
+                ),
+                NavigationDestination(
+                  selectedIcon: Icon(Icons.menu),
+                  icon: Icon(Icons.menu_outlined),
+                  label: 'Menu',
+                ),
+              ],
+            )
           ],
         ),
         body: AnimatedSwitcher(

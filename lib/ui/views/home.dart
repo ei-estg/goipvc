@@ -135,19 +135,14 @@ class HomeViewState extends State<HomeView> with SingleTickerProviderStateMixin 
                     ),
                     Expanded(
                       flex: 1,
-                      child: Card(
-                        elevation: 2,
-                        margin: const EdgeInsets.all(16.0),
-                            child: TabBarView(
-                            controller: _tabController,
-                            children: const <Widget>[
-                              ScheduleTab(),
-                              ComingSoonView()
-                            ],
-                          )
-
-                        )
+                      child: TabBarView(
+                        controller: _tabController,
+                        children: const <Widget>[
+                          ScheduleTab(),
+                          ComingSoonView()
+                        ],
                       )
+                    )
                   ],
                 )
               )

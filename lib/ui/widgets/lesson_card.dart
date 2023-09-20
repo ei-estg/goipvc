@@ -31,7 +31,7 @@ class LessonCard<T> extends StatelessWidget {
     }
 
     return Card(
-      color: Theme.of(context).colorScheme.surfaceVariant,
+      color: Theme.of(context).colorScheme.surface,
       margin: const EdgeInsets.fromLTRB(12, 6, 12, 6),
       elevation: 2,
       child: Row(
