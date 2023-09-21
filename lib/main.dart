@@ -30,7 +30,7 @@ class MyIPVCApp extends ConsumerWidget {
 
     return DynamicColorBuilder(builder: (lightColorScheme, darkColorScheme) {
       return MaterialApp(
-        title: 'my ipvc',
+        title: 'goIPVC',
         localizationsDelegates: const [
           GlobalMaterialLocalizations.delegate,
           GlobalCupertinoLocalizations.delegate,
