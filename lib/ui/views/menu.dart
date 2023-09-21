@@ -4,8 +4,8 @@ import 'package:goipvc/ui/views/about.dart';
 import 'package:goipvc/ui/views/academic_calendar.dart';
 import 'package:goipvc/ui/views/curricular_plan.dart';
 import 'package:goipvc/ui/views/exams.dart';
+import 'package:goipvc/ui/views/grades.dart';
 import 'package:goipvc/ui/views/login.dart';
-import 'package:goipvc/ui/views/school_map.dart';
 import 'package:goipvc/ui/views/settings.dart';
 import 'package:goipvc/ui/widgets/menu_list_tile.dart';
 import 'package:goipvc/ui/widgets/profile_card.dart';
@@ -54,12 +54,12 @@ class _MenuViewState extends State<MenuView> {
             }
         ),
         MenuListTile(
-            icon: const Icon(Icons.map),
-            text: const Text("Plantas"),
+            icon: const Icon(Icons.description),
+            text: const Text("Avaliações"),
             onTap: () {
               Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => const SchoolMapView())
+                  MaterialPageRoute(builder: (context) => const GradesView())
               );
             }
         ),

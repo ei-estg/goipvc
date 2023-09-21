@@ -6,11 +6,6 @@ class SchoolMapView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text("Plantas"),
-      ),
-      body: const ComingSoonView(),
-    );
+    return const ComingSoonView();
   }
 }
