@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:goipvc/providers/profile_provider.dart';
+import 'package:goipvc/providers/settings_provider.dart';
+import 'package:goipvc/providers/sharedPreferencesProvider.dart';
 import 'package:goipvc/services/myipvc_api.dart';
 import 'package:goipvc/ui/views/index.dart';
 import 'package:goipvc/ui/widgets/ipvc_logo.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class _LoadingNotifier extends StateNotifier<bool> {
   _LoadingNotifier() : super(false);
@@ -21,6 +24,7 @@ class LoginView extends ConsumerWidget {
   LoginView({super.key});
 
   Future<void> _login(BuildContext context, WidgetRef ref) async {
+    SharedPreferences prefs = ref.read(sharedPreferencesProvider);
     ref.read(_loadingProvider.notifier).set(true);
     
     try {
@@ -33,6 +37,10 @@ class LoginView extends ConsumerWidget {
         throw Exception("Utilizador/Palavra-Passe incorreto");
       } else {
         ref.read(profileProvider.notifier).set(user);
+
+        if(prefs.getString("theme") == null) {
+          ref.read(settingsProvider.notifier).setColorScheme("school");
+        }
 
         if(context.mounted) {
           Navigator.pushReplacement(
