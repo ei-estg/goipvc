@@ -124,7 +124,7 @@ class HomeViewState extends State<HomeView> with SingleTickerProviderStateMixin 
                       controller: _tabController,
                       tabs: const <Tab>[
                         Tab(
-                          text: "Horários",
+                          text: "Aulas",
                           icon: Icon(Icons.schedule),
                         ),
                         Tab(

@@ -12,7 +12,7 @@ class InfoView extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             const Icon(Icons.info, size: 48),
-            Text(message, style: const TextStyle(fontSize: 24)),
+            Text(message, style: const TextStyle(fontSize: 16)),
           ],
         )
     );
