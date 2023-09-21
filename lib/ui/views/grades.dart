@@ -16,55 +16,57 @@ class GradesView extends ConsumerWidget {
     AsyncValue<List<MyIPVCGrade>> grades = ref.watch(gradesProvider);
     AsyncValue<double> finalGrade = ref.watch(finalGradeProvider);
 
-    return grades.when(
-      loading: () => const LoadingView(),
-      error: (err, stack) => ErrorView(error: "$err"),
-      data: (grades) {
-        return finalGrade.when(
-            error: (err, stack) => ErrorView(error: "$err"),
-            data: (finalGrade) {
-              if(finalGrade == -1) {
-                return const Center(
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: <Widget>[
-                        Icon(Icons.info, size: 48),
-                        Text("Não existem avaliações", textAlign: TextAlign.center)
-                      ],
-                    )
-                );
-              }
+    return Scaffold(
+      appBar: AppBar(title: const Text("Avaliações")),
+      body: grades.when(
+          loading: () => const LoadingView(),
+          error: (err, stack) => ErrorView(error: "$err"),
+          data: (grades) {
+            return finalGrade.when(
+                error: (err, stack) => ErrorView(error: "$err"),
+                data: (finalGrade) {
+                  if(finalGrade == -1) {
+                    return const Center(
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: <Widget>[
+                            Icon(Icons.info, size: 48),
+                            Text("Não existem avaliações", textAlign: TextAlign.center)
+                          ],
+                        )
+                    );
+                  }
 
-              return ListView(
-                children: <Widget>[
-                  Padding(
-                      padding: const EdgeInsets.fromLTRB(20, 20, 20, 20),
-                      child: Column(
-                        children: <Widget>[
-                          const Text("Média global", style: TextStyle(fontSize: 32)),
-                          const Padding(padding: EdgeInsets.fromLTRB(0, 0, 0, 8)),
-                          Text(
-                            finalGrade.toStringAsPrecision(4),
-                            style: const TextStyle(fontSize: 24),
-                          ),
-                        ],
+                  return ListView(
+                    children: <Widget>[
+                      Padding(
+                          padding: const EdgeInsets.fromLTRB(20, 20, 20, 20),
+                          child: Column(
+                            children: <Widget>[
+                              const Text("Média global", style: TextStyle(fontSize: 32)),
+                              const Padding(padding: EdgeInsets.fromLTRB(0, 0, 0, 8)),
+                              Text(
+                                finalGrade.toStringAsPrecision(4),
+                                style: const TextStyle(fontSize: 24),
+                              ),
+                            ],
+                          )
+                      ),
+                      Padding(
+                          padding: const EdgeInsets.fromLTRB(10, 0, 10, 40),
+                          child: Column(
+                              children: <Widget>[
+                                for(var grade in grades) GradeCard(grade: grade)
+                              ]
+                          )
                       )
-                  ),
-                  Padding(
-                      padding: const EdgeInsets.fromLTRB(10, 0, 10, 40),
-                      child: Column(
-                      children: <Widget>[
-                        for(var grade in grades) GradeCard(grade: grade)
-                      ]
-                    )
-                  )
-                ],
-              );
-            },
-            loading: () => const LoadingView()
-        );
-      }
+                    ],
+                  );
+                },
+                loading: () => const LoadingView()
+            );
+          }
+      ),
     );
   }
-
 }

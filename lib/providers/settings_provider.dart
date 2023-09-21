@@ -46,8 +46,8 @@ class SettingsNotifier extends StateNotifier<Settings> {
 
   SettingsNotifier(this.sharedPreferences, this.profile)
     : super(Settings(
-        colorScheme: sharedPreferences.getString("colorScheme") ?? 'system',
-        theme: sharedPreferences.getString("theme") ?? 'system',
+        colorScheme: sharedPreferences.getString("colorScheme") ?? 'default',
+        theme: sharedPreferences.getString("theme") ?? 'light',
         pictureAlignment: sharedPreferences.getString("pictureAlignment") ?? 'Centro'
       ));
 

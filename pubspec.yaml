@@ -29,6 +29,7 @@ dependencies:
   syncfusion_flutter_calendar: ^23.1.36
   syncfusion_localizations: ^23.1.36
   url_launcher: ^6.1.14
+  photo_view: ^0.14.0
 
 dev_dependencies:
   flutter_test:
@@ -52,3 +53,8 @@ flutter:
      - assets/ESS-logo.svg
      - assets/ESTG-logo.svg
      - assets/logo.png
+     - assets/floors/estg/floor1.png
+     - assets/floors/estg/floor2.png
+     - assets/floors/estg/floor3.png
+
+     - assets/calendar.png

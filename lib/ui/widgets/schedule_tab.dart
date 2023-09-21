@@ -4,6 +4,7 @@ import 'package:goipvc/models/myipvc/lesson.dart';
 import 'package:goipvc/providers/schedule_provider.dart';
 import 'package:goipvc/services/date_verification.dart';
 import 'package:goipvc/ui/views/error.dart';
+import 'package:goipvc/ui/views/info.dart';
 import 'package:goipvc/ui/views/loading.dart';
 import 'package:goipvc/ui/widgets/lesson_card.dart';
 
@@ -30,18 +31,20 @@ class ScheduleTab<T> extends StatelessWidget {
               List<MyIPVCLesson> todaySchedule = [];
 
               for(var lesson in schedule){
+                DateTime date = DateTime.parse(lesson.data_hora_ini);
+                DateTime now = DateTime.now();
+
+                if(date.difference(now).inDays == 0) {
+                  return const InfoView(message: "Não existem mais aulas hoje");
+                }
+
                 if(!verifyIfLessonExpired(lesson)){
                   todaySchedule.add(lesson);
                 }
               }
-
+              
               if (todaySchedule.isEmpty) {
-                return const Center(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [Text("Não existem aulas hoje")],
-                  ),
-                );
+                return const InfoView(message: "Não existem aulas hoje");
               }
 
               return Column(
