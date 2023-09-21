@@ -29,20 +29,25 @@ class ScheduleTab<T> extends StatelessWidget {
             error: (err, stack) => ErrorView(error: "$err"),
             data: (schedule) {
               List<MyIPVCLesson> todaySchedule = [];
+              bool lessonsToday = false;
 
               for(var lesson in schedule){
                 DateTime date = DateTime.parse(lesson.data_hora_ini);
                 DateTime now = DateTime.now();
 
                 if(date.difference(now).inDays == 0) {
-                  return const InfoView(message: "Não existem mais aulas hoje");
+                  lessonsToday = true;
                 }
 
                 if(!verifyIfLessonExpired(lesson)){
                   todaySchedule.add(lesson);
                 }
               }
-              
+
+              if(!lessonsToday) {
+                return const InfoView(message: "Não existem mais aulas hoje");
+              }
+
               if (todaySchedule.isEmpty) {
                 return const InfoView(message: "Não existem aulas hoje");
               }
