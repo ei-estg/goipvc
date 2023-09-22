@@ -18,7 +18,7 @@ jobs:
       - id: read-version
         uses: NiklasLehnfeld/flutter-version-number-action@main
         with:
-          file-path: /pubspec.yaml
+          file-path: pubspec.yaml
       - name: Push to Releases
         uses: ncipollo/release-action@v1
         with:
