@@ -7,7 +7,7 @@ name: Deploy
 
 on:
   push:
-    branches: [ "main" ]
+    branches: [ "dev" ]
 
 jobs:
   build:
@@ -15,25 +15,12 @@ jobs:
     runs-on: macos-latest
     steps:
       - uses: actions/checkout@v1
-      - uses: actions/setup-java@v1
+      - id: read-version
+        uses: NiklasLehnfeld/flutter-version-number-action@main
         with:
-          java-version: '12.x'
-      - uses: subosito/flutter-action@v1
-        with:
-          channel: 'stable'
-      - run: flutter pub get
-      - run: flutter build apk
-      - run:  |
-          flutter build ios --no-codesign
-          cd build/ios/iphoneos
-          mkdir Payload
-          cd Payload
-          ln -s ../Runner.app
-          cd ..
-          zip -r app.ipa Payload
+          file-path: /pubspec.yaml
       - name: Push to Releases
         uses: ncipollo/release-action@v1
         with:
-          artifacts: "build/app/outputs/apk/release/app-release.apk, build/ios/iphoneos/app.ipa"
-          tag: v0.${{ github.run_number }}
+          tag: v${{ steps.read-version.outputs.version-number }}
           token: ${{ secrets.GH_TOKEN }}
