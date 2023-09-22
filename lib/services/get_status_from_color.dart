@@ -16,7 +16,5 @@ final Map<String, String> _colorMap = HashMap.from({
 });
 
 String getStatusFromColor(String color) {
-  print(color);
-
   return _colorMap[color.toLowerCase()] ?? "Desconhecido";
 }
