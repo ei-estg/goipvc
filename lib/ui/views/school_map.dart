@@ -28,16 +28,20 @@ class SchoolMapView extends ConsumerWidget {
       return const InfoView(message: "Não existem plantas para a sua escola");
     }
 
-    return ListView(
+    return SingleChildScrollView(child: Column(
       children: [
         for(var map in schoolMaps[profile.unidade_organica]!)
-          ListTile(
-            title: Image.asset(map),
-            onTap: () {
-              _openImage(context, map);
-            },
+          Padding(
+            padding: const EdgeInsets.symmetric(
+              vertical: 4,
+              horizontal: 8
+            ),
+            child: GestureDetector(
+              onTap: () {_openImage(context, map);},
+              child: Image.asset(map),
+            ),
           )
       ],
-    );
+    ));
   }
 }

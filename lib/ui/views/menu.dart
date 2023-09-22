@@ -24,22 +24,12 @@ class _MenuViewState extends State<MenuView> {
       children: [
         const ProfileCard(),
         MenuListTile(
-            icon: const Icon(Icons.date_range),
-            text: const Text("Calendário académico"),
+            icon: const Icon(Icons.description),
+            text: const Text("Avaliações"),
             onTap: () {
               Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => const AcademicCalendarView())
-              );
-            }
-        ),
-        MenuListTile(
-            icon: const Icon(Icons.calendar_today),
-            text: const Text("Exames"),
-            onTap: () {
-              Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => const ExamsView())
+                  MaterialPageRoute(builder: (context) => const GradesView())
               );
             }
         ),
@@ -54,12 +44,22 @@ class _MenuViewState extends State<MenuView> {
             }
         ),
         MenuListTile(
-            icon: const Icon(Icons.description),
-            text: const Text("Avaliações"),
+            icon: const Icon(Icons.calendar_today),
+            text: const Text("Exames"),
             onTap: () {
               Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => const GradesView())
+                  MaterialPageRoute(builder: (context) => const ExamsView())
+              );
+            }
+        ),
+        MenuListTile(
+            icon: const Icon(Icons.date_range),
+            text: const Text("Calendário académico"),
+            onTap: () {
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const AcademicCalendarView())
               );
             }
         ),
