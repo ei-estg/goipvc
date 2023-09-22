@@ -50,8 +50,9 @@ class GradeCard<T> extends StatelessWidget {
                           height: 50,
                           child: CircularProgressIndicator(
                             strokeWidth: 3,
-                            backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-                            value: (double.parse(grade.nota)/20),
+                            color: Theme.of(context).colorScheme.primaryContainer,
+                            backgroundColor: Theme.of(context).colorScheme.primary,
+                            value: 1.0 - (double.parse(grade.nota)/20),
                           ),
                         ),
                       ),
