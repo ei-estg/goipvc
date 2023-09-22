@@ -18,6 +18,13 @@ class _IndexViewState extends State<IndexView> {
 
   @override
   Widget build(BuildContext context) {
+    final pages = <Widget>[
+      const HomeView(),
+      const ScheduleView(),
+      const SchoolMapView(),
+      const MenuView()
+    ];
+
     return Scaffold(
         appBar: AppBar(
           centerTitle: false,
@@ -73,17 +80,23 @@ class _IndexViewState extends State<IndexView> {
             )
           ],
         ),
-        body: AnimatedSwitcher(
-          duration: const Duration(milliseconds: 200),
-          transitionBuilder: (Widget child, Animation<double> animation) {
-            return FadeTransition(opacity: animation, child: child);
+        body: WillPopScope(
+          onWillPop: () async {
+            if(currentPageIndex != 0) {
+              setState(() {
+                currentPageIndex = 0;
+              });
+              return false;
+            }
+            return true;
           },
-          child: <Widget>[
-            const HomeView(),
-            const ScheduleView(),
-            const SchoolMapView(),
-            const MenuView()
-          ][currentPageIndex],
+          child: AnimatedSwitcher(
+            duration: const Duration(milliseconds: 200),
+            transitionBuilder: (Widget child, Animation<double> animation) {
+              return FadeTransition(opacity: animation, child: child);
+            },
+            child: pages[currentPageIndex],
+          ),
         )
     );
   }
