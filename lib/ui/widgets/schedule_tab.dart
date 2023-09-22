@@ -44,7 +44,7 @@ class ScheduleTab<T> extends StatelessWidget {
                 }
               }
 
-              if(!lessonsToday) {
+              if(lessonsToday) {
                 return const InfoView(message: "Não existem mais aulas hoje");
               }
 

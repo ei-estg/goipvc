@@ -4,14 +4,14 @@ import 'package:goipvc/ui/views/login.dart';
 
 import 'index.dart';
 
-class VerifyAuthView extends StatefulWidget {
-  const VerifyAuthView({super.key});
+class InitView extends StatefulWidget {
+  const InitView({super.key});
 
   @override
-  State<VerifyAuthView> createState() => _VerifyAuthViewState();
+  State<InitView> createState() => _InitViewState();
 }
 
-class _VerifyAuthViewState extends State<VerifyAuthView> {
+class _InitViewState extends State<InitView> {
   @override
   void initState() {
     super.initState();

@@ -5,6 +5,9 @@ import 'package:goipvc/ui/views/menu.dart';
 import 'package:goipvc/ui/views/schedule.dart';
 import 'package:goipvc/ui/views/school_map.dart';
 import 'package:goipvc/ui/widgets/logo.dart';
+import 'package:url_launcher/url_launcher.dart';
+
+import '../../services/github.dart';
 
 class IndexView extends StatefulWidget {
   const IndexView({super.key});
@@ -15,6 +18,33 @@ class IndexView extends StatefulWidget {
 
 class _IndexViewState extends State<IndexView> {
   int currentPageIndex = 0;
+
+  @override
+  void initState(){
+    super.initState();
+
+    getNewRelease().then((version) => {
+      if(version != null){
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text("Nova versão disponível: $version"),
+                TextButton(
+                    onPressed: () {
+                      launchUrl(Uri.parse("https://github.com/joaoalves03/goipvc/releases/latest"));
+                    },
+                    child: const Text("Transferir")
+                )
+              ],
+            ),
+            duration: const Duration(seconds: 5), // Adjust the duration as needed
+          ),
+        )
+      }
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
