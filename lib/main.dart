@@ -5,7 +5,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:goipvc/models/settings.dart';
 import 'package:goipvc/providers/settings_provider.dart';
 import 'package:goipvc/providers/sharedPreferencesProvider.dart';
-import 'package:goipvc/ui/views/verify_auth.dart';
+import 'package:goipvc/ui/views/init.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:syncfusion_localizations/syncfusion_localizations.dart';
 
@@ -56,7 +56,7 @@ class MyIPVCApp extends ConsumerWidget {
           : ref.read(settingsProvider.notifier).getColorScheme()["dark"],
         themeMode: ref.read(settingsProvider.notifier).getTheme(),
         debugShowCheckedModeBanner: false,
-        home: const VerifyAuthView(),
+        home: const InitView(),
       );
     });
   }
