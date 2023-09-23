@@ -27,7 +27,7 @@ class ThemeSettings<T> extends ConsumerWidget {
             mainAxisSize: MainAxisSize.min,
             children: [
               RadioListTile<String>(
-                title: const Text("Dispositvo"),
+                title: const Text("Dispositivo"),
                 value: "system",
                 groupValue: ref.read(settingsProvider).colorScheme,
                 onChanged: (String? colorScheme) {
@@ -81,7 +81,7 @@ class ThemeSettings<T> extends ConsumerWidget {
             mainAxisSize: MainAxisSize.min,
             children: [
               RadioListTile<String>(
-                title: const Text("Dispositvo"),
+                title: const Text("Dispositivo"),
                 value: "system",
                 groupValue: ref.read(settingsProvider).theme,
                 onChanged: (String? theme) {
