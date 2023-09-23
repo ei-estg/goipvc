@@ -53,6 +53,6 @@ jobs:
       - name: Push to Releases
         uses: ncipollo/release-action@v1
         with:
-          artifacts: ${{ format("{ 0 },build/ios/iphoneos/app.ipa", steps.sign_app.outputs.signedReleaseFile) }}
+          artifacts: ${{ format("{0},build/ios/iphoneos/app.ipa", steps.sign_app.outputs.signedReleaseFile) }}
           tag: "test"
           token: ${{ secrets.GH_TOKEN }}
