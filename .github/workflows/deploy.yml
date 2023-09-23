@@ -26,7 +26,7 @@ jobs:
         with:
           channel: 'stable'
       - run: flutter pub get
-      - run: flutter build apk
+      - run: flutter build apk --release
 
       - uses: r0adkll/sign-android-release@v1
         name: Sign app APK
@@ -41,3 +41,18 @@ jobs:
         with:
           name: Signed app bundle
           path: ${{steps.sign_app.outputs.signedReleaseFile}}
+
+      - run: |
+          flutter build ios --no-codesign
+          cd build/ios/iphoneos
+          mkdir Payload
+          cd Payload
+          ln -s ../Runner.app
+          cd ..
+          zip -r app.ipa Payload
+      - name: Push to Releases
+        uses: ncipollo/release-action@v1
+        with:
+          artifacts: ${{ format("{ 0 },build/ios/iphoneos/app.ipa", steps.sign_app.outputs.signedReleaseFile) }}
+          tag: "test"
+          token: ${{ secrets.GH_TOKEN }}
