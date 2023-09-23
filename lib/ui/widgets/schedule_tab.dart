@@ -35,7 +35,10 @@ class ScheduleTab<T> extends StatelessWidget {
                 DateTime date = DateTime.parse(lesson.data_hora_ini);
                 DateTime now = DateTime.now();
 
-                if(date.difference(now).inDays == 0) {
+                if(DateTime(date.year,date.month,date.day)
+                    .difference(DateTime(now.year,now.month,now.day)).inDays
+                    == 0
+                ) {
                   lessonsToday = true;
                 }
 

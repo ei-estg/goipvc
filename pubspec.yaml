@@ -2,7 +2,7 @@ name: goipvc
 description: A different frontend for the myipvc app
 publish_to: 'none'
 
-version: 0.18.0
+version: 0.19.0
 
 environment:
   sdk: '>=3.1.0 <4.0.0'
@@ -53,8 +53,12 @@ flutter:
      - assets/ESS-logo.svg
      - assets/ESTG-logo.svg
      - assets/logo.png
-     - assets/floors/estg/floor1.png
-     - assets/floors/estg/floor2.png
-     - assets/floors/estg/floor3.png
+
+     - assets/floors/estg/dark1.png
+     - assets/floors/estg/dark2.png
+     - assets/floors/estg/dark3.png
+     - assets/floors/estg/light1.png
+     - assets/floors/estg/light2.png
+     - assets/floors/estg/light3.png
 
      - assets/calendar.png

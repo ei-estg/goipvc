@@ -1,8 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:goipvc/ui/widgets/goipvc_logo.dart';
+import 'package:package_info_plus/package_info_plus.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-class AboutView extends StatelessWidget {
+final _versionProvider = FutureProvider<String>((ref) async {
+  return (await PackageInfo.fromPlatform()).version;
+});
+
+class AboutView extends ConsumerWidget {
   const AboutView({super.key});
 
   Future<void> _launchUrl() async {
@@ -12,7 +18,9 @@ class AboutView extends StatelessWidget {
   }
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final version = ref.watch(_versionProvider);
+
     return Scaffold(
       appBar: AppBar(
         title: const Text("Sobre"),
@@ -23,11 +31,24 @@ class AboutView extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             const GoIPVCLogo(),
-            const Padding(
-              padding: EdgeInsets.only(top: 16),
-              child: Text("O goIPVC é uma interface alternativa à aplicação "
-                  "oficial do IPVC, \"my ipvc\".")
+            Padding(
+              padding: const EdgeInsets.only(top: 16),
+              child: Row(
+                children: [
+                  const Text(
+                      "Versão: ",
+                      style: TextStyle(fontWeight: FontWeight.bold)
+                  ),
+                  version.when(
+                      loading: () => const SizedBox(width: 10, height: 10, child: CircularProgressIndicator()),
+                      error: (err, stack) => const Text("?"),
+                      data: (version) => Text(version)
+                  )
+                ],
+              ),
             ),
+            const Text("O goIPVC é uma interface alternativa à aplicação "
+                "oficial do IPVC, \"my ipvc\"."),
             const Divider(),
             const Text(
               "Aviso legal:",
