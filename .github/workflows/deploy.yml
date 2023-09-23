@@ -7,7 +7,7 @@ name: Deploy
 
 on:
   push:
-    branches: [ "main" ]
+    branches: [ "dev" ]
 
 jobs:
   build:
@@ -27,17 +27,17 @@ jobs:
           channel: 'stable'
       - run: flutter pub get
       - run: flutter build apk
-      - run:  |
-          flutter build ios --no-codesign
-          cd build/ios/iphoneos
-          mkdir Payload
-          cd Payload
-          ln -s ../Runner.app
-          cd ..
-          zip -r app.ipa Payload
-      - name: Push to Releases
-        uses: ncipollo/release-action@v1
+
+      - uses: r0adkll/sign-android-release@v1
+        name: Sign app APK
+        id: sign_app
         with:
-          artifacts: "build/app/outputs/apk/release/app-release.apk, build/ios/iphoneos/app.ipa"
-          tag: v${{ steps.read-version.outputs.version-number }}
-          token: ${{ secrets.GH_TOKEN }}
+          releaseDirectory: build/app/outputs/apk/release/
+          signingKeyBase64: ${{ secrets.SIGNING_KEY }}
+          alias: ${{ secrets.ALIAS }}
+          keyStorePassword: ${{ secrets.KEY_STORE_PASSWORD }}
+          keyPassword: ${{ secrets.KEY_PASSWORD }}
+      - uses: actions/upload-artifact@v2
+        with:
+          name: Signed app bundle
+          path: ${{steps.sign_app.outputs.signedReleaseFile}}
