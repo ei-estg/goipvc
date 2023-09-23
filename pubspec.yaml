@@ -53,8 +53,12 @@ flutter:
      - assets/ESS-logo.svg
      - assets/ESTG-logo.svg
      - assets/logo.png
-     - assets/floors/estg/floor1.png
-     - assets/floors/estg/floor2.png
-     - assets/floors/estg/floor3.png
+
+     - assets/floors/estg/dark1.png
+     - assets/floors/estg/dark2.png
+     - assets/floors/estg/dark3.png
+     - assets/floors/estg/light1.png
+     - assets/floors/estg/light2.png
+     - assets/floors/estg/light3.png
 
      - assets/calendar.png

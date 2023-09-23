@@ -5,8 +5,17 @@ final schoolMaps = {
   "ESE": [],
   "ESS": [],
   "ESTG": [
-    "assets/floors/estg/floor1.png",
-    "assets/floors/estg/floor2.png",
-    "assets/floors/estg/floor3.png",
+    {
+      "light": "assets/floors/estg/light1.png",
+      "dark": "assets/floors/estg/dark1.png"
+    },
+    {
+      "light": "assets/floors/estg/light2.png",
+      "dark": "assets/floors/estg/dark2.png"
+    },
+    {
+      "light": "assets/floors/estg/light3.png",
+      "dark": "assets/floors/estg/dark3.png"
+    },
   ]
 };

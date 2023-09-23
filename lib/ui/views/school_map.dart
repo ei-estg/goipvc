@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:goipvc/models/myipvc/user.dart';
 import 'package:goipvc/providers/profile_provider.dart';
+import 'package:goipvc/providers/settings_provider.dart';
 import 'package:goipvc/ui/floors.dart';
 import 'package:goipvc/ui/views/error.dart';
 import 'package:goipvc/ui/views/info.dart';
@@ -21,6 +23,19 @@ class SchoolMapView extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     MyIPVCUser? profile = ref.watch(profileProvider);
+    final settings = ref.watch(settingsProvider);
+    final systemTheme = SchedulerBinding.instance.platformDispatcher.platformBrightness;
+    var theme = "";
+
+    if(settings.theme == "system") {
+      if (systemTheme == Brightness.dark) {
+        theme = "dark";
+      } else {
+        theme = "light";
+      }
+    } else {
+      theme = settings.theme;
+    }
 
     if(profile == null) return const ErrorView(error: "Erro a obter escola");
 
@@ -37,8 +52,8 @@ class SchoolMapView extends ConsumerWidget {
               horizontal: 8
             ),
             child: GestureDetector(
-              onTap: () {_openImage(context, map);},
-              child: Image.asset(map),
+              onTap: () {_openImage(context, map[theme]);},
+              child: Image.asset(map[theme]),
             ),
           )
       ],
