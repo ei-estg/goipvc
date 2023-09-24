@@ -32,7 +32,9 @@ class _IndexViewState extends State<IndexView> {
             content: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text("Nova versão disponível: $version"),
+                Text(
+                    "Nova versão disponível: $version",
+                ),
                 TextButton(
                     onPressed: () {
                       if(Platform.isAndroid){
@@ -57,7 +59,10 @@ class _IndexViewState extends State<IndexView> {
                         launchUrl(Uri.parse("https://github.com/joaoalves03/goipvc/releases/latest"));
                       }
                     },
-                    child: const Text("Transferir")
+                    child: Text(
+                      "Transferir",
+                      style: TextStyle(color: Theme.of(context).colorScheme.surface),
+                    )
                 )
               ],
             ),
