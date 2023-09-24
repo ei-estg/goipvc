@@ -32,13 +32,19 @@ class ScheduleTab<T> extends StatelessWidget {
               bool lessonsToday = false;
 
               for(var lesson in schedule){
-                DateTime date = DateTime.parse(lesson.data_hora_ini);
-                DateTime now = DateTime.now();
+                DateTime lessonDate = DateTime.parse(lesson.data_hora_ini);
+                lessonDate = DateTime(
+                  lessonDate.year,
+                  lessonDate.month,
+                  lessonDate.day
+                );
+                DateTime now = DateTime(
+                    DateTime.now().year,
+                    DateTime.now().month,
+                    DateTime.now().day
+                );
 
-                if(DateTime(date.year,date.month,date.day)
-                    .difference(DateTime(now.year,now.month,now.day)).inDays
-                    == 0
-                ) {
+                if(lessonDate.difference(now).inDays == 0){
                   lessonsToday = true;
                 }
 
@@ -47,11 +53,11 @@ class ScheduleTab<T> extends StatelessWidget {
                 }
               }
 
-              if(lessonsToday) {
-                return const InfoView(message: "Não existem mais aulas hoje");
-              }
-
               if (todaySchedule.isEmpty) {
+                if(lessonsToday) {
+                  return const InfoView(message: "Não existem mais aulas hoje");
+                }
+
                 return const InfoView(message: "Não existem aulas hoje");
               }
 
