@@ -27,11 +27,13 @@ class _InitViewState extends State<InitView> {
 
   @override
   Widget build(BuildContext context) {
-    return const Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[CircularProgressIndicator()],
-        )
+    return const Scaffold(
+      body: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[CircularProgressIndicator()],
+          )
+      ),
     );
   }
 }
