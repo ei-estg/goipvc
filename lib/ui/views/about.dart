@@ -27,7 +27,7 @@ class AboutView extends ConsumerWidget {
       ),
       body: Padding(
         padding: const EdgeInsets.all(16),
-        child: Column(
+        child: SingleChildScrollView(child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             const GoIPVCLogo(),
@@ -92,7 +92,7 @@ class AboutView extends ConsumerWidget {
               )],
             )
           ],
-        ),
+        )),
       )
     );
   }
