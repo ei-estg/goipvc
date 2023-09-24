@@ -20,6 +20,8 @@ final _loadingProvider = StateNotifierProvider<_LoadingNotifier, bool>(
 class LoginView extends ConsumerWidget {
   final _usernameController = TextEditingController();
   final _passwordController = TextEditingController();
+  final _usernameFocusNode = FocusNode();
+  final _passwordFocusNode = FocusNode();
 
   LoginView({super.key});
 
@@ -78,7 +80,8 @@ class LoginView extends ConsumerWidget {
             ),
             Padding(
               padding: const EdgeInsets.fromLTRB(32,0,32,16),
-              child: TextFormField(
+              child: TextField(
+                focusNode: _usernameFocusNode,
                 decoration: const InputDecoration(
                     border: OutlineInputBorder(),
                     labelText: "Utilizador"
@@ -89,7 +92,8 @@ class LoginView extends ConsumerWidget {
             ),
             Padding(
               padding: const EdgeInsets.fromLTRB(32,0,32,16),
-              child: TextFormField(
+              child: TextField(
+                focusNode: _passwordFocusNode,
                 obscureText: true,
                 decoration: const InputDecoration(
                     border: OutlineInputBorder(),
