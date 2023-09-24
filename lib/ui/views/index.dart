@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 
 import 'package:goipvc/ui/views/home.dart';
@@ -33,7 +35,27 @@ class _IndexViewState extends State<IndexView> {
                 Text("Nova versão disponível: $version"),
                 TextButton(
                     onPressed: () {
-                      launchUrl(Uri.parse("https://github.com/joaoalves03/goipvc/releases/latest"));
+                      if(Platform.isAndroid){
+                        try {
+                          ScaffoldMessenger.of(context).clearSnackBars();
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(
+                              content: Text("A transferir atualização..."),
+                              duration: Duration(seconds: 3),
+                            ),
+                          );
+                          downloadUpdateAndroid();
+                        } catch (error) {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(
+                              content: Text("Erro a transferir atualização..."),
+                              duration: Duration(seconds: 5),
+                            ),
+                          );
+                        }
+                      } else {
+                        launchUrl(Uri.parse("https://github.com/joaoalves03/goipvc/releases/latest"));
+                      }
                     },
                     child: const Text("Transferir")
                 )
