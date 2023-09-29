@@ -16,46 +16,75 @@ class MealCard extends StatelessWidget {
     return Card(
       color: Theme.of(context).colorScheme.surface,
       elevation: 2,
-      child: ListView(
+      child: Stack(
+        alignment: Alignment.bottomCenter,
         children: [
-          Row(
+          Column(
             children: [
-              Expanded(child: Image.network(
-                meal.imageUrl,
-                width: double.infinity,
-                height: 100,
-                fit: BoxFit.fitWidth,
-                errorBuilder: (_, __, ___) {
-                  return Image.asset(
-                    "assets/default_meal.jpeg",
-                    width: double.infinity,
-                    height: 100,
-                    fit: BoxFit.fitWidth,
-                  );
-                },
-              ))
-            ]
+              Row(
+                  children: [
+                    Expanded(child: Image.network(
+                      meal.imageUrl,
+                      width: double.infinity,
+                      height: 100,
+                      fit: BoxFit.fitWidth,
+                      errorBuilder: (_, __, ___) {
+                        return Image.asset(
+                          "assets/default_meal.jpeg",
+                          width: double.infinity,
+                          height: 100,
+                          fit: BoxFit.fitWidth,
+                        );
+                      },
+                    ))
+                  ]
+              ),
+              Row(
+                  children: [
+                    Expanded(
+                        child: Padding(
+                          padding: const EdgeInsets.all(8),
+                          child: Column(
+                            mainAxisSize: MainAxisSize.max,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                  meal.type,
+                                  style: const TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 16
+                                  )
+                              ),
+                              Text(
+                                  meal.name,
+                                  style: const TextStyle(
+                                      fontSize: 16
+                                  )
+                              )
+                            ],
+                          ),
+                        )
+                    )
+                  ]
+              ),
+            ],
           ),
-          Row(
-              children: [Padding(
-                  padding: const EdgeInsets.all(8),
-                  child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                            type,
-                            style: const TextStyle(
-                              fontWeight: FontWeight.bold,
-                              fontSize: 16
-                            )
-                        ),
-                        Text(meal.type),
-                        Text(meal.name),
-                        Text("${meal.price.toString()}€")
-                      ]
-                  )
-              )]
-          ),
+          Container(
+            width: double.infinity, // Set the width to use all horizontal space
+            height: 30,
+            color: Theme.of(context).colorScheme.secondaryContainer,
+            child: Align(
+              alignment: Alignment.center,
+              child: Text(
+                "${meal.price.toString()}€",
+                textAlign: TextAlign.center,
+                style: const TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 16
+                )
+              ),
+            )
+          )
         ],
       )
     );
