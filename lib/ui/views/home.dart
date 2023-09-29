@@ -3,10 +3,10 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:goipvc/models/myipvc/user.dart';
 import 'package:goipvc/providers/profile_provider.dart';
-import 'package:goipvc/ui/views/coming_soon.dart';
 import 'package:goipvc/ui/views/error.dart';
 import 'package:goipvc/ui/widgets/profile_picture.dart';
 
+import '../widgets/meals_tab.dart';
 import '../widgets/schedule_tab.dart';
 
 class HomeView extends StatefulWidget {
@@ -139,7 +139,7 @@ class HomeViewState extends State<HomeView> with SingleTickerProviderStateMixin 
                         controller: _tabController,
                         children: const <Widget>[
                           ScheduleTab(),
-                          ComingSoonView()
+                          MealsTab()
                         ],
                       )
                     )
