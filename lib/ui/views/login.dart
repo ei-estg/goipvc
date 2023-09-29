@@ -19,6 +19,18 @@ class _LoadingNotifier extends StateNotifier<bool> {
 final _loadingProvider =
     StateNotifierProvider<_LoadingNotifier, bool>((ref) => _LoadingNotifier());
 
+// TODO: improve the state to use an object instead of two instances of state notifiers
+class _ValidFields extends StateNotifier<bool> {
+  _ValidFields() : super(true);
+
+  void set(bool val) {
+    state = val;
+  }
+}
+
+final _validFieldsProvider =
+StateNotifierProvider<_ValidFields, bool>((ref) => _ValidFields());
+
 class LoginView extends ConsumerWidget {
   final _usernameController = TextEditingController();
   final _passwordController = TextEditingController();
@@ -30,6 +42,13 @@ class LoginView extends ConsumerWidget {
   Future<void> _login(BuildContext context, WidgetRef ref) async {
     SharedPreferences prefs = ref.read(sharedPreferencesProvider);
     ref.read(_loadingProvider.notifier).set(true);
+    bool isValid = _usernameController.text != '' || _passwordController.text != '';
+    ref.read(_validFieldsProvider.notifier).set(isValid);
+
+    if(!isValid) {
+      ref.read(_loadingProvider.notifier).set(false);
+      return;
+    }
 
     try {
       String? user = await MyIPVCAPI()
@@ -67,6 +86,7 @@ class LoginView extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     bool loading = ref.watch(_loadingProvider);
+    bool isValid = ref.watch(_validFieldsProvider);
 
     return Scaffold(
       body: Center(
@@ -84,11 +104,13 @@ class LoginView extends ConsumerWidget {
                   children: [
                     TextField(
                       focusNode: _usernameFocusNode,
-                      decoration: const InputDecoration(
-                          border: OutlineInputBorder(),
+                      decoration: InputDecoration(
+                          border: const OutlineInputBorder(),
+                          errorText: !isValid ? "O campo não pode ser vazio" : null,
                           labelText: "Utilizador"),
                       autofillHints: const [AutofillHints.username],
                       controller: _usernameController,
+                      keyboardType: TextInputType.emailAddress,
                       autocorrect: false,
                     ),
                     const SizedBox(
@@ -97,8 +119,9 @@ class LoginView extends ConsumerWidget {
                     TextField(
                       focusNode: _passwordFocusNode,
                       obscureText: true,
-                      decoration: const InputDecoration(
-                          border: OutlineInputBorder(),
+                      decoration: InputDecoration(
+                          border: const OutlineInputBorder(),
+                          errorText: !isValid ? "O campo não pode ser vazio" : null,
                           labelText: "Palavra-passe"),
                       autofillHints: const [AutofillHints.password],
                       controller: _passwordController,
