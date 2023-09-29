@@ -51,6 +51,7 @@ class ScheduleView extends ConsumerWidget {
       error: (err, stack) => ErrorView(error: "$err"),
       data: (schedule) {
         return SfCalendar(
+          key: ValueKey(DateTime.now()),
           view: CalendarView.week,
           dataSource: MeetingDataSource(_getDataSource(schedule)),
           timeSlotViewSettings: const TimeSlotViewSettings(
@@ -60,6 +61,7 @@ class ScheduleView extends ConsumerWidget {
             endHour: 24
           ),
           firstDayOfWeek: 1,
+          cellEndPadding: 0,
           selectionDecoration: const BoxDecoration(
             color: Colors.transparent, // Set the border color to transparent
           ),
@@ -71,10 +73,5 @@ class ScheduleView extends ConsumerWidget {
         );
       }
     );
-
-
-
-
   }
-
 }

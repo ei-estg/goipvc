@@ -19,6 +19,18 @@ class _LoadingNotifier extends StateNotifier<bool> {
 final _loadingProvider =
     StateNotifierProvider<_LoadingNotifier, bool>((ref) => _LoadingNotifier());
 
+// TODO: improve the state to use an object instead of two instances of state notifiers
+class _ValidFields extends StateNotifier<bool> {
+  _ValidFields() : super(true);
+
+  void set(bool val) {
+    state = val;
+  }
+}
+
+final _validFieldsProvider =
+StateNotifierProvider<_ValidFields, bool>((ref) => _ValidFields());
+
 class LoginView extends ConsumerWidget {
   final _usernameController = TextEditingController();
   final _passwordController = TextEditingController();
@@ -30,6 +42,13 @@ class LoginView extends ConsumerWidget {
   Future<void> _login(BuildContext context, WidgetRef ref) async {
     SharedPreferences prefs = ref.read(sharedPreferencesProvider);
     ref.read(_loadingProvider.notifier).set(true);
+    bool isValid = _usernameController.text != '' || _passwordController.text != '';
+    ref.read(_validFieldsProvider.notifier).set(isValid);
+
+    if(!isValid) {
+      ref.read(_loadingProvider.notifier).set(false);
+      return;
+    }
 
     try {
       String? user = await MyIPVCAPI()
@@ -67,49 +86,66 @@ class LoginView extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     bool loading = ref.watch(_loadingProvider);
+    bool isValid = ref.watch(_validFieldsProvider);
 
     return Scaffold(
-        body: Center(
-            child: AutofillGroup(
-                child: Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: <Widget>[
-        Padding(
-          padding: const EdgeInsets.fromLTRB(64, 0, 64, 32),
-          child: IpvcLogo(),
-        ),
-        Padding(
-          padding: const EdgeInsets.fromLTRB(32, 0, 32, 16),
-          child: TextField(
-            focusNode: _usernameFocusNode,
-            decoration: const InputDecoration(
-                border: OutlineInputBorder(), labelText: "Utilizador"),
-            autofillHints: const [AutofillHints.username],
-            controller: _usernameController,
-          ),
-        ),
-        Padding(
-          padding: const EdgeInsets.fromLTRB(32, 0, 32, 16),
-          child: TextField(
-            focusNode: _passwordFocusNode,
-            obscureText: true,
-            decoration: const InputDecoration(
-                border: OutlineInputBorder(), labelText: "Palavra-passe"),
-            autofillHints: const [AutofillHints.password],
-            controller: _passwordController,
-          ),
-        ),
-        FilledButton.icon(
-          label: const Text("Entrar"),
-          icon: const Icon(Icons.login),
-          onPressed: loading ? null : () => _login(context, ref),
-          style: ButtonStyle(
-            shape: MaterialStatePropertyAll(
-              RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            Padding(
+              padding: const EdgeInsets.fromLTRB(64, 0, 64, 32),
+              child: IpvcLogo(),
             ),
-          ),
+            AutofillGroup(
+              child: Padding(
+                padding: const EdgeInsets.fromLTRB(32, 0, 32, 16),
+                child: Column(
+                  children: [
+                    TextField(
+                      focusNode: _usernameFocusNode,
+                      decoration: InputDecoration(
+                          border: const OutlineInputBorder(),
+                          errorText: !isValid ? "O campo não pode ser vazio" : null,
+                          labelText: "Utilizador"),
+                      autofillHints: const [AutofillHints.username],
+                      controller: _usernameController,
+                      keyboardType: TextInputType.emailAddress,
+                      autocorrect: false,
+                    ),
+                    const SizedBox(
+                      height: 20,
+                    ),
+                    TextField(
+                      focusNode: _passwordFocusNode,
+                      obscureText: true,
+                      decoration: InputDecoration(
+                          border: const OutlineInputBorder(),
+                          errorText: !isValid ? "O campo não pode ser vazio" : null,
+                          labelText: "Palavra-passe"),
+                      autofillHints: const [AutofillHints.password],
+                      controller: _passwordController,
+                      autocorrect: false,
+                    ),
+                  ],
+                ),
+              ),
+            ),
+            FilledButton.icon(
+              label: const Text("Entrar"),
+              icon: const Icon(Icons.login),
+              onPressed: loading ? null : () => _login(context, ref),
+              style: ButtonStyle(
+                shape: MaterialStatePropertyAll(
+                  RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                ),
+              ),
+            ),
+          ],
         ),
-      ],
-    ))));
+      ),
+    );
   }
 }

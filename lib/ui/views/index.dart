@@ -85,6 +85,7 @@ class _IndexViewState extends State<IndexView> {
     return Scaffold(
         appBar: AppBar(
           centerTitle: false,
+          surfaceTintColor: Colors.transparent,
           title: const Logo(),
           actions: const <Widget>[
             IconButton(
