@@ -8,6 +8,8 @@ import 'package:goipvc/ui/views/index.dart';
 import 'package:goipvc/ui/widgets/ipvc_logo.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../../services/sas_api.dart';
+
 class _LoadingNotifier extends StateNotifier<bool> {
   _LoadingNotifier() : super(false);
 
@@ -35,7 +37,14 @@ class LoginView extends ConsumerWidget {
       String? user = await MyIPVCAPI()
           .login(_usernameController.text, _passwordController.text);
 
-      if (user == null) {
+      int sasAuthSuccess = await SAS
+          .login(_usernameController.text, _passwordController.text);
+
+      if(sasAuthSuccess == -1) {
+        throw Exception("Erro a obter token do SAS");
+      }
+
+      if (user == null || sasAuthSuccess == 0) {
         throw Exception("Utilizador/Palavra-Passe incorreto");
       } else {
         ref.read(profileProvider.notifier).set(user);
