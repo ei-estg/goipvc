@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:goipvc/services/myipvc_api.dart';
 import 'package:goipvc/ui/views/login.dart';
 
+import '../../services/sas_api.dart';
 import 'index.dart';
 
 class InitView extends StatefulWidget {
@@ -15,13 +16,16 @@ class _InitViewState extends State<InitView> {
   @override
   void initState() {
     super.initState();
-    MyIPVCAPI().verifyAuth().then((data) {
-      Navigator.pushReplacement(
+    MyIPVCAPI().verifyAuth().then((myipvc) {
+      SAS.fetchAccessToken().then((sas) => {
+        Navigator.pushReplacement(
           context,
-          data // If user is authenticated (token exists)
+            // if authenticated in both myipvc or sas
+            (myipvc && sas)
             ? MaterialPageRoute(builder: (context) => const IndexView())
             : MaterialPageRoute(builder: (context) => LoginView())
-      );
+        )
+      });
     });
   }
 
