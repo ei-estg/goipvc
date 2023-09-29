@@ -3,6 +3,7 @@ import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:goipvc/models/sas/meal.dart';
 import 'package:goipvc/providers/quick_meals_provider.dart';
+import 'package:goipvc/ui/widgets/meal_card.dart';
 
 import '../views/error.dart';
 import '../views/loading.dart';
@@ -18,7 +19,22 @@ class MealsTab extends ConsumerWidget {
       loading: () => const LoadingView(),
       error: (err, stack) => ErrorView(error: "$err"),
       data: (meals) {
-        return Text(meals.toString());
+        return Column(
+          children: [
+            Expanded(
+              child: GridView.count(
+                crossAxisCount: 2,
+                padding: const EdgeInsets.all(4),
+                children: [
+                  for(var meal in meals[0])
+                    MealCard(meal: meal, type: "Almoço"),
+                  for(var meal in meals[1])
+                    MealCard(meal: meal, type: "Jantar"),
+                ],
+              ),
+            ),
+          ],
+        );
       }
     );
   }
