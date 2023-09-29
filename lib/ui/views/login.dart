@@ -69,47 +69,60 @@ class LoginView extends ConsumerWidget {
     bool loading = ref.watch(_loadingProvider);
 
     return Scaffold(
-        body: Center(
-            child: AutofillGroup(
-                child: Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: <Widget>[
-        Padding(
-          padding: const EdgeInsets.fromLTRB(64, 0, 64, 32),
-          child: IpvcLogo(),
-        ),
-        Padding(
-          padding: const EdgeInsets.fromLTRB(32, 0, 32, 16),
-          child: TextField(
-            focusNode: _usernameFocusNode,
-            decoration: const InputDecoration(
-                border: OutlineInputBorder(), labelText: "Utilizador"),
-            autofillHints: const [AutofillHints.username],
-            controller: _usernameController,
-          ),
-        ),
-        Padding(
-          padding: const EdgeInsets.fromLTRB(32, 0, 32, 16),
-          child: TextField(
-            focusNode: _passwordFocusNode,
-            obscureText: true,
-            decoration: const InputDecoration(
-                border: OutlineInputBorder(), labelText: "Palavra-passe"),
-            autofillHints: const [AutofillHints.password],
-            controller: _passwordController,
-          ),
-        ),
-        FilledButton.icon(
-          label: const Text("Entrar"),
-          icon: const Icon(Icons.login),
-          onPressed: loading ? null : () => _login(context, ref),
-          style: ButtonStyle(
-            shape: MaterialStatePropertyAll(
-              RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            Padding(
+              padding: const EdgeInsets.fromLTRB(64, 0, 64, 32),
+              child: IpvcLogo(),
             ),
-          ),
+            AutofillGroup(
+              child: Padding(
+                padding: const EdgeInsets.fromLTRB(32, 0, 32, 16),
+                child: Column(
+                  children: [
+                    TextField(
+                      focusNode: _usernameFocusNode,
+                      decoration: const InputDecoration(
+                          border: OutlineInputBorder(),
+                          labelText: "Utilizador"),
+                      autofillHints: const [AutofillHints.username],
+                      controller: _usernameController,
+                      autocorrect: false,
+                    ),
+                    const SizedBox(
+                      height: 20,
+                    ),
+                    TextField(
+                      focusNode: _passwordFocusNode,
+                      obscureText: true,
+                      decoration: const InputDecoration(
+                          border: OutlineInputBorder(),
+                          labelText: "Palavra-passe"),
+                      autofillHints: const [AutofillHints.password],
+                      controller: _passwordController,
+                      autocorrect: false,
+                    ),
+                  ],
+                ),
+              ),
+            ),
+            FilledButton.icon(
+              label: const Text("Entrar"),
+              icon: const Icon(Icons.login),
+              onPressed: loading ? null : () => _login(context, ref),
+              style: ButtonStyle(
+                shape: MaterialStatePropertyAll(
+                  RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                ),
+              ),
+            ),
+          ],
         ),
-      ],
-    ))));
+      ),
+    );
   }
 }
