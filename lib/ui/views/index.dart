@@ -3,7 +3,6 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 
 import 'package:goipvc/ui/views/home.dart';
-import 'package:goipvc/ui/views/meals.dart';
 import 'package:goipvc/ui/views/menu.dart';
 import 'package:goipvc/ui/views/schedule.dart';
 import 'package:goipvc/ui/views/school_map.dart';
@@ -80,7 +79,6 @@ class _IndexViewState extends State<IndexView> {
       const HomeView(),
       const ScheduleView(),
       const SchoolMapView(),
-      const MealsView(),
       const MenuView()
     ];
 
@@ -129,11 +127,6 @@ class _IndexViewState extends State<IndexView> {
                   selectedIcon: Icon(Icons.map),
                   icon: Icon(Icons.map_outlined),
                   label: 'Plantas',
-                ),
-                NavigationDestination(
-                  selectedIcon: Icon(Icons.restaurant_menu),
-                  icon: Icon(Icons.restaurant_menu_outlined),
-                  label: 'Ementas',
                 ),
                 NavigationDestination(
                   selectedIcon: Icon(Icons.menu),
