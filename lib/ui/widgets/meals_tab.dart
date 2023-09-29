@@ -23,6 +23,7 @@ class MealsTab extends ConsumerWidget {
           children: [
             Expanded(
               child: GridView.count(
+                childAspectRatio: (0.75),
                 crossAxisCount: 2,
                 padding: const EdgeInsets.all(4),
                 children: [
