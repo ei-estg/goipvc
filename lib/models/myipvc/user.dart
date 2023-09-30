@@ -20,18 +20,37 @@ class MyIPVCUser {
       required this.tipo,
       required this.fotografia});
 
+  @JsonKey(name: 'id_utilizador')
   String idUtilizador;
-  String nome;
-  String email;
+
+  String nome, email;
+
+  @JsonKey(name: 'num_utilizador')
   String numUtilizador;
+
+  @JsonKey(name: 'grupo_disciplinar')
   String grupoDisciplinar;
+
+  @JsonKey(name: 'unidade_organica')
   String unidadeOrganica;
+
+  @JsonKey(name: 'id_candidato')
   String idCandidato;
+
   String passo;
+
+  @JsonKey(name: 'id_regime')
   String idRegime;
+
+  @JsonKey(name: 'id_curso')
   String idCurso;
+
+  @JsonKey(name: 'nm_curso')
   String nmCurso;
+
+  @JsonKey(name: 'sigla_curso')
   String siglaCurso;
+
   String tipo;
   String? fotografia;
 

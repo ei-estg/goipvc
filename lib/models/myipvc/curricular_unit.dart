@@ -17,43 +17,55 @@ class MyIPVCCurricularUnit {
     required this.anoCurricular,
     required this.semestreCurricular,
     required this.ects,
-    required this.T,
+    required this.t,
     required this.tp,
     required this.tc,
-    required this.P,
+    required this.p,
     required this.pl,
-    required this.L,
-    required this.E,
+    required this.l,
+    required this.e,
     required this.ec,
-    required this.S,
-    required this.O,
+    required this.s,
+    required this.o,
     required this.ot,
     required this.grupoDisciplinar,
   });
 
   String escola;
-  String dsGrau;
+
+  @JsonKey(name: 'cd_curso')
   String cdCurso;
+
+  @JsonKey(name: 'nm_curso')
   String nmCurso;
+
+  @JsonKey(name: 'cd_plano')
   String cdPlano;
+
+  @JsonKey(name: 'cd_ramo')
   String cdRamo;
+
+  @JsonKey(name: 'nm_ramo')
   String nmRamo;
+
+  @JsonKey(name: 'cd_discip')
   String cdDiscip;
+
+  @JsonKey(name: 'nm_unidade_curricular')
   String nmUnidadeCurricular;
+
+  @JsonKey(name: 'ds_grau')
+  String dsGrau;
+
+  @JsonKey(name: 'ano_curricular')
   int anoCurricular;
+
+  @JsonKey(name: 'semestre_curricular')
   String semestreCurricular;
-  String ects;
-  String T;
-  String tp;
-  String tc;
-  String P;
-  String pl;
-  String L;
-  String E;
-  String ec;
-  String S;
-  String O;
-  String ot;
+
+  String ects, t, tp, tc, p, pl, l, e, ec, s, o, ot;
+
+  @JsonKey(name: 'grupo_disciplinar')
   String grupoDisciplinar;
 
   factory MyIPVCCurricularUnit.fromJson(Map<String, dynamic> json) =>

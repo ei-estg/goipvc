@@ -38,38 +38,59 @@ class MyIPVCDetailedCurricularUnit {
       required this.docentes,
       required this.objetivos});
 
+  @JsonKey(name: 'cd_letivo')
   String cdLetivo;
+
+  @JsonKey(name: 'cd_curso')
   String cdCurso;
+
+  @JsonKey(name: 'nm_curso')
   String nmCurso;
+
+  @JsonKey(name: 'cd_plano')
   String cdPlano;
+
+  @JsonKey(name: 'nm_plano')
   String nmPlano;
+
+  @JsonKey(name: 'cd_ramo')
   String cdRamo;
+
+  @JsonKey(name: 'nm_ramo')
   String nmRamo;
+
+  @JsonKey(name: 'cd_discip')
   String cdDiscip;
+
+  @JsonKey(name: 'ds_discip')
   String dsDiscip;
+
   int ano;
-  String semestre;
-  String ects;
-  String grau;
-  String t;
-  String tp;
-  String p;
-  String l;
-  String pl;
-  String tc;
-  String s;
-  String e;
-  String ec;
-  String o;
-  String ot;
-  String resumo;
-  String metodologias;
-  String avaliacao;
+
+  String semestre,
+      ects,
+      grau,
+      t,
+      tp,
+      p,
+      l,
+      pl,
+      tc,
+      s,
+      e,
+      ec,
+      o,
+      ot,
+      resumo,
+      metodologias,
+      avaliacao;
+
+  @JsonKey(name: 'bibliografia_principal')
   String bibliografiaPrincipal;
+  @JsonKey(name: 'bibliografia_complementar')
   String bibliografiaComplementar;
-  String conteudos;
-  String docentes;
-  String objetivos;
+
+  String conteudos, docentes, objetivos;
 
   factory MyIPVCDetailedCurricularUnit.fromJson(Map<String, dynamic> json) =>
       _$MyIPVCDetailedCurricularUnitFromJson(json);
