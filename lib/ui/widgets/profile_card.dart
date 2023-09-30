@@ -25,7 +25,7 @@ class ProfileCard<T> extends ConsumerWidget {
           child: InkWell(
               onTap: () {
                 Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => ProfileView()));
+                    MaterialPageRoute(builder: (context) => const ProfileView()));
               },
               child: Padding(
                   padding: const EdgeInsets.all(16),
