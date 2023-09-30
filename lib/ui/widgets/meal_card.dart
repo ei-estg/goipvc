@@ -3,12 +3,10 @@ import 'package:goipvc/models/sas/meal.dart';
 
 class MealCard extends StatelessWidget {
   final SASMeal meal;
-  final String type;
 
   const MealCard({
     super.key,
-    required this.meal,
-    required this.type
+    required this.meal
   });
 
   @override
