@@ -4,13 +4,13 @@ import 'package:goipvc/models/myipvc/lesson.dart';
 bool verifyIfLessonExpired(MyIPVCLesson lesson) {
   var dayFormatter = DateFormat('yyyy-MM-dd');
   String currentDate = dayFormatter.format(DateTime.now());
-  String lessonDate = dayFormatter.format(DateTime.parse(lesson.data_hora_ini));
+  String lessonDate = dayFormatter.format(DateTime.parse(lesson.dataHoraIni));
 
-  if(lessonDate != currentDate) {
+  if (lessonDate != currentDate) {
     return true;
   }
 
-  if(DateTime.now().isAfter(DateTime.parse(lesson.data_hora_fim))) {
+  if (DateTime.now().isAfter(DateTime.parse(lesson.dataHoraFim))) {
     return true;
   }
 

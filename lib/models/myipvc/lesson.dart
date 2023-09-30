@@ -5,31 +5,32 @@ part 'lesson.g.dart';
 @JsonSerializable()
 class MyIPVCLesson {
   MyIPVCLesson({
-    required this.data_hora_ini,
-    required this.data_hora_fim,
+    required this.dataHoraIni,
+    required this.dataHoraFim,
     required this.sigla,
-    required this.hor_nome,
+    required this.horNome,
     required this.sala,
-    required this.hor_nome_turno,
+    required this.horNomeTurno,
     required this.emailsDocentes,
     required this.nomesDocentes,
-    required this.hor_evento_id,
-    required this.id_estado,
-    required this.cor_valor,
+    required this.horEventoId,
+    required this.idEstado,
+    required this.corValor,
   });
 
-  String data_hora_ini;
-  String data_hora_fim;
+  String dataHoraIni;
+  String dataHoraFim;
   String sigla;
-  String hor_nome;
+  String horNome;
   String sala;
-  String hor_nome_turno;
+  String horNomeTurno;
   String emailsDocentes;
   String nomesDocentes;
-  String hor_evento_id;
-  int id_estado;
-  String cor_valor;
+  String horEventoId;
+  int idEstado;
+  String corValor;
 
-  factory MyIPVCLesson.fromJson(Map<String, dynamic> json) => _$MyIPVCLessonFromJson(json);
+  factory MyIPVCLesson.fromJson(Map<String, dynamic> json) =>
+      _$MyIPVCLessonFromJson(json);
   Map<String, dynamic> toJson() => _$MyIPVCLessonToJson(this);
 }

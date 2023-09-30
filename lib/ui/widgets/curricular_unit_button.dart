@@ -14,17 +14,14 @@ class CurricularUnitButton<T> extends StatelessWidget {
   Widget build(BuildContext context) {
     return ListTile(
       trailing: const Icon(Icons.arrow_forward),
-      title: Text(
-        curricularUnit.nm_unidade_curricular,
-        overflow: TextOverflow.ellipsis
-      ),
+      title: Text(curricularUnit.nmUnidadeCurricular,
+          overflow: TextOverflow.ellipsis),
       onTap: () {
         Navigator.push(
             context,
-            MaterialPageRoute(builder: (context) => CurricularUnitView(
-                curricularUnit: curricularUnit
-            ))
-        );
+            MaterialPageRoute(
+                builder: (context) =>
+                    CurricularUnitView(curricularUnit: curricularUnit)));
       },
     );
   }

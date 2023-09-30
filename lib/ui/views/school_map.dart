@@ -14,20 +14,20 @@ class SchoolMapView extends ConsumerWidget {
 
   void _openImage(BuildContext context, String img) {
     Navigator.of(context).push(MaterialPageRoute(
-      builder: (context) => PhotoView(
-        imageProvider: AssetImage(img),
-      )
-    ));
+        builder: (context) => PhotoView(
+              imageProvider: AssetImage(img),
+            )));
   }
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     MyIPVCUser? profile = ref.watch(profileProvider);
     final settings = ref.watch(settingsProvider);
-    final systemTheme = SchedulerBinding.instance.platformDispatcher.platformBrightness;
+    final systemTheme =
+        SchedulerBinding.instance.platformDispatcher.platformBrightness;
     var theme = "";
 
-    if(settings.theme == "system") {
+    if (settings.theme == "system") {
       if (systemTheme == Brightness.dark) {
         theme = "dark";
       } else {
@@ -37,22 +37,22 @@ class SchoolMapView extends ConsumerWidget {
       theme = settings.theme;
     }
 
-    if(profile == null) return const ErrorView(error: "Erro a obter escola");
+    if (profile == null) return const ErrorView(error: "Erro a obter escola");
 
-    if(schoolMaps[profile.unidade_organica]!.isEmpty){
+    if (schoolMaps[profile.unidadeOrganica]!.isEmpty) {
       return const InfoView(message: "Não existem plantas para a sua escola");
     }
 
-    return SingleChildScrollView(child: Column(
+    return SingleChildScrollView(
+        child: Column(
       children: [
-        for(var map in schoolMaps[profile.unidade_organica]!)
+        for (var map in schoolMaps[profile.unidadeOrganica]!)
           Padding(
-            padding: const EdgeInsets.symmetric(
-              vertical: 4,
-              horizontal: 8
-            ),
+            padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 8),
             child: GestureDetector(
-              onTap: () {_openImage(context, map[theme]);},
+              onTap: () {
+                _openImage(context, map[theme]);
+              },
               child: Image.asset(map[theme]),
             ),
           )

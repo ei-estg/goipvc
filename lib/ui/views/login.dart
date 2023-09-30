@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:goipvc/providers/profile_provider.dart';
 import 'package:goipvc/providers/settings_provider.dart';
-import 'package:goipvc/providers/sharedPreferencesProvider.dart';
+import 'package:goipvc/providers/shared_preferences_provider.dart';
 import 'package:goipvc/services/myipvc_api.dart';
 import 'package:goipvc/ui/views/index.dart';
 import 'package:goipvc/ui/widgets/ipvc_logo.dart';

@@ -13,48 +13,43 @@ final _refreshProvider = StreamProvider<void>((ref) {
 });
 
 class ScheduleTab<T> extends StatelessWidget {
-  const ScheduleTab({super.key,});
+  const ScheduleTab({
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {
-    return Consumer(
-      builder: (context, ref, child){
-        AsyncValue<List<MyIPVCLesson>> schedule = ref.watch(scheduleProvider);
-        ref.watch(_refreshProvider);
+    return Consumer(builder: (context, ref, child) {
+      AsyncValue<List<MyIPVCLesson>> schedule = ref.watch(scheduleProvider);
+      ref.watch(_refreshProvider);
 
-        return Align(
-          alignment: Alignment.center,
-          child: schedule.when(
+      return Align(
+        alignment: Alignment.center,
+        child: schedule.when(
             loading: () => const LoadingView(),
             error: (err, stack) => ErrorView(error: "$err"),
             data: (schedule) {
               List<MyIPVCLesson> todaySchedule = [];
               bool lessonsToday = false;
 
-              for(var lesson in schedule){
-                DateTime lessonDate = DateTime.parse(lesson.data_hora_ini);
-                lessonDate = DateTime(
-                  lessonDate.year,
-                  lessonDate.month,
-                  lessonDate.day
-                );
-                DateTime now = DateTime(
-                    DateTime.now().year,
-                    DateTime.now().month,
-                    DateTime.now().day
-                );
+              for (var lesson in schedule) {
+                DateTime lessonDate = DateTime.parse(lesson.dataHoraIni);
+                lessonDate =
+                    DateTime(lessonDate.year, lessonDate.month, lessonDate.day);
+                DateTime now = DateTime(DateTime.now().year,
+                    DateTime.now().month, DateTime.now().day);
 
-                if(lessonDate.difference(now).inDays == 0){
+                if (lessonDate.difference(now).inDays == 0) {
                   lessonsToday = true;
                 }
 
-                if(!verifyIfLessonExpired(lesson)){
+                if (!verifyIfLessonExpired(lesson)) {
                   todaySchedule.add(lesson);
                 }
               }
 
               if (todaySchedule.isEmpty) {
-                if(lessonsToday) {
+                if (lessonsToday) {
                   return const InfoView(message: "Não existem mais aulas hoje");
                 }
 
@@ -67,7 +62,7 @@ class ScheduleTab<T> extends StatelessWidget {
                     child: ListView(
                       children: [
                         const Padding(padding: EdgeInsets.only(top: 4)),
-                        for(var lesson in todaySchedule)
+                        for (var lesson in todaySchedule)
                           LessonCard(lesson: lesson),
                         const Padding(padding: EdgeInsets.only(bottom: 4)),
                       ],
@@ -75,10 +70,8 @@ class ScheduleTab<T> extends StatelessWidget {
                   ),
                 ],
               );
-            }
-          ),
-        );
-      }
-    );
+            }),
+      );
+    });
   }
 }

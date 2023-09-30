@@ -12,21 +12,20 @@ class Logo<T> extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     var settings = ref.watch(settingsProvider);
     var profile = ref.watch(profileProvider);
-    var systemTheme = SchedulerBinding.instance.platformDispatcher.platformBrightness;
+    var systemTheme =
+        SchedulerBinding.instance.platformDispatcher.platformBrightness;
 
     return ColorFiltered(
       colorFilter: settings.theme != "light" || systemTheme == Brightness.light
-        ? ColorFilter.mode(
-            Theme.of(context).colorScheme.onPrimaryContainer,
-            BlendMode.srcIn,
-          )
-        : const ColorFilter.mode(Colors.transparent, BlendMode.saturation),
-
-
+          ? ColorFilter.mode(
+              Theme.of(context).colorScheme.onPrimaryContainer,
+              BlendMode.srcIn,
+            )
+          : const ColorFilter.mode(Colors.transparent, BlendMode.saturation),
       child: SvgPicture.asset(
         (() {
           if (settings.colorScheme == "school" && profile != null) {
-            return 'assets/${profile.unidade_organica}-logo.svg';
+            return 'assets/${profile.unidadeOrganica}-logo.svg';
           }
 
           return 'assets/ipvc-logo.svg';

@@ -15,19 +15,19 @@ class ScheduleView extends ConsumerWidget {
   List<Meeting> _getDataSource(List<MyIPVCLesson> schedule) {
     final List<Meeting> meetings = <Meeting>[];
 
-    for(var lesson in schedule) {
+    for (var lesson in schedule) {
       meetings.add(Meeting(
-        "${lesson.sigla}\n${lesson.sala}",
-        DateTime.parse(lesson.data_hora_ini),
-        DateTime.parse(lesson.data_hora_fim),
-        lesson.hor_nome,
-        lesson.nomesDocentes,
-        lesson.sala,
-        lesson.hor_nome_turno,
-        lesson.cor_valor,
-        Color(int.parse(lesson.cor_valor.substring(1), radix: 16) + 0xFF000000),
-        false
-      ));
+          "${lesson.sigla}\n${lesson.sala}",
+          DateTime.parse(lesson.dataHoraIni),
+          DateTime.parse(lesson.dataHoraFim),
+          lesson.horNome,
+          lesson.nomesDocentes,
+          lesson.sala,
+          lesson.horNomeTurno,
+          lesson.corValor,
+          Color(
+              int.parse(lesson.corValor.substring(1), radix: 16) + 0xFF000000),
+          false));
     }
 
     return meetings;
@@ -38,8 +38,7 @@ class ScheduleView extends ConsumerWidget {
         context: context,
         builder: (BuildContext context) {
           return LessonDetails(details: details);
-        }
-    );
+        });
   }
 
   @override
@@ -47,31 +46,29 @@ class ScheduleView extends ConsumerWidget {
     AsyncValue<List<MyIPVCLesson>> schedule = ref.watch(scheduleProvider);
 
     return schedule.when(
-      loading: () => const LoadingView(),
-      error: (err, stack) => ErrorView(error: "$err"),
-      data: (schedule) {
-        return SfCalendar(
-          key: ValueKey(DateTime.now()),
-          view: CalendarView.week,
-          dataSource: MeetingDataSource(_getDataSource(schedule)),
-          timeSlotViewSettings: const TimeSlotViewSettings(
-            timeFormat: 'H:mm',
-            dayFormat: "EEE",
-            startHour: 7,
-            endHour: 24
-          ),
-          firstDayOfWeek: 1,
-          cellEndPadding: 0,
-          selectionDecoration: const BoxDecoration(
-            color: Colors.transparent, // Set the border color to transparent
-          ),
-          onTap: (CalendarTapDetails tap) {
-            if(tap.targetElement == CalendarElement.appointment) {
-              _showPopup(context,tap.appointments![0]);
-            }
-          },
-        );
-      }
-    );
+        loading: () => const LoadingView(),
+        error: (err, stack) => ErrorView(error: "$err"),
+        data: (schedule) {
+          return SfCalendar(
+            key: ValueKey(DateTime.now()),
+            view: CalendarView.week,
+            dataSource: MeetingDataSource(_getDataSource(schedule)),
+            timeSlotViewSettings: const TimeSlotViewSettings(
+                timeFormat: 'H:mm',
+                dayFormat: "EEE",
+                startHour: 7,
+                endHour: 24),
+            firstDayOfWeek: 1,
+            cellEndPadding: 0,
+            selectionDecoration: const BoxDecoration(
+              color: Colors.transparent, // Set the border color to transparent
+            ),
+            onTap: (CalendarTapDetails tap) {
+              if (tap.targetElement == CalendarElement.appointment) {
+                _showPopup(context, tap.appointments![0]);
+              }
+            },
+          );
+        });
   }
 }

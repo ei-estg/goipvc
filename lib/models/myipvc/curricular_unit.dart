@@ -6,56 +6,57 @@ part 'curricular_unit.g.dart';
 class MyIPVCCurricularUnit {
   MyIPVCCurricularUnit({
     required this.escola,
-    required this.ds_grau,
-    required this.cd_curso,
-    required this.nm_curso,
-    required this.cd_plano,
-    required this.cd_ramo,
-    required this.nm_ramo,
-    required this.cd_discip,
-    required this.nm_unidade_curricular,
-    required this.ano_curricular,
-    required this.semestre_curricular,
+    required this.dsGrau,
+    required this.cdCurso,
+    required this.nmCurso,
+    required this.cdPlano,
+    required this.cdRamo,
+    required this.nmRamo,
+    required this.cdDiscip,
+    required this.nmUnidadeCurricular,
+    required this.anoCurricular,
+    required this.semestreCurricular,
     required this.ects,
     required this.T,
-    required this.TP,
-    required this.TC,
+    required this.tp,
+    required this.tc,
     required this.P,
-    required this.PL,
+    required this.pl,
     required this.L,
     required this.E,
-    required this.EC,
+    required this.ec,
     required this.S,
     required this.O,
-    required this.OT,
-    required this.grupo_disciplinar,
+    required this.ot,
+    required this.grupoDisciplinar,
   });
 
   String escola;
-  String ds_grau;
-  String cd_curso;
-  String nm_curso;
-  String cd_plano;
-  String cd_ramo;
-  String nm_ramo;
-  String cd_discip;
-  String nm_unidade_curricular;
-  int ano_curricular;
-  String semestre_curricular;
+  String dsGrau;
+  String cdCurso;
+  String nmCurso;
+  String cdPlano;
+  String cdRamo;
+  String nmRamo;
+  String cdDiscip;
+  String nmUnidadeCurricular;
+  int anoCurricular;
+  String semestreCurricular;
   String ects;
   String T;
-  String TP;
-  String TC;
+  String tp;
+  String tc;
   String P;
-  String PL;
+  String pl;
   String L;
   String E;
-  String EC;
+  String ec;
   String S;
   String O;
-  String OT;
-  String grupo_disciplinar;
+  String ot;
+  String grupoDisciplinar;
 
-  factory MyIPVCCurricularUnit.fromJson(Map<String, dynamic> json) => _$MyIPVCCurricularUnitFromJson(json);
+  factory MyIPVCCurricularUnit.fromJson(Map<String, dynamic> json) =>
+      _$MyIPVCCurricularUnitFromJson(json);
   Map<String, dynamic> toJson() => _$MyIPVCCurricularUnitToJson(this);
 }
