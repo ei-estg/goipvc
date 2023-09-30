@@ -19,22 +19,46 @@ class MealsTab extends ConsumerWidget {
       loading: () => const LoadingView(),
       error: (err, stack) => ErrorView(error: "$err"),
       data: (meals) {
-        return Column(
-          children: [
-            Expanded(
-              child: GridView.count(
-                childAspectRatio: (0.75),
-                crossAxisCount: 2,
-                padding: const EdgeInsets.all(4),
-                children: [
-                  for(var meal in meals[0])
-                    MealCard(meal: meal, type: "Almoço"),
-                  for(var meal in meals[1])
-                    MealCard(meal: meal, type: "Jantar"),
-                ],
-              ),
-            ),
-          ],
+        return ListView.builder(
+          padding: const EdgeInsets.all(4),
+          itemCount: 2,
+          itemBuilder: (BuildContext context, int index) {
+            String title = "";
+
+            if(meals[index].isNotEmpty){
+              title = index == 0 ? "Almoço" : "Jantar";
+            }
+
+            return Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Text(
+                    title,
+                    style: const TextStyle(
+                      fontSize: 18.0,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ),
+                GridView.builder(
+                  shrinkWrap: true,
+                  physics: const NeverScrollableScrollPhysics(),
+                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: 2,
+                    mainAxisSpacing: 4.0,
+                    crossAxisSpacing: 4.0,
+                    childAspectRatio: 0.75
+                  ),
+                  itemCount: meals[index].length,
+                  itemBuilder: (BuildContext context, int mealIndex) {
+                    return MealCard(meal: meals[index][mealIndex]);
+                  }
+                )
+              ],
+            );
+          }
         );
       }
     );
