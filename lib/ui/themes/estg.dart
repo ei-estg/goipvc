@@ -1,7 +1,7 @@
 import 'package:flex_color_scheme/flex_color_scheme.dart';
 import 'package:flutter/material.dart';
 
-var ESTGTheme = {
+var estgTheme = {
   "light": FlexThemeData.light(
     colors: const FlexSchemeColor(
       primary: Color(0xfff3ab1d),
@@ -63,7 +63,6 @@ var ESTGTheme = {
     // To use the Playground font, add GoogleFonts package and uncomment
     // fontFamily: GoogleFonts.notoSans().fontFamily,
   ),
-
   "dark": FlexThemeData.dark(
     colors: const FlexSchemeColor(
       primary: Color(0xffffa92e),

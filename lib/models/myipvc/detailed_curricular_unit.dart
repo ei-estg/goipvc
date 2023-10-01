@@ -4,74 +4,95 @@ part 'detailed_curricular_unit.g.dart';
 
 @JsonSerializable()
 class MyIPVCDetailedCurricularUnit {
-  MyIPVCDetailedCurricularUnit({
-    required this.cd_letivo,
-    required this.cd_curso,
-    required this.nm_curso,
-    required this.cd_plano,
-    required this.nm_plano,
-    required this.cd_ramo,
-    required this.nm_ramo,
-    required this.cd_discip,
-    required this.ds_discip,
-    required this.ano,
-    required this.semestre,
-    required this.ects,
-    required this.grau,
-    required this.t,
-    required this.tp,
-    required this.p,
-    required this.l,
-    required this.pl,
-    required this.tc,
-    required this.s,
-    required this.e,
-    required this.ec,
-    required this.o,
-    required this.ot,
-    required this.resumo,
-    required this.metodologias,
-    required this.avaliacao,
-    required this.bibliografia_principal,
-    required this.bibliografia_complementar,
-    required this.conteudos,
-    required this.docentes,
-    required this.objetivos
-  });
+  MyIPVCDetailedCurricularUnit(
+      {required this.cdLetivo,
+      required this.cdCurso,
+      required this.nmCurso,
+      required this.cdPlano,
+      required this.nmPlano,
+      required this.cdRamo,
+      required this.nmRamo,
+      required this.cdDiscip,
+      required this.dsDiscip,
+      required this.ano,
+      required this.semestre,
+      required this.ects,
+      required this.grau,
+      required this.t,
+      required this.tp,
+      required this.p,
+      required this.l,
+      required this.pl,
+      required this.tc,
+      required this.s,
+      required this.e,
+      required this.ec,
+      required this.o,
+      required this.ot,
+      required this.resumo,
+      required this.metodologias,
+      required this.avaliacao,
+      required this.bibliografiaPrincipal,
+      required this.bibliografiaComplementar,
+      required this.conteudos,
+      required this.docentes,
+      required this.objetivos});
 
-  String cd_letivo;
-  String cd_curso;
-  String nm_curso;
-  String cd_plano;
-  String nm_plano;
-  String cd_ramo;
-  String nm_ramo;
-  String cd_discip;
-  String ds_discip;
+  @JsonKey(name: 'cd_letivo')
+  String cdLetivo;
+
+  @JsonKey(name: 'cd_curso')
+  String cdCurso;
+
+  @JsonKey(name: 'nm_curso')
+  String nmCurso;
+
+  @JsonKey(name: 'cd_plano')
+  String cdPlano;
+
+  @JsonKey(name: 'nm_plano')
+  String nmPlano;
+
+  @JsonKey(name: 'cd_ramo')
+  String cdRamo;
+
+  @JsonKey(name: 'nm_ramo')
+  String nmRamo;
+
+  @JsonKey(name: 'cd_discip')
+  String cdDiscip;
+
+  @JsonKey(name: 'ds_discip')
+  String dsDiscip;
+
   int ano;
-  String semestre;
-  String ects;
-  String grau;
-  String t;
-  String tp;
-  String p;
-  String l;
-  String pl;
-  String tc;
-  String s;
-  String e;
-  String ec;
-  String o;
-  String ot;
-  String resumo;
-  String metodologias;
-  String avaliacao;
-  String bibliografia_principal;
-  String bibliografia_complementar;
-  String conteudos;
-  String docentes;
-  String objetivos;
 
-  factory MyIPVCDetailedCurricularUnit.fromJson(Map<String, dynamic> json) => _$MyIPVCDetailedCurricularUnitFromJson(json);
+  String semestre,
+      ects,
+      grau,
+      t,
+      tp,
+      p,
+      l,
+      pl,
+      tc,
+      s,
+      e,
+      ec,
+      o,
+      ot,
+      resumo,
+      metodologias,
+      avaliacao;
+
+  @JsonKey(name: 'bibliografia_principal')
+  String bibliografiaPrincipal;
+  @JsonKey(name: 'bibliografia_complementar')
+  String bibliografiaComplementar;
+
+  String conteudos, docentes, objetivos;
+
+  factory MyIPVCDetailedCurricularUnit.fromJson(Map<String, dynamic> json) =>
+      _$MyIPVCDetailedCurricularUnitFromJson(json);
   Map<String, dynamic> toJson() => _$MyIPVCDetailedCurricularUnitToJson(this);
 }
