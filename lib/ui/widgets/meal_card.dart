@@ -70,11 +70,15 @@ class MealCard extends StatelessWidget {
           Container(
             width: double.infinity, // Set the width to use all horizontal space
             height: 30,
-            color: Theme.of(context).colorScheme.secondaryContainer,
+            color: meal.available
+              ? Theme.of(context).colorScheme.secondaryContainer
+              : Theme.of(context).colorScheme.surfaceVariant,
             child: Align(
               alignment: Alignment.center,
               child: Text(
-                "${meal.price.toString()}€",
+                meal.available
+                  ? "${meal.price.toString()}€"
+                  : "Indisponível",
                 textAlign: TextAlign.center,
                 style: const TextStyle(
                     fontWeight: FontWeight.bold,

@@ -1,7 +1,5 @@
 import 'package:json_annotation/json_annotation.dart';
 
-// TODO: CHECK IF EXPIRED
-
 @JsonSerializable()
 class SASMeal {
   SASMeal({
@@ -12,6 +10,7 @@ class SASMeal {
     required this.type,
     required this.location,
     required this.imageUrl,
+    required this.available
   });
 
   String meal;
@@ -21,4 +20,5 @@ class SASMeal {
   String type;
   String location;
   String imageUrl;
+  bool available;
 }
