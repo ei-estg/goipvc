@@ -1,8 +1,10 @@
+import 'package:device_info_plus/device_info_plus.dart';
 import 'package:dynamic_color/dynamic_color.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:goipvc/models/settings.dart';
+import 'package:goipvc/providers/deviceInfoProvider.dart';
 import 'package:goipvc/providers/settings_provider.dart';
 import 'package:goipvc/providers/shared_preferences_provider.dart';
 import 'package:goipvc/ui/views/init.dart';
@@ -12,10 +14,12 @@ import 'package:syncfusion_localizations/syncfusion_localizations.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   final sharedPreferences = await SharedPreferences.getInstance();
+  AndroidDeviceInfo androidDeviceInfo = await DeviceInfoPlugin().androidInfo;
 
   runApp(ProviderScope(
     overrides: [
       sharedPreferencesProvider.overrideWithValue(sharedPreferences),
+      androidDeviceInfoProvider.overrideWithValue(androidDeviceInfo)
     ],
     child: const MyIPVCApp(),
   ));

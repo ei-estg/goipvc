@@ -1,5 +1,9 @@
+import 'dart:io';
+
+import 'package:device_info_plus/device_info_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:goipvc/providers/deviceInfoProvider.dart';
 import 'package:goipvc/providers/settings_provider.dart';
 
 class _PopUpNotifier extends StateNotifier<bool> {
@@ -18,6 +22,8 @@ class ThemeSettings<T> extends ConsumerWidget {
   const ThemeSettings({super.key});
 
   void _showAppearanceMenu(BuildContext context, WidgetRef ref) {
+    AndroidDeviceInfo androidDeviceInfo = ref.watch(androidDeviceInfoProvider);
+
     showDialog(
       context: context,
       builder: (BuildContext context) {
@@ -26,15 +32,18 @@ class ThemeSettings<T> extends ConsumerWidget {
           content: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              RadioListTile<String>(
-                title: const Text("Dispositivo"),
-                value: "system",
-                groupValue: ref.read(settingsProvider).colorScheme,
-                onChanged: (String? colorScheme) {
-                  ref.read(settingsProvider.notifier)
-                      .setColorScheme("system");
-                },
-              ),
+              // Check if it's android and version 12 or above
+              // if not disable material you option
+              if(Platform.isAndroid && androidDeviceInfo.version.sdkInt >= 31)
+                RadioListTile<String>(
+                  title: const Text("Dispositivo"),
+                  value: "system",
+                  groupValue: ref.read(settingsProvider).colorScheme,
+                  onChanged: (String? colorScheme) {
+                    ref.read(settingsProvider.notifier)
+                        .setColorScheme("system");
+                  },
+                ),
               RadioListTile<String>(
                 title: const Text("Escola"),
                 value: "school",
