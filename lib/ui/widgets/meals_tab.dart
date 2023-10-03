@@ -3,6 +3,7 @@ import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:goipvc/models/sas/meal.dart';
 import 'package:goipvc/providers/quick_meals_provider.dart';
+import 'package:goipvc/ui/views/info.dart';
 import 'package:goipvc/ui/widgets/meal_card.dart';
 
 import '../views/error.dart';
@@ -19,6 +20,10 @@ class MealsTab extends ConsumerWidget {
       loading: () => const LoadingView(),
       error: (err, stack) => ErrorView(error: "$err"),
       data: (meals) {
+        if(meals[0].isEmpty && meals[1].isEmpty){
+          return const InfoView(message: "Não existem refeições hoje");
+        }
+
         return ListView.builder(
           padding: const EdgeInsets.all(4),
           itemCount: 2,
