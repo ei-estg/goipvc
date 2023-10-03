@@ -63,7 +63,40 @@ class MyIPVCCurricularUnit {
   @JsonKey(name: 'semestre_curricular')
   String semestreCurricular;
 
-  String ects, t, tp, tc, p, pl, l, e, ec, s, o, ot;
+  String ects;
+
+  @JsonKey(name: 'T')
+  String t;
+
+  @JsonKey(name: 'TP')
+  String tp;
+
+  @JsonKey(name: 'TC')
+  String tc;
+
+  @JsonKey(name: 'P')
+  String p;
+
+  @JsonKey(name: 'PL')
+  String pl;
+
+  @JsonKey(name: 'L')
+  String l;
+
+  @JsonKey(name: 'E')
+  String e;
+
+  @JsonKey(name: 'EC')
+  String ec;
+
+  @JsonKey(name: 'S')
+  String s;
+
+  @JsonKey(name: 'O')
+  String o;
+
+  @JsonKey(name: 'OT')
+  String ot;
 
   @JsonKey(name: 'grupo_disciplinar')
   String grupoDisciplinar;

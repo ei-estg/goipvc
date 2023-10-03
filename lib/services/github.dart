@@ -21,11 +21,11 @@ Future<void> downloadUpdateAndroid() async {
   const fileURL = "https://github.com/joaoalves03/goipvc/releases/latest/download/app-release-signed.apk";
   DefaultCacheManager cacheManager = DefaultCacheManager();
 
-  FileInfo? fileInfo = await cacheManager.getFileFromCache(fileURL);
-
-  if (fileInfo == null || fileInfo.validTill.isBefore(DateTime.now())) {
-    fileInfo = await cacheManager.downloadFile(fileURL);
-  }
+  FileInfo? fileInfo = await cacheManager.downloadFile(fileURL);
 
   await OpenFile.open(fileInfo.file.path, type: 'application/vnd.android.package-archive');
+
+  Future.delayed(const Duration(minutes: 1), () {
+    cacheManager.removeFile(fileInfo.originalUrl);
+  });
 }
