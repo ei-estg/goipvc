@@ -12,54 +12,54 @@ class CurricularPlanView extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    AsyncValue<List<MyIPVCCurricularUnit>> curricularPlan
-      = ref.watch(curricularPlanProvider);
+    AsyncValue<List<MyIPVCCurricularUnit>> curricularPlan =
+        ref.watch(curricularPlanProvider);
 
     return Scaffold(
-      appBar: AppBar(
-        title: const Text("Plano curricular"),
-      ),
-      body: curricularPlan.when(
-        loading: () => const LoadingView(),
-        error: (err, stack) => ErrorView(error: "$err"),
-        data: (curricularPlan) {
-          List<int> years = [];
+        appBar: AppBar(
+          title: const Text("Plano curricular"),
+        ),
+        body: curricularPlan.when(
+            loading: () => const LoadingView(),
+            error: (err, stack) => ErrorView(error: "$err"),
+            data: (curricularPlan) {
+              List<int> years = [];
 
-          for(var curricularUnit in curricularPlan) {
-            if(!years.contains(curricularUnit.ano_curricular)){
-              years.add(curricularUnit.ano_curricular);
-            }
-          }
+              for (var curricularUnit in curricularPlan) {
+                if (!years.contains(curricularUnit.anoCurricular)) {
+                  years.add(curricularUnit.anoCurricular);
+                }
+              }
 
-          // Just to be sure
-          years.sort();
+              // Just to be sure
+              years.sort();
 
-          return Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 10),
-            child: ListView(
-              children: [
-                for(var year in years) Card(
-                    elevation: 2,
-                    child: Theme(
-                      data: Theme.of(context).copyWith(dividerColor: Colors.transparent),
-                      child: ExpansionTile(
-                        title: Text(
-                            "$yearº ano",
-                            style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold)
-                        ),
-                        children: [
-                          for(var curricularUnit in curricularPlan)
-                            if(curricularUnit.ano_curricular == year)
-                              CurricularUnitButton(curricularUnit: curricularUnit)
-                        ],
-                      ),
-                    )
-                )
-              ],
-            ),
-          );
-        }
-      )
-    );
+              return Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 10),
+                child: ListView(
+                  children: [
+                    for (var year in years)
+                      Card(
+                          elevation: 2,
+                          child: Theme(
+                            data: Theme.of(context)
+                                .copyWith(dividerColor: Colors.transparent),
+                            child: ExpansionTile(
+                              title: Text("$yearº ano",
+                                  style: const TextStyle(
+                                      fontSize: 18,
+                                      fontWeight: FontWeight.bold)),
+                              children: [
+                                for (var curricularUnit in curricularPlan)
+                                  if (curricularUnit.anoCurricular == year)
+                                    CurricularUnitButton(
+                                        curricularUnit: curricularUnit)
+                              ],
+                            ),
+                          ))
+                  ],
+                ),
+              );
+            }));
   }
 }
