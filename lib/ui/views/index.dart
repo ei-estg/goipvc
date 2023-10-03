@@ -89,15 +89,15 @@ class _IndexViewState extends State<IndexView> {
           title: const Logo(),
           actions: const <Widget>[
             IconButton(
-                onPressed: null,
-                icon: Icon(
-                    Icons.notifications_none_outlined,
-                    size: 28,
-                ),
-                // TODO: detect notifications, and use this badge
-                /*Badge(
-                  child: Icon(Icons.notifications_none_outlined),
-                ),*/
+              onPressed: null,
+              icon: Icon(
+                Icons.notifications_none_outlined,
+                size: 28,
+              ),
+              // TODO: detect notifications, and use this badge
+              /*Badge(
+                child: Icon(Icons.notifications_none_outlined),
+              ),*/
             )
           ],
         ),
