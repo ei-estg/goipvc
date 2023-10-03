@@ -91,7 +91,9 @@ class SAS {
       meals.add(SASMeal(
           meal: meal["meal"],
           id: meal["id"],
-          name: meal["translations"][0]["name"],
+          name: meal["translations"]
+                  .where((obj) => obj["language_id"] == 3).first["name"]
+                ?? meal["translations"][0]["name"],
           price: meal["price"],
           type: meal["type"]["translations"][0]["name"],
           location: meal["location"],
