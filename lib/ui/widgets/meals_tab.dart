@@ -5,7 +5,9 @@ import 'package:goipvc/models/sas/meal.dart';
 import 'package:goipvc/providers/quick_meals_provider.dart';
 import 'package:goipvc/ui/views/info.dart';
 import 'package:goipvc/ui/widgets/meal_card.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
+import '../../providers/shared_preferences_provider.dart';
 import '../views/error.dart';
 import '../views/loading.dart';
 
@@ -15,6 +17,13 @@ class MealsTab extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     AsyncValue<List<List<SASMeal>>> meals = ref.watch(quickMealsProvider);
+    SharedPreferences prefs = ref.read(sharedPreferencesProvider);
+
+    if(prefs.getString("sas_refresh") == null) {
+      return const ErrorView(
+          error: "Por favor inicie sessão novamente"
+      );
+    }
 
     return meals.when(
       loading: () => const LoadingView(),

@@ -17,11 +17,11 @@ class _InitViewState extends State<InitView> {
   void initState() {
     super.initState();
     MyIPVCAPI().verifyAuth().then((myipvc) {
-      SAS.fetchAccessToken().then((sas) => {
+      SAS.fetchAccessToken().then((_) => {
         Navigator.pushReplacement(
           context,
-            // if authenticated in both myipvc or sas
-            (myipvc && sas)
+            // check myipvc authentication
+            myipvc
             ? MaterialPageRoute(builder: (context) => const IndexView())
             : MaterialPageRoute(builder: (context) => LoginView())
         )
