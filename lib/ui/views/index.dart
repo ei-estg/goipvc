@@ -42,11 +42,18 @@ class _IndexViewState extends State<IndexView> {
                           ScaffoldMessenger.of(context).clearSnackBars();
                           ScaffoldMessenger.of(context).showSnackBar(
                             const SnackBar(
-                              content: Text("A transferir atualização..."),
-                              duration: Duration(seconds: 3),
+                              content: Text(
+                                  "A transferir atualização...\n"
+                                  "Após a transferência será pedido para confirmar a instalação."
+                              ),
+                              // I think this is long enough :)
+                              duration: Duration(days: 365),
                             ),
                           );
-                          downloadUpdateAndroid();
+
+                          downloadUpdateAndroid().then((value) => {
+                            ScaffoldMessenger.of(context).clearSnackBars()
+                          });
                         } catch (error) {
                           ScaffoldMessenger.of(context).showSnackBar(
                             const SnackBar(
