@@ -14,7 +14,13 @@ import 'package:syncfusion_localizations/syncfusion_localizations.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   final sharedPreferences = await SharedPreferences.getInstance();
-  AndroidDeviceInfo androidDeviceInfo = await DeviceInfoPlugin().androidInfo;
+  AndroidDeviceInfo? androidDeviceInfo;
+
+  try {
+    androidDeviceInfo = await DeviceInfoPlugin().androidInfo;
+  } catch (err) {
+    androidDeviceInfo = null;
+  }
 
   runApp(ProviderScope(
     overrides: [
