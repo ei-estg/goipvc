@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:device_info_plus/device_info_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -22,7 +20,7 @@ class ThemeSettings<T> extends ConsumerWidget {
   const ThemeSettings({super.key});
 
   void _showAppearanceMenu(BuildContext context, WidgetRef ref) {
-    AndroidDeviceInfo androidDeviceInfo = ref.watch(androidDeviceInfoProvider);
+    AndroidDeviceInfo? androidDeviceInfo = ref.watch(androidDeviceInfoProvider);
 
     showDialog(
       context: context,
@@ -34,7 +32,7 @@ class ThemeSettings<T> extends ConsumerWidget {
             children: [
               // Check if it's android and version 12 or above
               // if not disable material you option
-              if(Platform.isAndroid && androidDeviceInfo.version.sdkInt >= 31)
+              if(androidDeviceInfo != null && androidDeviceInfo.version.sdkInt >= 31)
                 RadioListTile<String>(
                   title: const Text("Dispositivo"),
                   value: "system",

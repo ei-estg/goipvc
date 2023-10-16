@@ -14,9 +14,15 @@ class SchoolMapView extends ConsumerWidget {
 
   void _openImage(BuildContext context, String img) {
     Navigator.of(context).push(MaterialPageRoute(
-        builder: (context) => PhotoView(
-              imageProvider: AssetImage(img),
-            )));
+        builder: (context) => Scaffold(
+          appBar: AppBar(title: const Text("Piso")),
+          body: PhotoView(
+            imageProvider: AssetImage(img),
+            backgroundDecoration: BoxDecoration(
+                color: Theme.of(context).colorScheme.surface
+            ),
+          ),
+        )));
   }
 
   @override

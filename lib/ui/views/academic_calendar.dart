@@ -6,6 +6,14 @@ class AcademicCalendarView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return PhotoView(imageProvider: const AssetImage("assets/calendar.png"));
+    return Scaffold(
+      appBar: AppBar(title: const Text("Calendário académico")),
+      body: PhotoView(
+        imageProvider: const AssetImage("assets/calendar.png"),
+        backgroundDecoration: BoxDecoration(
+            color: Theme.of(context).colorScheme.surface
+        ),
+      ),
+    );
   }
 }

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:goipvc/services/myipvc_api.dart';
 import 'package:goipvc/ui/views/login.dart';
 
+import '../../services/github.dart';
 import '../../services/sas_api.dart';
 import 'index.dart';
 
@@ -16,6 +17,7 @@ class _InitViewState extends State<InitView> {
   @override
   void initState() {
     super.initState();
+    checkIfAppWasUpdated();
     MyIPVCAPI().verifyAuth().then((myipvc) {
       SAS.fetchAccessToken().then((_) => {
         Navigator.pushReplacement(

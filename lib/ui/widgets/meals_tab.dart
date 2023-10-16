@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:goipvc/models/sas/meal.dart';
 import 'package:goipvc/providers/quick_meals_provider.dart';
@@ -18,6 +17,7 @@ class MealsTab extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     AsyncValue<List<List<SASMeal>>> meals = ref.watch(quickMealsProvider);
     SharedPreferences prefs = ref.read(sharedPreferencesProvider);
+    final deviceWidth = MediaQuery.of(context).size.width;
 
     if(prefs.getString("sas_refresh") == null) {
       return const ErrorView(
@@ -59,8 +59,8 @@ class MealsTab extends ConsumerWidget {
                 GridView.builder(
                   shrinkWrap: true,
                   physics: const NeverScrollableScrollPhysics(),
-                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 2,
+                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: (deviceWidth / 225).round(),
                     mainAxisSpacing: 4.0,
                     crossAxisSpacing: 4.0,
                     childAspectRatio: 0.75
