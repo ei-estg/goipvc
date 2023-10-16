@@ -18,6 +18,9 @@ class SchoolMapView extends ConsumerWidget {
           appBar: AppBar(title: const Text("Piso")),
           body: PhotoView(
             imageProvider: AssetImage(img),
+            backgroundDecoration: BoxDecoration(
+                color: Theme.of(context).colorScheme.surface
+            ),
           ),
         )));
   }
