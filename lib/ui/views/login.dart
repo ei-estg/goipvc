@@ -5,7 +5,7 @@ import 'package:goipvc/providers/settings_provider.dart';
 import 'package:goipvc/providers/shared_preferences_provider.dart';
 import 'package:goipvc/services/myipvc_api.dart';
 import 'package:goipvc/ui/views/index.dart';
-import 'package:goipvc/ui/widgets/ipvc_logo.dart';
+import 'package:goipvc/ui/widgets/goipvc_logo.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../services/sas_api.dart';
@@ -102,15 +102,19 @@ class LoginView extends ConsumerWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            Padding(
-              padding: const EdgeInsets.fromLTRB(64, 0, 64, 32),
-              child: IpvcLogo(),
+            const Padding(
+              padding: EdgeInsets.fromLTRB(64, 0, 64, 32),
+              child: GoIPVCLogo(size: 64),
             ),
             AutofillGroup(
               child: Padding(
                 padding: const EdgeInsets.fromLTRB(32, 0, 32, 16),
-                child: Column(
-                  children: [
+                child: SizedBox(
+                  width: MediaQuery.of(context).orientation.name == "portrait"
+                    ? null
+                    : MediaQuery.of(context).size.width/2,
+                  child: Column(
+                    children: [
                     TextField(
                       focusNode: _usernameFocusNode,
                       decoration: InputDecoration(
@@ -137,7 +141,8 @@ class LoginView extends ConsumerWidget {
                       autocorrect: false,
                     ),
                   ],
-                ),
+                  ),
+                )
               ),
             ),
             FilledButton.icon(
