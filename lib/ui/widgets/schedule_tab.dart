@@ -33,6 +33,11 @@ class ScheduleTab<T> extends StatelessWidget {
               bool lessonsToday = false;
 
               for (var lesson in schedule) {
+                if(["#ff0000", "#f4b7b7", "#f0a0a0", "#f0a0a0"]
+                    .contains(lesson.corValor)){
+                  continue;
+                }
+
                 DateTime lessonDate = DateTime.parse(lesson.dataHoraIni);
                 lessonDate =
                     DateTime(lessonDate.year, lessonDate.month, lessonDate.day);
