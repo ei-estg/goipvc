@@ -19,7 +19,7 @@ class IndexView extends StatefulWidget {
 }
 
 class _IndexViewState extends State<IndexView> {
-  int currentPageIndex = 0;
+  int currentPageIndex = 3;
 
   @override
   void initState(){
@@ -89,6 +89,29 @@ class _IndexViewState extends State<IndexView> {
       const MenuView()
     ];
 
+    const destinations = [
+      NavigationRailDestination(
+        selectedIcon: Icon(Icons.home),
+        icon: Icon(Icons.home_outlined),
+        label: Text('Início'),
+      ),
+      NavigationRailDestination(
+        selectedIcon: Icon(Icons.today),
+        icon: Icon(Icons.today_outlined),
+        label: Text('Horário'),
+      ),
+      NavigationRailDestination(
+        selectedIcon: Icon(Icons.map),
+        icon: Icon(Icons.map_outlined),
+        label: Text('Plantas'),
+      ),
+      NavigationRailDestination(
+        selectedIcon: Icon(Icons.menu),
+        icon: Icon(Icons.menu_outlined),
+        label: Text('Menu'),
+      ),
+    ];
+
     return Scaffold(
         appBar: AppBar(
           centerTitle: false,
@@ -108,61 +131,67 @@ class _IndexViewState extends State<IndexView> {
             )
           ],
         ),
-        bottomNavigationBar: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            const Divider(height: 0),
-            NavigationBar(
-              onDestinationSelected: (int index) {
-                setState(() {
-                  currentPageIndex = index;
-                });
-              },
-              indicatorColor: Theme.of(context).colorScheme.primary,
-              selectedIndex: currentPageIndex,
-              destinations: const <Widget>[
-                NavigationDestination(
-                  selectedIcon: Icon(Icons.home),
-                  icon: Icon(Icons.home_outlined),
-                  label: 'Início',
-                ),
-                NavigationDestination(
-                  selectedIcon: Icon(Icons.today),
-                  icon: Icon(Icons.today_outlined),
-                  label: 'Horário',
-                ),
-                NavigationDestination(
-                  selectedIcon: Icon(Icons.map),
-                  icon: Icon(Icons.map_outlined),
-                  label: 'Plantas',
-                ),
-                NavigationDestination(
-                  selectedIcon: Icon(Icons.menu),
-                  icon: Icon(Icons.menu_outlined),
-                  label: 'Menu',
-                ),
+        bottomNavigationBar:
+          MediaQuery.of(context).orientation == Orientation.portrait
+            ? Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                NavigationBar(
+                  onDestinationSelected: (int index) {
+                    setState(() {
+                      currentPageIndex = index;
+                    });
+                  },
+                  indicatorColor: Theme.of(context).colorScheme.primary,
+                  selectedIndex: currentPageIndex,
+                  destinations: destinations.map((destination) {
+                    return NavigationDestination(
+                        icon: destination.icon,
+                        label: (destination.label as Text).data!
+                    );
+                  }).toList()
+                )
               ],
             )
+            : null,
+
+
+        body: Row(
+          children: [
+            if(MediaQuery.of(context).orientation == Orientation.landscape)
+              NavigationRail(
+                onDestinationSelected: (int index) {
+                  setState(() {
+                    currentPageIndex = index;
+                  });
+                },
+                labelType: NavigationRailLabelType.all,
+                indicatorColor: Theme.of(context).colorScheme.primary,
+                selectedIndex: currentPageIndex,
+                destinations: destinations,
+              ),
+            Expanded(
+              child: WillPopScope(
+                onWillPop: () async {
+                  if(currentPageIndex != 0) {
+                    setState(() {
+                      currentPageIndex = 0;
+                    });
+                    return false;
+                  }
+                  return true;
+                },
+                child: AnimatedSwitcher(
+                  duration: const Duration(milliseconds: 200),
+                  transitionBuilder: (Widget child, Animation<double> animation) {
+                    return FadeTransition(opacity: animation, child: child);
+                  },
+                  child: pages[currentPageIndex],
+                ),
+              ),
+            ),
           ],
         ),
-        body: WillPopScope(
-          onWillPop: () async {
-            if(currentPageIndex != 0) {
-              setState(() {
-                currentPageIndex = 0;
-              });
-              return false;
-            }
-            return true;
-          },
-          child: AnimatedSwitcher(
-            duration: const Duration(milliseconds: 200),
-            transitionBuilder: (Widget child, Animation<double> animation) {
-              return FadeTransition(opacity: animation, child: child);
-            },
-            child: pages[currentPageIndex],
-          ),
-        )
     );
   }
 }
