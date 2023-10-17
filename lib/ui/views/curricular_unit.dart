@@ -54,11 +54,12 @@ class CurricularUnitView extends StatelessWidget {
                             textAlign: TextAlign.center,
                           )),
                       Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Chip(
                               avatar: const Icon(Icons.schedule),
                               label: Text("TP: ${curricularUnit.tp} horas")),
+                          const Padding(padding: EdgeInsets.symmetric(horizontal: 8)),
                           Chip(
                               avatar: const Icon(Icons.schedule),
                               label: Text("PL: ${curricularUnit.pl} horas")),
