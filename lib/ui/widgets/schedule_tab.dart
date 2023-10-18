@@ -33,7 +33,7 @@ class ScheduleTab<T> extends StatelessWidget {
               bool lessonsToday = false;
 
               for (var lesson in schedule) {
-                if(["#ff0000", "#f4b7b7", "#f0a0a0", "#f0a0a0"]
+                if(["#ff0000", "#f4b7b7", "#f0a0a0", "#f0a0a0", "#7f5555"]
                     .contains(lesson.corValor)){
                   continue;
                 }
@@ -49,6 +49,7 @@ class ScheduleTab<T> extends StatelessWidget {
                 }
 
                 if (!verifyIfLessonExpired(lesson)) {
+                  print(lesson.horNome + " " + lesson.corValor);
                   todaySchedule.add(lesson);
                 }
               }

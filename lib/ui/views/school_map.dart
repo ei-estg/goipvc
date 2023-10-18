@@ -32,6 +32,7 @@ class SchoolMapView extends ConsumerWidget {
     final systemTheme =
         SchedulerBinding.instance.platformDispatcher.platformBrightness;
     var theme = "";
+    final deviceWidth = MediaQuery.of(context).size.width;
 
     if (settings.theme == "system") {
       if (systemTheme == Brightness.dark) {
@@ -49,20 +50,24 @@ class SchoolMapView extends ConsumerWidget {
       return const InfoView(message: "Não existem plantas para a sua escola");
     }
 
-    return SingleChildScrollView(
-        child: Column(
-      children: [
-        for (var map in schoolMaps[profile.unidadeOrganica]!)
-          Padding(
-            padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 8),
-            child: GestureDetector(
-              onTap: () {
-                _openImage(context, map[theme]);
-              },
-              child: Image.asset(map[theme]),
-            ),
-          )
-      ],
-    ));
+    return GridView.builder(
+        shrinkWrap: true,
+        padding: const EdgeInsets.all(8),
+        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+            crossAxisCount: (deviceWidth / 500).round(),
+            mainAxisSpacing: 4.0,
+            crossAxisSpacing: 4.0,
+            childAspectRatio: 1.57
+        ),
+        itemCount: schoolMaps[profile.unidadeOrganica]!.length,
+        itemBuilder: (BuildContext context, int index) {
+          return GestureDetector(
+            onTap: () {
+              _openImage(context, schoolMaps[profile.unidadeOrganica]![index][theme]);
+            },
+            child: Image.asset(schoolMaps[profile.unidadeOrganica]![index][theme]),
+          );
+        }
+    );
   }
 }
