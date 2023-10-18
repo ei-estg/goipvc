@@ -97,7 +97,7 @@ class SAS {
           price: meal["price"],
           type: meal["type"]["translations"][0]["name"],
           location: meal["location"],
-          imageUrl: meal["file"]["url"],
+          imageUrl: meal["file"] != null ? meal["file"]["url"] : null,
           available: meal["available"]
       ));
     }

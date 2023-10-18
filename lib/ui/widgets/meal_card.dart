@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:goipvc/models/sas/meal.dart';
+import 'package:goipvc/ui/widgets/default_meal.dart';
 
 class MealCard extends StatelessWidget {
   final SASMeal meal;
@@ -21,20 +22,20 @@ class MealCard extends StatelessWidget {
             children: [
               Row(
                   children: [
-                    Expanded(child: Image.network(
-                      meal.imageUrl,
-                      width: double.infinity,
-                      height: 100,
-                      fit: BoxFit.fitWidth,
-                      errorBuilder: (_, __, ___) {
-                        return Image.asset(
-                          "assets/default_meal.jpeg",
+                    Expanded(
+                      child:
+                      meal.imageUrl != null
+                        ? Image.network(
+                          meal.imageUrl!,
                           width: double.infinity,
                           height: 100,
                           fit: BoxFit.fitWidth,
-                        );
-                      },
-                    ))
+                          errorBuilder: (_, __, ___) {
+                            return const DefaultMealImage();
+                          },
+                        )
+                        : const DefaultMealImage()
+                    )
                   ]
               ),
               Row(

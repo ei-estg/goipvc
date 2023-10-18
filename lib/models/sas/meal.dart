@@ -16,6 +16,6 @@ class SASMeal {
   double price;
   String type;
   String location;
-  String imageUrl;
+  String? imageUrl;
   bool available;
 }
