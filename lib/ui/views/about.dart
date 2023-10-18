@@ -30,7 +30,7 @@ class AboutView extends ConsumerWidget {
         child: SingleChildScrollView(child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const GoIPVCLogo(),
+            const GoIPVCLogo(size: 48),
             Padding(
               padding: const EdgeInsets.only(top: 16),
               child: Row(
