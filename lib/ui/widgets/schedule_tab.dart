@@ -49,7 +49,6 @@ class ScheduleTab<T> extends StatelessWidget {
                 }
 
                 if (!verifyIfLessonExpired(lesson)) {
-                  print(lesson.horNome + " " + lesson.corValor);
                   todaySchedule.add(lesson);
                 }
               }
