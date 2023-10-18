@@ -19,7 +19,7 @@ class IndexView extends StatefulWidget {
 }
 
 class _IndexViewState extends State<IndexView> {
-  int currentPageIndex = 3;
+  int currentPageIndex = 0;
 
   @override
   void initState(){
