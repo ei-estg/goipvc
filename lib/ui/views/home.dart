@@ -4,10 +4,9 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:goipvc/models/myipvc/user.dart';
 import 'package:goipvc/providers/profile_provider.dart';
 import 'package:goipvc/ui/views/error.dart';
+import 'package:goipvc/ui/widgets/catchphrase.dart';
+import 'package:goipvc/ui/widgets/home_view_tabs.dart';
 import 'package:goipvc/ui/widgets/profile_picture.dart';
-
-import '../widgets/meals_tab.dart';
-import '../widgets/schedule_tab.dart';
 
 class HomeView extends StatefulWidget {
   const HomeView({Key? key}) : super(key: key);
@@ -39,115 +38,98 @@ class HomeViewState extends State<HomeView> with SingleTickerProviderStateMixin 
         MyIPVCUser? profile = ref.watch(profileProvider);
 
       return profile != null
-      ? Center(
-        child: Column(
-          children: [
-            Padding(
-              padding: const EdgeInsets.fromLTRB(0, 20, 0, 20),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
+      ? Builder(
+          builder: (context) {
+            if(MediaQuery.of(context).orientation == Orientation.portrait){
+              return Center(
+                  child: Column(
                     children: [
-                      RichText(
-                        text: TextSpan(
-                          style: TextStyle(
-                            fontSize: 15,
-                            color: Theme.of(context).colorScheme.onPrimaryContainer,
-                          ),
-                          children: const <TextSpan>[
-                            TextSpan(
-                              text: 'O ',
+                      Padding(
+                        padding: const EdgeInsets.fromLTRB(0, 20, 0, 20),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceAround,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                const CatchPhrase(),
+                                Text(
+                                  "Olá ${profile.nome.split(" ")[0]}!",
+                                  style: TextStyle(
+                                    fontSize: 32,
+                                    color: Theme.of(context).colorScheme.primary,
+                                  ),
+                                  textAlign: TextAlign.left,
+                                )
+                              ],
                             ),
-                            TextSpan(
-                              text: 'teu',
-                              style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                            TextSpan(
-                              text: '.',
-                              style: TextStyle(
-                                fontSize: 80,
-                                height: 0.1
-                              ),
-                            ),
-                            TextSpan(
-                              text: 'de partida',
+                            ProfilePicture(
+                              imageData: profile.fotografia,
+                              size: 100,
                             ),
                           ],
                         ),
-                        textAlign: TextAlign.left,
                       ),
-                      Text(
-                        "Olá ${profile.nome.split(" ")[0]}!",
-                        style: TextStyle(
-                          fontSize: 32,
-                          color: Theme.of(context).colorScheme.primary,
-                        ),
-                        textAlign: TextAlign.left,
+                      IntrinsicHeight(
+                          child: Row(
+                              crossAxisAlignment: CrossAxisAlignment.stretch,
+                              children: [
+                                Expanded(
+                                  child:
+                                  SvgPicture.asset(
+                                    'assets/ipvc-divider.svg',
+                                    width: 1000,
+                                  ),
+                                ),
+                              ]
+                          )
+                      ),
+                      Expanded(
+                          flex: 1,
+                          child: HomeViewTabs(tabController: _tabController)
                       )
                     ],
-                  ),
-                  ProfilePicture(
-                    imageData: profile.fotografia,
-                    size: 100,
-                  ),
-                ],
-              ),
-            ),
-            IntrinsicHeight(
-              child: Row(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
+                  )
+              );
+            } else {
+              return Row(
                 children: [
                   Expanded(
-                    child:
-                      SvgPicture.asset(
-                        'assets/ipvc-divider.svg',
-                        width: 1000,
-                      ),
-                  ),
-                ]
-              )
-            ),
-            Expanded(
-                flex: 1,
-                child: Column(
-                  children: <Widget>[
-                    const Padding(
-                      padding: EdgeInsets.symmetric(vertical: 6, horizontal: 0),
-                      child: Text("Hoje", style: TextStyle(fontSize: 20))
-                    ),
-                    TabBar(
-                      controller: _tabController,
-                      tabs: const <Tab>[
-                        Tab(
-                          text: "Aulas",
-                          icon: Icon(Icons.schedule),
+                    flex: 1,
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        ProfilePicture(
+                          imageData: profile.fotografia,
+                          size: MediaQuery.of(context).size.width/10,
                         ),
-                        Tab(
-                          text: "Ementas",
-                          icon: Icon(Icons.restaurant_menu),
-                        )
-                      ],
-                    ),
-                    Expanded(
-                      flex: 1,
-                      child: TabBarView(
-                        controller: _tabController,
-                        children: const <Widget>[
-                          ScheduleTab(),
-                          MealsTab()
-                        ],
-                      )
+                        const Padding(padding: EdgeInsets.symmetric(vertical: 8)),
+                        const CatchPhrase(),
+                        Text(
+                          "Olá ${profile.nome.split(" ")[0]}!",
+                          style: TextStyle(
+                            fontSize: 32,
+                            color: Theme.of(context).colorScheme.primary,
+                          ),
+                          textAlign: TextAlign.left,
+                        ),
+                        const Padding(padding: EdgeInsets.symmetric(vertical: 8)),
+                        SvgPicture.asset(
+                          'assets/ipvc-divider.svg',
+                          width: MediaQuery.of(context).size.width / 6,
+                        ),
+                      ]
                     )
-                  ],
-                )
-              )
-          ],
-        )
+                  ),
+                  Expanded(
+                    flex: 3,
+                    child: HomeViewTabs(tabController: _tabController)
+                  )
+                ],
+              );
+            }
+          }
       )
       : const ErrorView(error: "Erro a obter perfil");
       },
