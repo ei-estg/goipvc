@@ -60,7 +60,10 @@ class MealsTab extends ConsumerWidget {
                   shrinkWrap: true,
                   physics: const NeverScrollableScrollPhysics(),
                   gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: (deviceWidth / 225).round(),
+                    crossAxisCount:
+                      MediaQuery.of(context).orientation == Orientation.portrait
+                        ? (deviceWidth / 250).round()
+                        : ((deviceWidth * 0.75) / 250).round(),
                     mainAxisSpacing: 4.0,
                     crossAxisSpacing: 4.0,
                     childAspectRatio: 0.75
