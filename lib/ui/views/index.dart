@@ -147,6 +147,7 @@ class _IndexViewState extends State<IndexView> {
                   destinations: destinations.map((destination) {
                     return NavigationDestination(
                         icon: destination.icon,
+                        selectedIcon: destination.selectedIcon,
                         label: (destination.label as Text).data!
                     );
                   }).toList()
