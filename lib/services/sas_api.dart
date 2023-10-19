@@ -3,8 +3,9 @@ import 'package:goipvc/models/sas/meal.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class SAS {
-  static final Dio _dio = Dio();
-  static const String _baseURL = "https://sasocial.sas.ipvc.pt/api";
+  static final Dio _dio = Dio(BaseOptions(
+    baseUrl: "https://sasocial.sas.ipvc.pt/api"
+  ));
 
   static Future<String> getAccessToken() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -16,7 +17,7 @@ class SAS {
     SharedPreferences prefs = await SharedPreferences.getInstance();
 
     final response = await _dio.post(
-      "$_baseURL/authorization/authorize/refresh-token/WEB",
+      "/authorization/authorize/refresh-token/WEB",
       options: Options(
         headers: {
           'Cookie': 'refreshTokenWEB=${prefs.getString("sas_refresh")}',
@@ -42,7 +43,7 @@ class SAS {
     SharedPreferences prefs = await SharedPreferences.getInstance();
 
     final response = await _dio.post(
-      "$_baseURL/authorization/authorize/device-type/WEB",
+      "/authorization/authorize/device-type/WEB",
       data: {
         'email': "$username@ipvc.pt",
         'password': password,
@@ -74,7 +75,7 @@ class SAS {
     final token = await getAccessToken();
 
     final lunchMeals = await _dio.get(
-      "$_baseURL/alimentation/menu/service/1/menus/$date/$mealType?withRelated=taxes,file",
+      "/alimentation/menu/service/1/menus/$date/$mealType?withRelated=taxes,file",
       options: Options(
         headers: {
           'Authorization': 'Bearer $token',
