@@ -3,5 +3,5 @@ import 'package:goipvc/models/myipvc/card.dart';
 import 'package:goipvc/services/myipvc_api.dart';
 
 final digitalCardProvider = FutureProvider<MyIPVCCard>((ref) async {
-  return await MyIPVCAPI().getDigitalCard();
+  return await MyIPVCAPI.getDigitalCard();
 });
