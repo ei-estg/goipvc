@@ -18,7 +18,7 @@ class _InitViewState extends State<InitView> {
   void initState() {
     super.initState();
     checkIfAppWasUpdated();
-    MyIPVCAPI().verifyAuth().then((myipvc) {
+    MyIPVCAPI.verifyAuth().then((myipvc) {
       SAS.fetchAccessToken().then((_) => {
         Navigator.pushReplacement(
           context,

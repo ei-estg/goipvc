@@ -15,7 +15,7 @@ class CurricularUnitView extends StatelessWidget {
   });
 
   Future<MyIPVCDetailedCurricularUnit> _getDetailedCurricularUnit() async {
-    return await MyIPVCAPI().getDetailedCurricularUnit(curricularUnit);
+    return await MyIPVCAPI.getDetailedCurricularUnit(curricularUnit);
   }
 
   @override
