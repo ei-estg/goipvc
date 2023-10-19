@@ -3,5 +3,5 @@ import 'package:goipvc/models/myipvc/lesson.dart';
 import 'package:goipvc/services/myipvc_api.dart';
 
 final scheduleProvider = FutureProvider<List<MyIPVCLesson>>((ref) async {
-  return await MyIPVCAPI().getSchedule();
+  return await MyIPVCAPI.getSchedule();
 });

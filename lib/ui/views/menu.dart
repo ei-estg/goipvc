@@ -88,7 +88,7 @@ class _MenuViewState extends State<MenuView> {
             icon: const Icon(Icons.logout),
             text: const Text("Terminar sessão"),
             onTap: () {
-              MyIPVCAPI().logout();
+              MyIPVCAPI.logout();
               Navigator.pushReplacement(
                   context,
                   MaterialPageRoute(builder: (context) => LoginView())

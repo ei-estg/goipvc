@@ -13,26 +13,26 @@ import '../models/myipvc/grade.dart';
 import '../models/myipvc/user.dart';
 
 class MyIPVCAPI {
-  final _dio = Dio();
-  final String _baseURL = "https://app.ipvc.pt";
+  static final _dio = Dio(BaseOptions(
+    baseUrl: "https://app.ipvc.pt",
+    headers: {
+      "x-version": "999999"
+    }
+  ));
 
-  MyIPVCAPI() {
-    _dio.options.headers["x-version"] = "999999";
-  }
-
-  Future<String> getToken() async{
+  static Future<String> getToken() async{
     SharedPreferences prefs = await SharedPreferences.getInstance();
 
     return prefs.getString("token")!;
   }
 
-  Future<void> saveToken(String token) async {
+  static Future<void> saveToken(String token) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
 
     prefs.setString("token", token);
   }
-  
-  Future<MyIPVCUser> getUser() async {
+
+  static Future<MyIPVCUser> getUser() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
 
     String userData = prefs.getString("user")!;
@@ -40,11 +40,11 @@ class MyIPVCAPI {
     return MyIPVCUser.fromJson(jsonDecode(userData));
   }
 
-  Future<String?> login(String username, String password) async {
+  static Future<String?> login(String username, String password) async {
     String encryptedPassword = encryptAESCryptoJS(password, "sAFasfe35/{ssF?A");
 
     final response = await _dio.post(
-      "$_baseURL/api/Ipvc/Login",
+      "/api/Ipvc/Login",
       data: jsonEncode(<String, String>{
         'username': username,
         'password': encryptedPassword
@@ -63,16 +63,16 @@ class MyIPVCAPI {
     }
   }
 
-  Future<void> logout() async {
+  static Future<void> logout() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
 
     prefs.remove("token");
     prefs.remove("user");
   }
 
-  Future<List<MyIPVCGrade>> getGrades() async {
+  static Future<List<MyIPVCGrade>> getGrades() async {
     final response = await _dio.post(
-      "$_baseURL/api/academicos/getNotas",
+      "/api/academicos/getNotas",
       data: jsonEncode(<String, String>{
         'token': await getToken(),
       }),
@@ -90,9 +90,9 @@ class MyIPVCAPI {
     return gradeList;
   }
 
-  Future<double> getFinalGrade() async {
+  static Future<double> getFinalGrade() async {
     final response = await _dio.post(
-      "$_baseURL/api/academicos/getMediaFinal",
+      "/api/academicos/getMediaFinal",
       data: jsonEncode(<String, String>{
         'token': await getToken(),
       }),
@@ -110,10 +110,10 @@ class MyIPVCAPI {
     return double.parse(response.data["data"]);
   }
 
-  Future<bool> verifyAuth() async {
+  static Future<bool> verifyAuth() async {
     try {
       await _dio.get(
-        "$_baseURL/api/myipvc/profile",
+        "/api/myipvc/profile",
         data: jsonEncode(<String, String>{
           'token': await getToken(),
         }),
@@ -125,9 +125,9 @@ class MyIPVCAPI {
     }
   }
 
-  Future<List<MyIPVCLesson>> getSchedule() async {
+  static Future<List<MyIPVCLesson>> getSchedule() async {
     final response = await _dio.post(
-      "$_baseURL/api/ipvc/GetHorario",
+      "/api/ipvc/GetHorario",
       data: jsonEncode(<String, String>{
         'token': await getToken(),
       }),
@@ -164,9 +164,9 @@ class MyIPVCAPI {
     return schedule;
   }
 
-  Future<List<MyIPVCCurricularUnit>> getCurricularPlan() async {
+  static Future<List<MyIPVCCurricularUnit>> getCurricularPlan() async {
     final response = await _dio.post(
-      "$_baseURL/api/Ipvc/GetPlanoEstudosByCurso",
+      "/api/Ipvc/GetPlanoEstudosByCurso",
       data: jsonEncode(<String, String>{
         'token': await getToken(),
       }),
@@ -181,14 +181,14 @@ class MyIPVCAPI {
     return curricularPlan;
   }
 
-  Future<MyIPVCDetailedCurricularUnit> getDetailedCurricularUnit(MyIPVCCurricularUnit curricularUnit) async {
+  static Future<MyIPVCDetailedCurricularUnit> getDetailedCurricularUnit(MyIPVCCurricularUnit curricularUnit) async {
     final params = {
       "lang": "pt",
       "params": curricularUnit.toJson()
     };
 
     final response = await _dio.post(
-      "$_baseURL/api/Ipvc/getPUC",
+      "/api/Ipvc/getPUC",
       data: jsonEncode(params),
     );
 
@@ -214,9 +214,9 @@ class MyIPVCAPI {
     return data;
   }
 
-  Future<MyIPVCCard> getDigitalCard() async {
+  static Future<MyIPVCCard> getDigitalCard() async {
     final response = await _dio.get(
-      "$_baseURL/api/myipvc/digitalcard/",
+      "/api/myipvc/digitalcard/",
       data: jsonEncode(<String, String>{
         'token': await getToken(),
       }),
@@ -230,9 +230,9 @@ class MyIPVCAPI {
     return MyIPVCCard.fromJson(response.data);
   }
 
-  Future<List<MyIPVCExam>> getExams() async {
+  static Future<List<MyIPVCExam>> getExams() async {
     final response = await _dio.post(
-      "$_baseURL/api/academicos/obtemCalendarioExames",
+      "/api/academicos/obtemCalendarioExames",
       data: jsonEncode(<String, String>{
         'token': await getToken(),
       }),

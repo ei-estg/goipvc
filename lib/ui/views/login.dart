@@ -53,7 +53,7 @@ class LoginView extends ConsumerWidget {
     }
 
     try {
-      String? user = await MyIPVCAPI()
+      String? user = await MyIPVCAPI
           .login(_usernameController.text, _passwordController.text);
 
       int sasAuthSuccess = await SAS

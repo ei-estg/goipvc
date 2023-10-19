@@ -1,7 +1,7 @@
 import 'package:device_info_plus/device_info_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:goipvc/providers/deviceInfoProvider.dart';
+import 'package:goipvc/providers/device_info_provider.dart';
 import 'package:goipvc/providers/settings_provider.dart';
 
 class _PopUpNotifier extends StateNotifier<bool> {
