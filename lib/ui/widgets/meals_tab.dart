@@ -24,8 +24,10 @@ class MealsTab extends ConsumerWidget {
     }
 
     if(prefs.getString("sas_refresh") == null) {
-      return const ErrorView(
-          error: "Por favor inicie sessão novamente"
+      return ErrorView(
+        error: "Por favor inicie sessão novamente",
+        displayError: true,
+        callback: () {meals = ref.refresh(quickMealsProvider);}
       );
     }
 
