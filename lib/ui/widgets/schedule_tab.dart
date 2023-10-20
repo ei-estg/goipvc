@@ -23,11 +23,18 @@ class ScheduleTab<T> extends StatelessWidget {
       AsyncValue<List<MyIPVCLesson>> schedule = ref.watch(scheduleProvider);
       ref.watch(_refreshProvider);
 
+      if(schedule.isRefreshing){
+        return const LoadingView();
+      }
+
       return Align(
         alignment: Alignment.center,
         child: schedule.when(
             loading: () => const LoadingView(),
-            error: (err, stack) => ErrorView(error: "$err"),
+            error: (err, stack) => ErrorView(
+              error: "$err",
+              callback: () {schedule = ref.refresh(scheduleProvider);},
+            ),
             data: (schedule) {
               List<MyIPVCLesson> todaySchedule = [];
               bool lessonsToday = false;
