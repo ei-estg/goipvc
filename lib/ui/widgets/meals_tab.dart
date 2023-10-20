@@ -41,7 +41,15 @@ class MealsTab extends ConsumerWidget {
         return RefreshIndicator(
             child: Builder(builder: (context) {
               if(meals[0].isEmpty && meals[1].isEmpty){
-                return const InfoView(message: "Não existem refeições hoje");
+                return const Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    SingleChildScrollView(
+                      physics: AlwaysScrollableScrollPhysics(),
+                      child: InfoView(message: "Não existem refeições hoje",)
+                    )
+                  ],
+                );
               }
 
               return ListView.builder(
