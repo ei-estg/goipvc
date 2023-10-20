@@ -61,19 +61,12 @@ class ScheduleTab<T> extends StatelessWidget {
                 return const InfoView(message: "Não existem aulas hoje");
               }
 
-              return Column(
-                children: [
-                  Expanded(
-                    child: ListView(
-                      children: [
-                        const Padding(padding: EdgeInsets.only(top: 4)),
-                        for (var lesson in todaySchedule)
-                          LessonCard(lesson: lesson),
-                        const Padding(padding: EdgeInsets.only(bottom: 4)),
-                      ],
-                    ),
-                  ),
-                ],
+              return ListView.builder(
+                padding: const EdgeInsets.symmetric(vertical: 4),
+                itemCount: todaySchedule.length,
+                itemBuilder: (context, i) {
+                  return LessonCard(lesson: todaySchedule[i]);
+                }
               );
             }),
       );
