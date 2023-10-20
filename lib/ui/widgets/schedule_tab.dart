@@ -60,20 +60,32 @@ class ScheduleTab<T> extends StatelessWidget {
                 }
               }
 
-              if (todaySchedule.isEmpty) {
-                if (lessonsToday) {
-                  return const InfoView(message: "Não existem mais aulas hoje");
-                }
+              return RefreshIndicator(
+                onRefresh: () async {return ref.refresh(scheduleProvider);},
+                child: Builder(builder: (context) {
+                  if (todaySchedule.isEmpty) {
+                    return Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        SingleChildScrollView(
+                          physics: const AlwaysScrollableScrollPhysics(),
+                          child: lessonsToday
+                            ? const InfoView(message: "Não existem mais aulas hoje")
+                            : const InfoView(message: "Não existem aulas hoje")
+                        )
+                      ],
+                    );
+                  }
 
-                return const InfoView(message: "Não existem aulas hoje");
-              }
-
-              return ListView.builder(
-                padding: const EdgeInsets.symmetric(vertical: 4),
-                itemCount: todaySchedule.length,
-                itemBuilder: (context, i) {
-                  return LessonCard(lesson: todaySchedule[i]);
-                }
+                  return ListView.builder(
+                      physics: const AlwaysScrollableScrollPhysics(),
+                      padding: const EdgeInsets.symmetric(vertical: 4),
+                      itemCount: todaySchedule.length,
+                      itemBuilder: (context, i) {
+                        return LessonCard(lesson: todaySchedule[i]);
+                      }
+                  );
+                })
               );
             }),
       );
