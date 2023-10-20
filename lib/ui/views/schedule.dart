@@ -45,9 +45,16 @@ class ScheduleView extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     AsyncValue<List<MyIPVCLesson>> schedule = ref.watch(scheduleProvider);
 
+    if(schedule.isRefreshing){
+      return const LoadingView();
+    }
+
     return schedule.when(
         loading: () => const LoadingView(),
-        error: (err, stack) => ErrorView(error: "$err"),
+        error: (err, stack) => ErrorView(
+          error: "$err",
+          callback: () {schedule = ref.refresh(scheduleProvider);},
+        ),
         data: (schedule) {
           return SfCalendar(
             key: ValueKey(DateTime.now()),

@@ -19,6 +19,10 @@ class MealsTab extends ConsumerWidget {
     SharedPreferences prefs = ref.read(sharedPreferencesProvider);
     final deviceWidth = MediaQuery.of(context).size.width;
 
+    if(meals.isRefreshing){
+      return const LoadingView();
+    }
+
     if(prefs.getString("sas_refresh") == null) {
       return const ErrorView(
           error: "Por favor inicie sessão novamente"
@@ -27,7 +31,10 @@ class MealsTab extends ConsumerWidget {
 
     return meals.when(
       loading: () => const LoadingView(),
-      error: (err, stack) => ErrorView(error: "$err"),
+      error: (err, stack) => ErrorView(
+          error: "$err",
+          callback: () {meals = ref.refresh(quickMealsProvider);}
+      ),
       data: (meals) {
         if(meals[0].isEmpty && meals[1].isEmpty){
           return const InfoView(message: "Não existem refeições hoje");
