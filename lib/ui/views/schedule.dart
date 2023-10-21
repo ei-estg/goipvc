@@ -79,15 +79,12 @@ class ScheduleView extends ConsumerWidget {
                 },
               ),
               Positioned(
-                right: 0,
-                top: 0,
-                child: Padding(
-                  padding: const EdgeInsets.only(right: 2),
-                  child: IconButton(
-                    icon: const Icon(Icons.refresh),
-                    onPressed: () {return ref.refresh(scheduleProvider);},
-                  ),
-                )
+                right: 1,
+                top: -5,
+                child: IconButton(
+                  icon: const Icon(Icons.refresh),
+                  onPressed: () {return ref.refresh(scheduleProvider);},
+                ),
               )
             ],
           );
