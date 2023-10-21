@@ -56,25 +56,40 @@ class ScheduleView extends ConsumerWidget {
           callback: () {schedule = ref.refresh(scheduleProvider);},
         ),
         data: (schedule) {
-          return SfCalendar(
-            key: ValueKey(DateTime.now()),
-            view: CalendarView.week,
-            dataSource: MeetingDataSource(_getDataSource(schedule)),
-            timeSlotViewSettings: const TimeSlotViewSettings(
-                timeFormat: 'H:mm',
-                dayFormat: "EEE",
-                startHour: 7,
-                endHour: 24),
-            firstDayOfWeek: 1,
-            cellEndPadding: 0,
-            selectionDecoration: const BoxDecoration(
-              color: Colors.transparent, // Set the border color to transparent
-            ),
-            onTap: (CalendarTapDetails tap) {
-              if (tap.targetElement == CalendarElement.appointment) {
-                _showPopup(context, tap.appointments![0]);
-              }
-            },
+          return Stack(
+            children: [
+              SfCalendar(
+                key: ValueKey(DateTime.now()),
+                view: CalendarView.week,
+                dataSource: MeetingDataSource(_getDataSource(schedule)),
+                timeSlotViewSettings: const TimeSlotViewSettings(
+                    timeFormat: 'H:mm',
+                    dayFormat: "EEE",
+                    startHour: 7,
+                    endHour: 24),
+                firstDayOfWeek: 1,
+                cellEndPadding: 0,
+                selectionDecoration: const BoxDecoration(
+                  color: Colors.transparent, // Set the border color to transparent
+                ),
+                onTap: (CalendarTapDetails tap) {
+                  if (tap.targetElement == CalendarElement.appointment) {
+                    _showPopup(context, tap.appointments![0]);
+                  }
+                },
+              ),
+              Positioned(
+                right: 0,
+                top: 0,
+                child: Padding(
+                  padding: const EdgeInsets.only(right: 2),
+                  child: IconButton(
+                    icon: const Icon(Icons.refresh),
+                    onPressed: () {return ref.refresh(scheduleProvider);},
+                  ),
+                )
+              )
+            ],
           );
         });
   }
