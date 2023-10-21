@@ -32,7 +32,7 @@ class AboutView extends ConsumerWidget {
           children: [
             const GoIPVCLogo(size: 48),
             Padding(
-              padding: const EdgeInsets.only(top: 16),
+              padding: const EdgeInsets.symmetric(vertical: 8),
               child: Row(
                 children: [
                   const Text(
@@ -47,34 +47,10 @@ class AboutView extends ConsumerWidget {
                 ],
               ),
             ),
-            const Text("O goIPVC é uma interface alternativa à aplicação "
-                "oficial do IPVC, \"my ipvc\"."),
+            const Text("O goIPVC é uma interface alternativa à aplicação oficial do IPVC, \"myipvc\", "
+                "desenvolvida por estudantes e ex-estudantes do IPVC. Não tem qualquer afiliação "
+                "com o Instituto Politécnico de Viana do Castelo."),
             const Divider(),
-            const Text(
-              "Aviso legal:",
-              style: TextStyle(fontSize: 24),
-              textAlign: TextAlign.end,
-            ),
-            const Text(
-              "O goIPVC é um projeto independente desenvolvido por estudantes "
-              "do IPVC. Não é oficialmente endossado nem afiliado à "
-              "instituição. No entanto, todos os logotipos e informações "
-              "usados neste aplicativo foram obtidos no site oficial do IPVC "
-              "e seguem as diretrizes de marca da instituição."
-            ),
-            const Padding(padding: EdgeInsets.all(4)),
-            const Text(
-              "Aviso de Direitos Autorais:",
-              style: TextStyle(fontSize: 24),
-              textAlign: TextAlign.end,
-            ),
-            const Text(
-              "Todos os direitos de conteúdo e propriedade intelectual "
-              "relacionados ao IPVC, incluindo logotipos e informações "
-              "oficiais, são de propriedade do Instituto Politécnico "
-              "de Viana do Castelo."
-            ),
-            const Padding(padding: EdgeInsets.all(4)),
             const Text(
               "Contactos:",
               style: TextStyle(fontSize: 24),
