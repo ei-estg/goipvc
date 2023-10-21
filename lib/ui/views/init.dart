@@ -4,6 +4,7 @@ import 'package:goipvc/ui/views/login.dart';
 
 import '../../services/github.dart';
 import '../../services/sas_api.dart';
+import '../widgets/goipvc_logo.dart';
 import 'index.dart';
 
 class InitView extends StatefulWidget {
@@ -37,7 +38,20 @@ class _InitViewState extends State<InitView> {
       body: Center(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[CircularProgressIndicator()],
+            children: <Widget>[
+              Padding(
+                padding: EdgeInsets.fromLTRB(64, 0, 64, 8),
+                child: GoIPVCLogo(size: 64),
+              ),
+              Padding(
+                padding: EdgeInsets.only(bottom: 16),
+                child: Text(
+                  "goIPVC não é um projeto oficial do IPVC",
+                  style: TextStyle(color: Colors.grey),
+                ),
+              ),
+              CircularProgressIndicator()
+            ],
           )
       ),
     );
