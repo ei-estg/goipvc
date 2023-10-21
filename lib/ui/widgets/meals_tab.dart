@@ -102,12 +102,7 @@ class MealsTab extends ConsumerWidget {
               return await ref.refresh(quickMealsProvider);
             }
         );
-
-
-
-
       }
     );
   }
-
 }
