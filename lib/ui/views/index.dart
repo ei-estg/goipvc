@@ -11,6 +11,29 @@ import 'package:url_launcher/url_launcher.dart';
 
 import '../../services/github.dart';
 
+void _errorSnackbar (BuildContext context) {
+  ScaffoldMessenger.of(context).showSnackBar(
+    SnackBar(
+      content: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          const Text(
+              "Erro a transferir atualização.\n"
+              "Por favor atualize no Github."
+          ),
+          TextButton(
+              onPressed: () {
+                launchUrl(Uri.parse("https://github.com/joaoalves03/goipvc/releases/latest"));
+              },
+              child: const Text("Github")
+          )
+        ],
+      ),
+      duration: const Duration(seconds: 10),
+    ),
+  );
+}
+
 class IndexView extends StatefulWidget {
   const IndexView({super.key});
 
@@ -51,16 +74,12 @@ class _IndexViewState extends State<IndexView> {
                             ),
                           );
 
-                          downloadUpdateAndroid().then((value) => {
-                            ScaffoldMessenger.of(context).clearSnackBars()
+                          downloadUpdateAndroid().then((error) => {
+                            ScaffoldMessenger.of(context).clearSnackBars(),
+                            if(error) _errorSnackbar(context)
                           });
                         } catch (error) {
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            const SnackBar(
-                              content: Text("Erro a transferir atualização..."),
-                              duration: Duration(seconds: 5),
-                            ),
-                          );
+                          _errorSnackbar(context);
                         }
                       } else {
                         launchUrl(Uri.parse("https://github.com/joaoalves03/goipvc/releases/latest"));

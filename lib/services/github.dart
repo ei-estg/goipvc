@@ -18,16 +18,22 @@ Future<String?> getNewRelease() async{
   return null;
 }
 
-Future<void> downloadUpdateAndroid() async {
-  const fileURL = "https://github.com/joaoalves03/goipvc/releases/latest/download/app-release-signed.apk";
-  DefaultCacheManager cacheManager = DefaultCacheManager();
-  SharedPreferences prefs = await SharedPreferences.getInstance();
+Future<bool> downloadUpdateAndroid() async {
+  try {
+    const fileURL =
+        "https://github.com/joaoalves03/goipvc/releases/latest/download/app-release-signed.apk";
+    DefaultCacheManager cacheManager = DefaultCacheManager();
+    SharedPreferences prefs = await SharedPreferences.getInstance();
 
-  FileInfo? fileInfo = await cacheManager.downloadFile(fileURL);
+    FileInfo? fileInfo = await cacheManager.downloadFile(fileURL);
 
-  prefs.setString("updated", fileInfo.originalUrl);
+    prefs.setString("updated", fileInfo.originalUrl);
 
-  await OpenFile.open(fileInfo.file.path, type: 'application/vnd.android.package-archive');
+    await OpenFile.open(fileInfo.file.path,
+        type: 'application/vnd.android.package-archive');
+
+    return false;
+  } catch(e) { return true; }
 }
 
 Future<void> checkIfAppWasUpdated() async {
