@@ -45,29 +45,48 @@ class ScheduleView extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     AsyncValue<List<MyIPVCLesson>> schedule = ref.watch(scheduleProvider);
 
+    if(schedule.isRefreshing){
+      return const LoadingView();
+    }
+
     return schedule.when(
         loading: () => const LoadingView(),
-        error: (err, stack) => ErrorView(error: "$err"),
+        error: (err, stack) => ErrorView(
+          error: "$err",
+          callback: () {schedule = ref.refresh(scheduleProvider);},
+        ),
         data: (schedule) {
-          return SfCalendar(
-            key: ValueKey(DateTime.now()),
-            view: CalendarView.week,
-            dataSource: MeetingDataSource(_getDataSource(schedule)),
-            timeSlotViewSettings: const TimeSlotViewSettings(
-                timeFormat: 'H:mm',
-                dayFormat: "EEE",
-                startHour: 7,
-                endHour: 24),
-            firstDayOfWeek: 1,
-            cellEndPadding: 0,
-            selectionDecoration: const BoxDecoration(
-              color: Colors.transparent, // Set the border color to transparent
-            ),
-            onTap: (CalendarTapDetails tap) {
-              if (tap.targetElement == CalendarElement.appointment) {
-                _showPopup(context, tap.appointments![0]);
-              }
-            },
+          return Stack(
+            children: [
+              SfCalendar(
+                key: ValueKey(DateTime.now()),
+                view: CalendarView.week,
+                dataSource: MeetingDataSource(_getDataSource(schedule)),
+                timeSlotViewSettings: const TimeSlotViewSettings(
+                    timeFormat: 'H:mm',
+                    dayFormat: "EEE",
+                    startHour: 7,
+                    endHour: 24),
+                firstDayOfWeek: 1,
+                cellEndPadding: 0,
+                selectionDecoration: const BoxDecoration(
+                  color: Colors.transparent, // Set the border color to transparent
+                ),
+                onTap: (CalendarTapDetails tap) {
+                  if (tap.targetElement == CalendarElement.appointment) {
+                    _showPopup(context, tap.appointments![0]);
+                  }
+                },
+              ),
+              Positioned(
+                right: 1,
+                top: -5,
+                child: IconButton(
+                  icon: const Icon(Icons.refresh),
+                  onPressed: () {return ref.refresh(scheduleProvider);},
+                ),
+              )
+            ],
           );
         });
   }

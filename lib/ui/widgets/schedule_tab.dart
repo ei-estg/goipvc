@@ -23,11 +23,18 @@ class ScheduleTab<T> extends StatelessWidget {
       AsyncValue<List<MyIPVCLesson>> schedule = ref.watch(scheduleProvider);
       ref.watch(_refreshProvider);
 
+      if(schedule.isRefreshing){
+        return const LoadingView();
+      }
+
       return Align(
         alignment: Alignment.center,
         child: schedule.when(
             loading: () => const LoadingView(),
-            error: (err, stack) => ErrorView(error: "$err"),
+            error: (err, stack) => ErrorView(
+              error: "$err",
+              callback: () {schedule = ref.refresh(scheduleProvider);},
+            ),
             data: (schedule) {
               List<MyIPVCLesson> todaySchedule = [];
               bool lessonsToday = false;
@@ -53,27 +60,32 @@ class ScheduleTab<T> extends StatelessWidget {
                 }
               }
 
-              if (todaySchedule.isEmpty) {
-                if (lessonsToday) {
-                  return const InfoView(message: "Não existem mais aulas hoje");
-                }
-
-                return const InfoView(message: "Não existem aulas hoje");
-              }
-
-              return Column(
-                children: [
-                  Expanded(
-                    child: ListView(
+              return RefreshIndicator(
+                onRefresh: () async {return ref.refresh(scheduleProvider);},
+                child: Builder(builder: (context) {
+                  if (todaySchedule.isEmpty) {
+                    return Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        const Padding(padding: EdgeInsets.only(top: 4)),
-                        for (var lesson in todaySchedule)
-                          LessonCard(lesson: lesson),
-                        const Padding(padding: EdgeInsets.only(bottom: 4)),
+                        SingleChildScrollView(
+                          physics: const AlwaysScrollableScrollPhysics(),
+                          child: lessonsToday
+                            ? const InfoView(message: "Não existem mais aulas hoje")
+                            : const InfoView(message: "Não existem aulas hoje")
+                        )
                       ],
-                    ),
-                  ),
-                ],
+                    );
+                  }
+
+                  return ListView.builder(
+                      physics: const AlwaysScrollableScrollPhysics(),
+                      padding: const EdgeInsets.symmetric(vertical: 4),
+                      itemCount: todaySchedule.length,
+                      itemBuilder: (context, i) {
+                        return LessonCard(lesson: todaySchedule[i]);
+                      }
+                  );
+                })
               );
             }),
       );

@@ -16,14 +16,24 @@ class GradesView extends ConsumerWidget {
     AsyncValue<List<MyIPVCGrade>> grades = ref.watch(gradesProvider);
     AsyncValue<double> finalGrade = ref.watch(finalGradeProvider);
 
+    if(grades.isRefreshing || finalGrade.isRefreshing){
+      return const LoadingView();
+    }
+
     return Scaffold(
       appBar: AppBar(title: const Text("Avaliações")),
       body: grades.when(
           loading: () => const LoadingView(),
-          error: (err, stack) => ErrorView(error: "$err"),
+          error: (err, stack) => ErrorView(
+            error: "$err",
+            callback: () {grades = ref.refresh(gradesProvider);},
+          ),
           data: (grades) {
             return finalGrade.when(
-                error: (err, stack) => ErrorView(error: "$err"),
+                error: (err, stack) => ErrorView(
+                  error: "$err",
+                  callback: () {finalGrade = ref.refresh(finalGradeProvider);},
+                ),
                 data: (finalGrade) {
                   if(finalGrade == -1) {
                     return const Center(
