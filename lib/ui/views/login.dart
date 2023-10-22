@@ -103,8 +103,15 @@ class LoginView extends ConsumerWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             const Padding(
-              padding: EdgeInsets.fromLTRB(64, 0, 64, 32),
+              padding: EdgeInsets.fromLTRB(64, 0, 64, 8),
               child: GoIPVCLogo(size: 64),
+            ),
+            const Padding(
+              padding: EdgeInsets.only(bottom: 16),
+              child: Text(
+                "goIPVC não é um projeto oficial do IPVC",
+                style: TextStyle(color: Colors.grey),
+              ),
             ),
             AutofillGroup(
               child: Padding(
