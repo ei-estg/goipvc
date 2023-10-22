@@ -15,70 +15,94 @@ class MealsTab extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    AsyncValue<List<List<SASMeal>>> meals = ref.watch(quickMealsProvider);
+    AsyncValue<List<List<SASMeal>>> mealsData = ref.watch(quickMealsProvider);
     SharedPreferences prefs = ref.read(sharedPreferencesProvider);
     final deviceWidth = MediaQuery.of(context).size.width;
 
+    if(mealsData.isRefreshing){
+      return const LoadingView();
+    }
+
     if(prefs.getString("sas_refresh") == null) {
-      return const ErrorView(
-          error: "Por favor inicie sessão novamente"
+      return ErrorView(
+        error: "Por favor inicie sessão novamente",
+        displayError: true,
+        callback: () {mealsData = ref.refresh(quickMealsProvider);}
       );
     }
 
-    return meals.when(
+    return mealsData.when(
       loading: () => const LoadingView(),
-      error: (err, stack) => ErrorView(error: "$err"),
+      error: (err, stack) => ErrorView(
+          error: "$err",
+          callback: () {mealsData = ref.refresh(quickMealsProvider);}
+      ),
       data: (meals) {
-        if(meals[0].isEmpty && meals[1].isEmpty){
-          return const InfoView(message: "Não existem refeições hoje");
-        }
+        return RefreshIndicator(
+            child: Builder(builder: (context) {
+              if(meals[0].isEmpty && meals[1].isEmpty){
+                return const Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    SingleChildScrollView(
+                      physics: AlwaysScrollableScrollPhysics(),
+                      child: InfoView(message: "Não existem refeições hoje",)
+                    )
+                  ],
+                );
+              }
 
-        return ListView.builder(
-          padding: const EdgeInsets.all(4),
-          itemCount: 2,
-          itemBuilder: (BuildContext context, int index) {
-            String title = "";
+              return ListView.builder(
+                physics: const AlwaysScrollableScrollPhysics(),
+                padding: const EdgeInsets.all(4),
+                itemCount: 2,
+                itemBuilder: (BuildContext context, int index) {
+                  String title = "";
 
-            if(meals[index].isNotEmpty){
-              title = index == 0 ? "Almoço" : "Jantar";
-            }
-
-            return Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Text(
-                    title,
-                    style: const TextStyle(
-                      fontSize: 18.0,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                ),
-                GridView.builder(
-                  shrinkWrap: true,
-                  physics: const NeverScrollableScrollPhysics(),
-                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount:
-                      MediaQuery.of(context).orientation == Orientation.portrait
-                        ? (deviceWidth / 250).round()
-                        : ((deviceWidth * 0.75) / 250).round(),
-                    mainAxisSpacing: 4.0,
-                    crossAxisSpacing: 4.0,
-                    childAspectRatio: 0.75
-                  ),
-                  itemCount: meals[index].length,
-                  itemBuilder: (BuildContext context, int mealIndex) {
-                    return MealCard(meal: meals[index][mealIndex]);
+                  if(meals[index].isNotEmpty){
+                    title = index == 0 ? "Almoço" : "Jantar";
                   }
-                )
-              ],
-            );
-          }
+
+                  return Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Text(
+                          title,
+                          style: const TextStyle(
+                            fontSize: 18.0,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ),
+                      GridView.builder(
+                          shrinkWrap: true,
+                          physics: const NeverScrollableScrollPhysics(),
+                          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                              crossAxisCount:
+                              MediaQuery.of(context).orientation == Orientation.portrait
+                                  ? (deviceWidth / 250).round()
+                                  : ((deviceWidth * 0.75) / 250).round(),
+                              mainAxisSpacing: 4.0,
+                              crossAxisSpacing: 4.0,
+                              childAspectRatio: 0.75
+                          ),
+                          itemCount: meals[index].length,
+                          itemBuilder: (BuildContext context, int mealIndex) {
+                            return MealCard(meal: meals[index][mealIndex]);
+                          }
+                      )
+                    ],
+                  );
+                }
+              );
+            }),
+            onRefresh: () async {
+              return await ref.refresh(quickMealsProvider);
+            }
         );
       }
     );
   }
-
 }

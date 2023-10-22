@@ -54,6 +54,10 @@ class DigitalCardContainer extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     AsyncValue<MyIPVCCard> card = ref.watch(digitalCardProvider);
 
+    if(card.isRefreshing){
+      return const LoadingView();
+    }
+
     return GestureDetector(
         onTap: () {
           Navigator.of(context).pop();
@@ -82,7 +86,10 @@ class DigitalCardContainer extends ConsumerWidget {
                 padding: const EdgeInsets.fromLTRB(0, 16, 0, 32),
                 child: card.when(
                     loading: () => const LoadingView(),
-                    error: (err, stack) => ErrorView(error: "$err"),
+                    error: (err, stack) => ErrorView(
+                      error: "$err",
+                      callback: () {card = ref.refresh(digitalCardProvider);},
+                    ),
                     data: (card) {
                       return DigitalCard(data: card);
                     }

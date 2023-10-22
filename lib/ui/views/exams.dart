@@ -15,13 +15,20 @@ class ExamsView extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     AsyncValue<List<MyIPVCExam>> exams = ref.watch(examsProvider);
 
+    if(exams.isRefreshing){
+      return const LoadingView();
+    }
+
     return Scaffold(
       appBar: AppBar(
         title: const Text("Exames"),
       ),
       body: exams.when(
         loading: () => const LoadingView(),
-        error: (err, stack) => ErrorView(error: "$err"),
+        error: (err, stack) => ErrorView(
+          error: "$err",
+          callback: () {exams = ref.refresh(examsProvider);},
+        ),
         data: (exams) {
           if(exams.isEmpty) {
             return const InfoView(message: "Nenhum exame encontrado");
