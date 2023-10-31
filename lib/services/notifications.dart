@@ -31,7 +31,8 @@ class Notifications {
     );
   }
 
-  static Future<void> scheduleLessonWarningNotification(String name, DateTime startDate, int minsBefore) async {
+  static Future<void> scheduleLessonWarningNotification
+      (String name, DateTime startDate, int minsBefore, String room) async {
     // Scheduled notifications are not implemented in these platforms
     if(Platform.isLinux || Platform.isWindows) {
       return;
@@ -40,7 +41,7 @@ class Notifications {
     const AndroidNotificationDetails androidNotificationDetails
       = AndroidNotificationDetails(
         "lessonAlert",
-        "Aviso de aulas",
+        "Aviso de aula",
         channelDescription: "Avisar x minutos antes de uma aula começar",
         importance: Importance.defaultImportance,
         priority: Priority.defaultPriority
@@ -49,22 +50,16 @@ class Notifications {
     const NotificationDetails notificationDetails
       = NotificationDetails(android: androidNotificationDetails);
 
-    DateTime notificationTime = startDate.subtract(const Duration(minutes: 5)).toUtc();
+    DateTime notificationTime = startDate.subtract(const Duration(minutes: 5));
 
-    var scheduledDate = tz.TZDateTime(
-      tz.local,
-      notificationTime.year,
-      notificationTime.month,
-      notificationTime.day,
-      notificationTime.hour,
-      notificationTime.minute,
-      notificationTime.second
+    var scheduledDate = tz.TZDateTime.from(
+        notificationTime, tz.getLocation("Europe/Lisbon")
     );
 
     await _notificationsPlugin.zonedSchedule(
       Random().nextInt(2147483647),
-      "Aviso de aula",
-      "$name começa em ${SettingsNotifier.getLessonAlertString(minsBefore)}",
+      name,
+      "Começa em ${SettingsNotifier.getLessonAlertString(minsBefore)} na sala $room",
       scheduledDate,
       notificationDetails,
       matchDateTimeComponents: DateTimeComponents.time,
@@ -80,7 +75,9 @@ class Notifications {
       return;
     }
 
-    await _notificationsPlugin.cancelAll();
+    for(var notification in await _notificationsPlugin.pendingNotificationRequests()){
+      _notificationsPlugin.cancel(notification.id);
+    }
   }
 
   static Future<void> parseSchedule(List<MyIPVCLesson> schedule) async {
@@ -88,11 +85,16 @@ class Notifications {
       DateTime lessonDate = DateTime.parse(lesson.dataHoraIni);
       SharedPreferences prefs = await SharedPreferences.getInstance();
 
-      if (lessonDate.difference(DateTime.now()).inSeconds > (prefs.getInt("lessonAlert") ?? 5) * 60) {
+      bool lessonIsInTheNext24hours =
+          lessonDate.difference(DateTime.now()).inSeconds > (prefs.getInt("lessonAlert") ?? 5) * 60
+          && lessonDate.difference(DateTime.now()).inHours < 24;
+
+      if (lessonIsInTheNext24hours) {
         await Notifications.scheduleLessonWarningNotification(
-            lesson.sigla,
+            "${lesson.sigla} - ${lesson.horNomeTurno}",
             lessonDate,
-            prefs.getInt("lessonAlert") ?? 5
+            prefs.getInt("lessonAlert") ?? 5,
+            lesson.sala
         );
       }
     }
