@@ -50,7 +50,7 @@ class Notifications {
     const NotificationDetails notificationDetails
       = NotificationDetails(android: androidNotificationDetails);
 
-    DateTime notificationTime = startDate.subtract(const Duration(minutes: 5));
+    DateTime notificationTime = startDate.subtract(Duration(minutes: minsBefore));
 
     var scheduledDate = tz.TZDateTime.from(
         notificationTime, tz.getLocation("Europe/Lisbon")
