@@ -1,5 +1,6 @@
 import UIKit
 import Flutter
+import workmanager
 
 @UIApplicationMain
 @objc class AppDelegate: FlutterAppDelegate {
@@ -11,6 +12,7 @@ import Flutter
     if #available(iOS 10.0, *) {
       UNUserNotificationCenter.current().delegate = self as? UNUserNotificationCenterDelegate
     }
+    WorkmanagerPlugin.registerTask(withIdentifier: "pt.joaoalves03.goipvc.lessonAlerts")
     return super.application(application, didFinishLaunchingWithOptions: launchOptions)
   }
 }

@@ -9,6 +9,7 @@ import 'package:goipvc/models/settings.dart';
 import 'package:goipvc/providers/device_info_provider.dart';
 import 'package:goipvc/providers/settings_provider.dart';
 import 'package:goipvc/providers/shared_preferences_provider.dart';
+import 'package:goipvc/services/background_actions.dart';
 import 'package:goipvc/services/notifications.dart';
 import 'package:goipvc/ui/views/init.dart';
 import 'package:permission_handler/permission_handler.dart';
@@ -16,6 +17,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:syncfusion_localizations/syncfusion_localizations.dart';
 import 'package:timezone/data/latest_all.dart' as tz;
 import 'package:timezone/timezone.dart' as tz;
+import 'package:workmanager/workmanager.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -36,6 +38,16 @@ void main() async {
   }
 
   await Notifications.init();
+
+  if(Platform.isAndroid || Platform.isIOS){
+    Workmanager().initialize(callbackDispatcher);
+    Workmanager().registerPeriodicTask(
+        "pt.joaoalves03.goipvc.lessonAlerts",
+        "pt.joaoalves03.goipvc.lessonAlerts",
+        frequency: const Duration(hours: 24),
+        constraints: Constraints(networkType: NetworkType.connected)
+    );
+  }
 
   runApp(ProviderScope(
     overrides: [
