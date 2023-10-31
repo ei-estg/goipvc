@@ -5,7 +5,6 @@ import 'package:goipvc/models/myipvc/curricular_unit.dart';
 import 'package:goipvc/models/myipvc/exam.dart';
 import 'package:goipvc/models/myipvc/lesson.dart';
 import 'package:goipvc/services/encryptor.dart';
-import 'package:goipvc/services/notifications.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../models/myipvc/card.dart';
@@ -161,12 +160,6 @@ class MyIPVCAPI {
 
       schedule.add(MyIPVCLesson.fromJson(lesson));
     }
-
-    // There are no awaits here so the notification parsing
-    // doesn't slow down displaying the schedule
-    Notifications.discardLessonWarningNotifications().then((_) => {
-      Notifications.parseSchedule(schedule)
-    });
 
     return schedule;
   }

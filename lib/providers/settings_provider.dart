@@ -88,7 +88,11 @@ class SettingsNotifier extends StateNotifier<Settings> {
     if(time == 0){
       Notifications.discardLessonWarningNotifications();
     } else {
-      MyIPVCAPI.getSchedule();
+      Notifications.discardLessonWarningNotifications().then((_) => {
+        MyIPVCAPI.getSchedule().then((schedule) => {
+          Notifications.parseSchedule(schedule)
+        })
+      });
     }
   }
 
