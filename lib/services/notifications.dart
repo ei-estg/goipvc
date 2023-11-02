@@ -13,7 +13,7 @@ class Notifications {
 
   static Future<void> init() async {
     const AndroidInitializationSettings initializationSettingsAndroid
-      = AndroidInitializationSettings("ic_stat_logo");
+      = AndroidInitializationSettings("@drawable/ic_stat_logo");
     const DarwinInitializationSettings initializationSettingsDarwin
       = DarwinInitializationSettings(
         onDidReceiveLocalNotification: null
