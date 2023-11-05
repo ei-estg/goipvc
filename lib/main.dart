@@ -40,13 +40,15 @@ void main() async {
   await Notifications.init();
 
   if(Platform.isAndroid || Platform.isIOS){
-    Workmanager().initialize(callbackDispatcher);
-    Workmanager().registerPeriodicTask(
-        "pt.joaoalves03.goipvc.lessonAlerts",
-        "pt.joaoalves03.goipvc.lessonAlerts",
-        frequency: const Duration(hours: 24),
-        constraints: Constraints(networkType: NetworkType.connected)
-    );
+    if(await Permission.notification.isGranted) {
+      Workmanager().initialize(callbackDispatcher);
+      Workmanager().registerPeriodicTask(
+          "pt.joaoalves03.goipvc.lessonAlerts",
+          "pt.joaoalves03.goipvc.lessonAlerts",
+          frequency: const Duration(hours: 24),
+          constraints: Constraints(networkType: NetworkType.connected)
+      );
+    }
   }
 
   runApp(ProviderScope(
