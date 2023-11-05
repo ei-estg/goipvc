@@ -40,6 +40,7 @@ class NotificationsSettings<T> extends ConsumerWidget {
           ),
         ),
         ListTile(
+          leading: const Icon(Icons.schedule),
           title: const Text("Alertas de aula"),
           trailing: DropdownButton(
             value: ref.read(settingsProvider.notifier).getLessonAlert(),
