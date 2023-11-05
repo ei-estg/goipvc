@@ -43,8 +43,8 @@ class Notifications {
         "lessonAlert",
         "Aviso de aula",
         channelDescription: "Avisar x minutos antes de uma aula começar",
-        importance: Importance.defaultImportance,
-        priority: Priority.defaultPriority
+        importance: Importance.max,
+        priority: Priority.max
       );
 
     const NotificationDetails notificationDetails
