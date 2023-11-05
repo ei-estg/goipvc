@@ -66,6 +66,7 @@ class ThemeSettings<T> extends ConsumerWidget {
           ),
         ),
         ListTile(
+          leading: const Icon(Icons.palette),
           title: const Text("Esquema de Cores"),
           trailing: DropdownButton(
             value: settings.colorScheme,
@@ -79,6 +80,7 @@ class ThemeSettings<T> extends ConsumerWidget {
           ),
         ),
         ListTile(
+          leading: const Icon(Icons.brightness_medium),
           title: const Text("Tema"),
           trailing: DropdownButton(
             value: settings.theme,

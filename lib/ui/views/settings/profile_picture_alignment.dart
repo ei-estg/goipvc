@@ -83,13 +83,12 @@ class ProfilePictureAlignmentSettings<T> extends ConsumerWidget {
           ),
         ),
         ListTile(
+          leading: const Icon(Icons.account_circle),
           title: const Text("Alinhamento da foto"),
           onTap: () {
             _showAppearanceMenu(context, ref);
           },
-          trailing: Text((() {
-            return ref.read(settingsProvider.notifier).getAlignmentString();
-          })()),
+          trailing: Text(ref.read(settingsProvider.notifier).getAlignmentString()),
         )
       ],
     );
