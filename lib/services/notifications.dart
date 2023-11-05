@@ -81,12 +81,18 @@ class Notifications {
   }
 
   static Future<void> parseSchedule(List<MyIPVCLesson> schedule) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    int? lessonAlert = prefs.getInt("lessonAlert");
+
+    if(lessonAlert == 0 || lessonAlert == null) {
+      return;
+    }
+
     for(var lesson in schedule) {
       DateTime lessonDate = DateTime.parse(lesson.dataHoraIni);
-      SharedPreferences prefs = await SharedPreferences.getInstance();
 
       bool lessonIsInTheNext24hours =
-          lessonDate.difference(DateTime.now()).inSeconds > (prefs.getInt("lessonAlert") ?? 5) * 60
+          lessonDate.difference(DateTime.now()).inSeconds > lessonAlert * 60
           && lessonDate.difference(DateTime.now()).inHours < 24;
 
       if (lessonIsInTheNext24hours) {
