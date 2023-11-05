@@ -99,7 +99,7 @@ class Notifications {
         await Notifications.scheduleLessonWarningNotification(
             "${lesson.sigla} - ${lesson.horNomeTurno}",
             lessonDate,
-            prefs.getInt("lessonAlert") ?? 5,
+            lessonAlert,
             lesson.sala
         );
       }
