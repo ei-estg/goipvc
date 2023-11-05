@@ -21,7 +21,10 @@ class CurricularPlanView extends ConsumerWidget {
         ),
         body: curricularPlan.when(
             loading: () => const LoadingView(),
-            error: (err, stack) => ErrorView(error: "$err"),
+            error: (err, stack) => ErrorView(
+              error: "$err",
+              callback: () {curricularPlan = ref.refresh(curricularPlanProvider);},
+            ),
             data: (curricularPlan) {
               List<int> years = [];
 
