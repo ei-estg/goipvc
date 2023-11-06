@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:goipvc/models/sas/meal.dart';
 import 'package:goipvc/providers/quick_meals_provider.dart';
 import 'package:goipvc/ui/views/info.dart';
 import 'package:goipvc/ui/widgets/meal_card.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../../models/meals.dart';
 import '../../providers/shared_preferences_provider.dart';
 import '../views/error.dart';
 import '../views/loading.dart';
@@ -15,7 +15,7 @@ class MealsTab extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    AsyncValue<List<List<SASMeal>>> mealsData = ref.watch(quickMealsProvider);
+    AsyncValue<Meals> mealsData = ref.watch(quickMealsProvider);
     SharedPreferences prefs = ref.read(sharedPreferencesProvider);
     final deviceWidth = MediaQuery.of(context).size.width;
 
@@ -40,7 +40,7 @@ class MealsTab extends ConsumerWidget {
       data: (meals) {
         return RefreshIndicator(
             child: Builder(builder: (context) {
-              if(meals[0].isEmpty && meals[1].isEmpty){
+              if(meals.lunch.isEmpty && meals.dinner.isEmpty){
                 return const Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
@@ -58,8 +58,9 @@ class MealsTab extends ConsumerWidget {
                 itemCount: 2,
                 itemBuilder: (BuildContext context, int index) {
                   String title = "";
+                  var selectedMealType = index == 0 ? meals.lunch : meals.dinner;
 
-                  if(meals[index].isNotEmpty){
+                  if(selectedMealType.isNotEmpty){
                     title = index == 0 ? "Almoço" : "Jantar";
                   }
 
@@ -88,9 +89,9 @@ class MealsTab extends ConsumerWidget {
                               crossAxisSpacing: 4.0,
                               childAspectRatio: 0.75
                           ),
-                          itemCount: meals[index].length,
+                          itemCount: selectedMealType.length,
                           itemBuilder: (BuildContext context, int mealIndex) {
-                            return MealCard(meal: meals[index][mealIndex]);
+                            return MealCard(meal: selectedMealType[mealIndex]);
                           }
                       )
                     ],
