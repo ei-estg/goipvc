@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:goipvc/providers/quick_meals_provider.dart';
+import 'package:goipvc/providers/meals_provider.dart';
 import 'package:goipvc/ui/views/info.dart';
 import 'package:goipvc/ui/widgets/meal_card.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -10,12 +10,12 @@ import '../../providers/shared_preferences_provider.dart';
 import '../views/error.dart';
 import '../views/loading.dart';
 
-class MealsTab extends ConsumerWidget {
-  const MealsTab({super.key});
+class MealsList extends ConsumerWidget {
+  const MealsList({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    AsyncValue<Meals> mealsData = ref.watch(quickMealsProvider);
+    AsyncValue<Meals> mealsData = ref.watch(mealsProvider);
     SharedPreferences prefs = ref.read(sharedPreferencesProvider);
     final deviceWidth = MediaQuery.of(context).size.width;
 
@@ -27,7 +27,10 @@ class MealsTab extends ConsumerWidget {
       return ErrorView(
         error: "Por favor inicie sessão novamente",
         displayError: true,
-        callback: () {mealsData = ref.refresh(quickMealsProvider);}
+        callback: () {
+          ref.read(mealsProvider.notifier)
+              .fetchMeals(mealsData.value!.selectedDate);
+        }
       );
     }
 
@@ -35,7 +38,10 @@ class MealsTab extends ConsumerWidget {
       loading: () => const LoadingView(),
       error: (err, stack) => ErrorView(
           error: "$err",
-          callback: () {mealsData = ref.refresh(quickMealsProvider);}
+          callback: () {
+            ref.read(mealsProvider.notifier)
+                .fetchMeals(mealsData.value!.selectedDate);
+          }
       ),
       data: (meals) {
         return RefreshIndicator(
@@ -46,7 +52,7 @@ class MealsTab extends ConsumerWidget {
                   children: [
                     SingleChildScrollView(
                       physics: AlwaysScrollableScrollPhysics(),
-                      child: InfoView(message: "Não existem refeições hoje",)
+                      child: InfoView(message: "Nenhuma refeição encontrada",)
                     )
                   ],
                 );
@@ -100,7 +106,8 @@ class MealsTab extends ConsumerWidget {
               );
             }),
             onRefresh: () async {
-              return await ref.refresh(quickMealsProvider);
+              ref.read(mealsProvider.notifier)
+                  .fetchMeals(mealsData.value!.selectedDate);
             }
         );
       }

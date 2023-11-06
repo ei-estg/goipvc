@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:goipvc/ui/widgets/schedule_tab.dart';
 
-import 'meals_tab.dart';
+import 'meals_list.dart';
 
 class HomeViewTabs extends StatelessWidget {
   final TabController tabController;
@@ -38,7 +38,7 @@ class HomeViewTabs extends StatelessWidget {
               controller: tabController,
               children: const <Widget>[
                 ScheduleTab(),
-                MealsTab()
+                MealsList()
               ],
             )
         )
