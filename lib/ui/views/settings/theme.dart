@@ -4,138 +4,49 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:goipvc/providers/device_info_provider.dart';
 import 'package:goipvc/providers/settings_provider.dart';
 
-class _PopUpNotifier extends StateNotifier<bool> {
-  _PopUpNotifier() : super(false);
-
-  void set(bool val) {
-    state = val;
-  }
-}
-
-final _popUpProvider = StateNotifierProvider<_PopUpNotifier, bool>(
-        (ref) => _PopUpNotifier()
-);
-
 class ThemeSettings<T> extends ConsumerWidget {
   const ThemeSettings({super.key});
-
-  void _showAppearanceMenu(BuildContext context, WidgetRef ref) {
-    AndroidDeviceInfo? androidDeviceInfo = ref.watch(androidDeviceInfoProvider);
-
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: const Text("Esquema de Cores"),
-          content: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              // Check if it's android and version 12 or above
-              // if not disable material you option
-              if(androidDeviceInfo != null && androidDeviceInfo.version.sdkInt >= 31)
-                RadioListTile<String>(
-                  title: const Text("Dispositivo"),
-                  value: "system",
-                  groupValue: ref.read(settingsProvider).colorScheme,
-                  onChanged: (String? colorScheme) {
-                    ref.read(settingsProvider.notifier)
-                        .setColorScheme("system");
-                  },
-                ),
-              RadioListTile<String>(
-                title: const Text("Escola"),
-                value: "school",
-                groupValue: ref.read(settingsProvider).colorScheme,
-                onChanged: (String? colorScheme) {
-                  ref.read(settingsProvider.notifier)
-                      .setColorScheme("school");
-                },
-              ),
-              RadioListTile<String>(
-                title: const Text("Normal"),
-                value: "normal",
-                groupValue: ref.read(settingsProvider).colorScheme,
-                onChanged: (String? colorScheme) {
-                  ref.read(settingsProvider.notifier)
-                      .setColorScheme("normal");
-                },
-              ),
-            ],
-          ),
-          actions: [
-            TextButton(
-              style: TextButton.styleFrom(
-                textStyle: Theme.of(context).textTheme.labelLarge,
-              ),
-              child: const Text('Ok'),
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-            ),
-          ],
-        );
-      },
-    );
-  }
-
-  void _showThemeMenu(BuildContext context, WidgetRef ref) {
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: const Text("Tema"),
-          content: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              RadioListTile<String>(
-                title: const Text("Dispositivo"),
-                value: "system",
-                groupValue: ref.read(settingsProvider).theme,
-                onChanged: (String? theme) {
-                  ref.read(settingsProvider.notifier)
-                      .setTheme("system");
-                },
-              ),
-              RadioListTile<String>(
-                title: const Text("Claro"),
-                value: "light",
-                groupValue: ref.read(settingsProvider).theme,
-                onChanged: (String? theme) {
-                  ref.read(settingsProvider.notifier)
-                      .setTheme("light");
-                },
-              ),
-              RadioListTile<String>(
-                title: const Text("Escuro"),
-                value: "dark",
-                groupValue: ref.read(settingsProvider).theme,
-                onChanged: (String? theme) {
-                  ref.read(settingsProvider.notifier)
-                      .setTheme("dark");
-                },
-              ),
-            ],
-          ),
-          actions: [
-            TextButton(
-              style: TextButton.styleFrom(
-                textStyle: Theme.of(context).textTheme.labelLarge,
-              ),
-              child: const Text('Ok'),
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-            ),
-          ],
-        );
-      },
-    );
-  }
+  static List<DropdownMenuItem<String>> colorSchemes = [
+    const DropdownMenuItem<String>(
+      value: "system",
+      child: Text("Dispositivo"),
+    ),
+    const DropdownMenuItem<String>(
+      value: "school",
+      child: Text("Escola"),
+    ),
+    const DropdownMenuItem<String>(
+      value: "normal",
+      child: Text("Normal"),
+    ),
+  ];
+  static List<DropdownMenuItem<String>> themes = [
+    const DropdownMenuItem<String>(
+      value: "system",
+      child: Text("Dispositivo"),
+    ),
+    const DropdownMenuItem<String>(
+      value: "light",
+      child: Text("Claro"),
+    ),
+    const DropdownMenuItem<String>(
+      value: "dark",
+      child: Text("Escuro"),
+    ),
+  ];
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    AndroidDeviceInfo? androidDeviceInfo = ref.watch(androidDeviceInfoProvider);
     var settings = ref.watch(settingsProvider);
-    ref.watch(_popUpProvider);
+
+    // Check if it's android and version 12 or above
+    // if not disable material you option
+    if(androidDeviceInfo == null || androidDeviceInfo.version.sdkInt < 31) {
+      if(colorSchemes.length > 2) {
+        colorSchemes.removeAt(0);
+      }
+    }
 
     return Wrap(
       children: <Widget>[
@@ -155,34 +66,32 @@ class ThemeSettings<T> extends ConsumerWidget {
           ),
         ),
         ListTile(
+          leading: const Icon(Icons.palette),
           title: const Text("Esquema de Cores"),
-          onTap: () {
-            _showAppearanceMenu(context, ref);
-          },
-          trailing: Text((() {
-            if(settings.colorScheme == "normal") {
-              return "Normal";
-            } else if (settings.colorScheme == "system") {
-              return "Dispositivo";
-            }
-
-            return "Escola";
-          })()),
+          trailing: DropdownButton(
+            value: settings.colorScheme,
+            items: colorSchemes,
+            onChanged: (String? colorScheme) {
+              if(colorScheme != null) {
+                ref.read(settingsProvider.notifier)
+                    .setColorScheme(colorScheme);
+              }
+            },
+          ),
         ),
         ListTile(
+          leading: const Icon(Icons.brightness_medium),
           title: const Text("Tema"),
-          onTap: () {
-            _showThemeMenu(context, ref);
-          },
-          trailing: Text((() {
-            if(settings.theme == "light") {
-              return "Claro";
-            } else if (settings.theme == "dark") {
-              return "Escuro";
-            }
-
-            return "Dispositivo";
-          })()),
+          trailing: DropdownButton(
+            value: settings.theme,
+            items: themes,
+            onChanged: (String? theme) {
+              if(theme != null) {
+                ref.read(settingsProvider.notifier)
+                    .setTheme(theme);
+              }
+            },
+          ),
         )
       ],
     );

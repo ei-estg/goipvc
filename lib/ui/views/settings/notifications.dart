@@ -39,9 +39,21 @@ class NotificationsSettings<T> extends ConsumerWidget {
             },
           ),
         ),
-        const ListTile(
-          title: Text("Notificações do Horário"),
-          trailing: Text("NO"),
+        ListTile(
+          leading: const Icon(Icons.schedule),
+          title: const Text("Alertas de aula"),
+          trailing: DropdownButton(
+            value: ref.read(settingsProvider.notifier).getLessonAlert(),
+            items: [0,5,10,15,30,60].map<DropdownMenuItem<int>>((int value) {
+              return DropdownMenuItem<int>(
+                value: value,
+                child: Text(SettingsNotifier.getLessonAlertString(value))
+              );
+            }).toList(),
+            onChanged: (int? time) {
+              ref.read(settingsProvider.notifier).setLessonAlert(time ?? 0);
+            },
+          ),
         )
       ],
     );

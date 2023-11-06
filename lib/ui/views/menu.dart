@@ -6,6 +6,7 @@ import 'package:goipvc/ui/views/curricular_plan.dart';
 import 'package:goipvc/ui/views/exams.dart';
 import 'package:goipvc/ui/views/grades.dart';
 import 'package:goipvc/ui/views/login.dart';
+import 'package:goipvc/ui/views/meals.dart';
 import 'package:goipvc/ui/views/settings.dart';
 import 'package:goipvc/ui/widgets/menu_list_tile.dart';
 import 'package:goipvc/ui/widgets/profile_card.dart';
@@ -23,6 +24,16 @@ class _MenuViewState extends State<MenuView> {
     return ListView(
       children: [
         const ProfileCard(),
+        MenuListTile(
+            icon: const Icon(Icons.restaurant_menu),
+            text: const Text("Ementas"),
+            onTap: () {
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const MealsView())
+              );
+            }
+        ),
         MenuListTile(
             icon: const Icon(Icons.description),
             text: const Text("Avaliações"),
