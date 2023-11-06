@@ -1,4 +1,8 @@
+import 'dart:collection';
+import 'dart:convert';
+
 import 'package:dio/dio.dart';
+import 'package:goipvc/models/myipvc/user.dart';
 import 'package:goipvc/models/sas/meal.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -7,6 +11,15 @@ class SAS {
     baseUrl: "https://sasocial.sas.ipvc.pt/api"
   ));
 
+  static final Map<String, int> canteenIDs = HashMap.from({
+    "ESTG": 1,
+    "ESE": 2,
+    "ESS": 3,
+    "ESDL": 4,
+    "ESCE": 5,
+    "ESA": 7
+  });
+  
   static Future<String> getAccessToken() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
 
@@ -74,8 +87,19 @@ class SAS {
   static Future<List<SASMeal>> getMeals(String date, String mealType) async {
     final token = await getAccessToken();
 
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String? user = prefs.getString("user");
+
+    if(user == null) return [];
+
+    int? canteenID = canteenIDs[
+      MyIPVCUser.fromJson(jsonDecode(user)).unidadeOrganica
+    ];
+
+    if(canteenID == null) return [];
+
     final lunchMeals = await _dio.get(
-      "/alimentation/menu/service/1/menus/$date/$mealType?withRelated=taxes,file",
+      "/alimentation/menu/service/$canteenID/menus/$date/$mealType?withRelated=taxes,file",
       options: Options(
         headers: {
           'Authorization': 'Bearer $token',
