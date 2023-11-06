@@ -5,10 +5,10 @@ import 'package:workmanager/workmanager.dart';
 
 @pragma('vm:entry-point')
 void callbackDispatcher() {
-  Workmanager().executeTask((task, inputData) async {
+  Workmanager().executeTask((task, inputData) {
     switch(task) {
       case "pt.joaoalves03.goipvc.lessonAlerts":
-        await _scheduleLessonAlerts();
+        _scheduleLessonAlerts();
         break;
     }
 

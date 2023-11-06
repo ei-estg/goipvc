@@ -85,15 +85,13 @@ class SettingsNotifier extends StateNotifier<Settings> {
     sharedPreferences.setInt("lessonAlert", time);
     state = state.copyWith(lessonAlert: time);
 
-    if(time == 0){
-      Notifications.discardLessonWarningNotifications();
-    } else {
-      Notifications.discardLessonWarningNotifications().then((_) => {
+    Notifications.discardLessonWarningNotifications().then((_) => {
+      if(time != 0) {
         MyIPVCAPI.getSchedule().then((schedule) => {
           Notifications.parseSchedule(schedule)
         })
-      });
-    }
+      }
+    });
   }
 
   dynamic getColorScheme() {
