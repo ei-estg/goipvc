@@ -5,6 +5,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:goipvc/models/myipvc/user.dart';
 import 'package:goipvc/providers/profile_provider.dart';
 import 'package:goipvc/providers/shared_preferences_provider.dart';
+import 'package:goipvc/services/myipvc_api.dart';
+import 'package:goipvc/services/notifications.dart';
 import 'package:goipvc/ui/themes/esce.dart';
 import 'package:goipvc/ui/themes/esdl.dart';
 import 'package:goipvc/ui/themes/ese.dart';
@@ -44,13 +46,25 @@ class SettingsNotifier extends StateNotifier<Settings> {
     "Baixo": Alignment.bottomCenter,
   });
 
+  static final Map<int, String> _timeMap = HashMap.from({
+    0: "Desativado",
+    5: "5 minutos",
+    10: "10 minutos",
+    15: "15 minutos",
+    30: "30 minutos",
+    60: "1 hora",
+  });
+
   SettingsNotifier(this.sharedPreferences, this.profile)
       : super(Settings(
             colorScheme:
                 sharedPreferences.getString("colorScheme") ?? 'default',
             theme: sharedPreferences.getString("theme") ?? 'light',
             pictureAlignment:
-                sharedPreferences.getString("pictureAlignment") ?? 'Centro'));
+                sharedPreferences.getString("pictureAlignment") ?? 'Centro',
+            lessonAlert:
+              sharedPreferences.getInt("lessonAlert") ?? 0
+          ));
 
   void setTheme(String theme) {
     sharedPreferences.setString("theme", theme);
@@ -65,6 +79,19 @@ class SettingsNotifier extends StateNotifier<Settings> {
   void setPictureAlignment(String alignment) {
     sharedPreferences.setString("pictureAlignment", alignment);
     state = state.copyWith(pictureAlignment: alignment);
+  }
+
+  void setLessonAlert(int time) {
+    sharedPreferences.setInt("lessonAlert", time);
+    state = state.copyWith(lessonAlert: time);
+
+    Notifications.discardLessonWarningNotifications().then((_) => {
+      if(time != 0) {
+        MyIPVCAPI.getSchedule().then((schedule) => {
+          Notifications.parseSchedule(schedule)
+        })
+      }
+    });
   }
 
   dynamic getColorScheme() {
@@ -91,6 +118,14 @@ class SettingsNotifier extends StateNotifier<Settings> {
     return _alignmentMap.keys.firstWhere(
         (element) => _alignmentMap[element] == getPictureAlignment(),
         orElse: () => "");
+  }
+
+  int getLessonAlert() {
+    return sharedPreferences.getInt("lessonAlert") ?? 0;
+  }
+
+  static String getLessonAlertString(int val) {
+    return _timeMap[val] ?? "Desativado";
   }
 }
 

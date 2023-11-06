@@ -33,6 +33,10 @@ dependencies:
   flutter_cache_manager: ^3.3.1
   open_file_plus: ^3.4.1
   device_info_plus: ^9.0.3
+  permission_handler: ^11.0.1
+  flutter_local_notifications: ^16.1.0
+  timezone: ^0.9.2
+  workmanager: ^0.5.1
 
 dev_dependencies:
   flutter_test:
