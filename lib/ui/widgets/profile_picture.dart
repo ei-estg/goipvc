@@ -20,14 +20,17 @@ class ProfilePicture<T> extends ConsumerWidget {
       ref.watch(settingsProvider);
       Uint8List bytes = base64.decode(imageData!);
 
-      return ClipOval(
-        child: Image.memory(
-          bytes,
-          width: size,
-          height: size,
-          fit: BoxFit.cover,
-          alignment: ref.read(settingsProvider.notifier).getPictureAlignment(),
-        ),
+      return Hero(
+        tag: "profilePicture",
+        child: ClipOval(
+          child: Image.memory(
+            bytes,
+            width: size,
+            height: size,
+            fit: BoxFit.cover,
+            alignment: ref.read(settingsProvider.notifier).getPictureAlignment(),
+          ),
+        )
       );
     } else {
       return ClipOval(
