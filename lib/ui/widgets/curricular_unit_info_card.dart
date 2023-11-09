@@ -21,7 +21,7 @@ class CurricularUnitInfoCard<T> extends StatelessWidget {
           title: Text(title, style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
           children: [
             Padding(
-              padding: const EdgeInsets.fromLTRB(12, 0, 12, 12),
+              padding: const EdgeInsets.fromLTRB(12, 6, 12, 6),
               child: body,
             )
           ],
