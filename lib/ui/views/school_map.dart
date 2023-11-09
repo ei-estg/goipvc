@@ -16,10 +16,13 @@ class SchoolMapView extends ConsumerWidget {
     Navigator.of(context).push(MaterialPageRoute(
         builder: (context) => Scaffold(
           appBar: AppBar(title: const Text("Piso")),
-          body: PhotoView(
-            imageProvider: AssetImage(img),
-            backgroundDecoration: BoxDecoration(
-                color: Theme.of(context).colorScheme.surface
+          body: Hero(
+            tag: img,
+            child: PhotoView(
+              imageProvider: AssetImage(img),
+              backgroundDecoration: BoxDecoration(
+                  color: Theme.of(context).colorScheme.surface
+              ),
             ),
           ),
         )));
@@ -65,7 +68,10 @@ class SchoolMapView extends ConsumerWidget {
             onTap: () {
               _openImage(context, schoolMaps[profile.unidadeOrganica]![index][theme]);
             },
-            child: Image.asset(schoolMaps[profile.unidadeOrganica]![index][theme]),
+            child: Hero(
+                tag: schoolMaps[profile.unidadeOrganica]![index][theme],
+                child: Image.asset(schoolMaps[profile.unidadeOrganica]![index][theme])
+            ),
           );
         }
     );

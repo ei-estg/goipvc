@@ -89,6 +89,11 @@ class Notifications {
     }
 
     for(var lesson in schedule) {
+      if(["#ff0000", "#f4b7b7", "#f0a0a0", "#f0a0a0", "#7f5555"]
+          .contains(lesson.corValor)){
+        continue;
+      }
+
       DateTime lessonDate = DateTime.parse(lesson.dataHoraIni);
 
       bool lessonIsInTheNext24hours =

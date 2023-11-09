@@ -200,7 +200,8 @@ class MyIPVCAPI {
         .replaceAll(RegExp(r'\d*-(?= *[A-Z])'), "");
 
     data.objetivos = data.objetivos
-        .replaceRange(data.objetivos.length - 1, data.objetivos.length, "");
+        .replaceRange(data.objetivos.length - 1, data.objetivos.length, "")
+        .trim();
 
     data.conteudos = data.conteudos
         .replaceAll(RegExp(r' (?=\d+.\d+)'), "\n")
@@ -210,6 +211,12 @@ class MyIPVCAPI {
         .replaceAll(RegExp(r'(?<=[a-zA-Z])\.(?=\d)'), ".\n")
         .replaceAll(RegExp(r'::\d*\.\d*::\d*\|\|'), "\n\n")
         .trim();
+
+    data.resumo = data.resumo.trim();
+    data.metodologias = data.metodologias.trim();
+    data.avaliacao = data.avaliacao.trim();
+    data.bibliografiaPrincipal = data.bibliografiaPrincipal.trim();
+    data.bibliografiaComplementar = data.bibliografiaComplementar.trim();
 
     return data;
   }
