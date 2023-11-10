@@ -155,8 +155,11 @@ class MyIPVCAPI {
         lesson["nomesDocentes"] = "Desconhecido";
       }
 
-      // Removing the school name from the room string
-      lesson["sala"] = lesson["sala"].split(" - ")[1];
+      // If the room name matches the pattern School - Room
+      // remove the School part
+      if(RegExp(r"^\S+ - \S+$").hasMatch(lesson["sala"])) {
+        lesson["sala"] = lesson["sala"].split(" - ")[1];
+      }
 
       schedule.add(MyIPVCLesson.fromJson(lesson));
     }
