@@ -136,8 +136,13 @@ class MyIPVCAPI {
     List<MyIPVCLesson> schedule = [];
 
     for(var lesson in response.data){
+      var lessonNamePattern = RegExp(r"^(\d+( . |.))(.*?(?=\s*[/|+-;\\]))", unicode: true)
+        .firstMatch(lesson["hor_nome"]);
+
       // Filtering the title out of a string of random stuff
-      lesson["hor_nome"] = lesson["hor_nome"].split("-")[1];
+      if(lessonNamePattern != null) {
+        lesson["hor_nome"] = lessonNamePattern.group(3)?.trim() ?? "Desconhecido";
+      }
 
       // Trimming down the teachers names
       List<String> teachers = lesson["nomesDocentes"].split("; ");
@@ -155,8 +160,11 @@ class MyIPVCAPI {
         lesson["nomesDocentes"] = "Desconhecido";
       }
 
-      // Removing the school name from the room string
-      lesson["sala"] = lesson["sala"].split(" - ")[1];
+      // If the room name matches the pattern School - Room
+      // remove the School part
+      if(RegExp(r"^\S+ - \S+$").hasMatch(lesson["sala"])) {
+        lesson["sala"] = lesson["sala"].split(" - ")[1];
+      }
 
       schedule.add(MyIPVCLesson.fromJson(lesson));
     }
