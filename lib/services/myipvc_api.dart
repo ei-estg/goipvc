@@ -136,12 +136,12 @@ class MyIPVCAPI {
     List<MyIPVCLesson> schedule = [];
 
     for(var lesson in response.data){
-      var lessonNamePattern = RegExp(r"\d+\s*[^\p{L}0-9]+\s*([^-\d|]+)", unicode: true)
+      var lessonNamePattern = RegExp(r"^(\d+( . |.))(.*?(?=\s*[/|+-;\\]))", unicode: true)
         .firstMatch(lesson["hor_nome"]);
 
       // Filtering the title out of a string of random stuff
       if(lessonNamePattern != null) {
-        lesson["hor_nome"] = lessonNamePattern.group(1)?.trim() ?? "Desconhecido";
+        lesson["hor_nome"] = lessonNamePattern.group(3)?.trim() ?? "Desconhecido";
       }
 
       // Trimming down the teachers names
