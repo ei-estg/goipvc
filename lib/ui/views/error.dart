@@ -5,13 +5,15 @@ class ErrorView extends StatelessWidget {
   final VoidCallback? callback;
   final bool shouldBeLogged;
   final bool displayError;
+  final IconData icon;
 
   const ErrorView({
     super.key,
     required this.error,
     this.callback,
     this.shouldBeLogged = false,
-    this.displayError = false
+    this.displayError = false,
+    this.icon = Icons.error
   });
 
   @override
@@ -20,7 +22,7 @@ class ErrorView extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            const Icon(Icons.error, size: 48),
+            Icon(icon, size: 48),
             const Text("Ocorreu um erro", style: TextStyle(fontSize: 24)),
             if(displayError) Text(error, textAlign: TextAlign.center),
             if(callback != null)
