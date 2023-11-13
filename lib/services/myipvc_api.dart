@@ -110,7 +110,7 @@ class MyIPVCAPI {
     return double.parse(response.data["data"]);
   }
 
-  static Future<bool> verifyAuth() async {
+  static Future<int> verifyAuth() async {
     try {
       await _dio.get(
         "/api/myipvc/profile",
@@ -119,9 +119,12 @@ class MyIPVCAPI {
         }),
       );
 
-      return true;
-    } catch (error) {
-      return false;
+      return 1;
+    } on DioException catch(exception) {
+      if(exception.type == DioExceptionType.connectionTimeout) {
+        return -1;
+      }
+      return 0;
     }
   }
 
@@ -136,8 +139,13 @@ class MyIPVCAPI {
     List<MyIPVCLesson> schedule = [];
 
     for(var lesson in response.data){
+      var lessonNamePattern = RegExp(r"^(\d+( . |.))(.*?(?=\s*[/|+-;\\]))", unicode: true)
+        .firstMatch(lesson["hor_nome"]);
+
       // Filtering the title out of a string of random stuff
-      lesson["hor_nome"] = lesson["hor_nome"].split("-")[1];
+      if(lessonNamePattern != null) {
+        lesson["hor_nome"] = lessonNamePattern.group(3)?.trim() ?? "Desconhecido";
+      }
 
       // Trimming down the teachers names
       List<String> teachers = lesson["nomesDocentes"].split("; ");
@@ -155,8 +163,11 @@ class MyIPVCAPI {
         lesson["nomesDocentes"] = "Desconhecido";
       }
 
-      // Removing the school name from the room string
-      lesson["sala"] = lesson["sala"].split(" - ")[1];
+      // If the room name matches the pattern School - Room
+      // remove the School part
+      if(RegExp(r"^\S+ - \S+$").hasMatch(lesson["sala"])) {
+        lesson["sala"] = lesson["sala"].split(" - ")[1];
+      }
 
       schedule.add(MyIPVCLesson.fromJson(lesson));
     }
