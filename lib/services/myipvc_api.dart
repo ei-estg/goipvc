@@ -23,7 +23,7 @@ class MyIPVCAPI {
   static Future<String> getToken() async{
     SharedPreferences prefs = await SharedPreferences.getInstance();
 
-    return prefs.getString("token")!;
+    return prefs.getString("token") ?? "";
   }
 
   static Future<void> saveToken(String token) async {
@@ -112,10 +112,13 @@ class MyIPVCAPI {
 
   static Future<int> verifyAuth() async {
     try {
+      final token = await getToken();
+      if(token == "") return 0;
+
       await _dio.get(
         "/api/myipvc/profile",
         data: jsonEncode(<String, String>{
-          'token': await getToken(),
+          'token': token,
         }),
       );
 

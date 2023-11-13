@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:goipvc/services/myipvc_api.dart';
 import 'package:goipvc/ui/views/error.dart';
-import 'package:goipvc/ui/views/info.dart';
 import 'package:goipvc/ui/views/login.dart';
 
 import '../../services/github.dart';
@@ -43,12 +42,12 @@ class _InitViewState extends State<InitView> {
           return;
         }
 
-        if(myipvcStatus == 1 || sasStatus == 1){
-          Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => const IndexView()));
+        if(myipvcStatus == 0 || sasStatus == 0){
+          Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => LoginView()));
           return;
         }
 
-        Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => LoginView()));
+        Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => const IndexView()));
       });
     });
   }
