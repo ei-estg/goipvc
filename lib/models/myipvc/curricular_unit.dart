@@ -46,7 +46,7 @@ class MyIPVCCurricularUnit {
   String cdRamo;
 
   @JsonKey(name: 'nm_ramo')
-  String nmRamo;
+  String? nmRamo;
 
   @JsonKey(name: 'cd_discip')
   String cdDiscip;
