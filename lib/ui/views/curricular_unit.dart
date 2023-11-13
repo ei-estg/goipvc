@@ -8,10 +8,10 @@ import 'package:goipvc/ui/widgets/curricular_unit_info_card.dart';
 import 'package:tuple/tuple.dart';
 
 final Map<String, String> classType = {
-  'p': 'Prática',
-  'pl': 'Prática-Laboratorial',
-  't': 'Teórica',
-  'tp': 'Teórica-Prática',
+  'P': 'Prática',
+  'PL': 'Prática-Laboratorial',
+  'T': 'Teórica',
+  'TP': 'Teórica-Prática',
 };
 
 class CurricularUnitView extends StatelessWidget {
@@ -75,9 +75,20 @@ class CurricularUnitView extends StatelessWidget {
                         Tuple2('TP', dTP % 1 == 0 ? dTP.toInt() : dTP),
                     ].map((tuple) => Padding(
                           padding: const EdgeInsets.symmetric(horizontal: 3),
-                          child: Chip(
-                            avatar: const Icon(Icons.schedule),
-                            label: Text('${tuple.item1}: ${tuple.item2} horas'),
+                          child: GestureDetector(
+                            onTap: () {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(
+                                  content: Text('${classType[tuple.item1]}'),
+                                  duration: const Duration(seconds: 3),
+                                ),
+                              );
+                            },
+                            child: Chip(
+                              avatar: const Icon(Icons.schedule),
+                              label:
+                                  Text('${tuple.item1}: ${tuple.item2} horas'),
+                            ),
                           ),
                         )),
                   ],
