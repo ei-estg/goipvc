@@ -11,7 +11,7 @@ final Map<String, String> classType = {
   'P': 'Prática',
   'PL': 'Prática-Laboratorial',
   'T': 'Teórica',
-  'TP': 'Teórica-Prática',
+  'TP': 'Teórico-Prática',
 };
 
 class CurricularUnitView extends StatelessWidget {
