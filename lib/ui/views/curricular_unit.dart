@@ -77,6 +77,7 @@ class CurricularUnitView extends StatelessWidget {
                           padding: const EdgeInsets.symmetric(horizontal: 3),
                           child: GestureDetector(
                             onTap: () {
+                              ScaffoldMessenger.of(context).clearSnackBars();
                               ScaffoldMessenger.of(context).showSnackBar(
                                 SnackBar(
                                   content: Text('${classType[tuple.item1]}'),
