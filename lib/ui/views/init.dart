@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:goipvc/services/myipvc_api.dart';
+import 'package:goipvc/ui/views/error.dart';
+import 'package:goipvc/ui/views/info.dart';
 import 'package:goipvc/ui/views/login.dart';
 
 import '../../services/github.dart';
@@ -19,15 +21,34 @@ class _InitViewState extends State<InitView> {
   void initState() {
     super.initState();
     checkIfAppWasUpdated();
-    MyIPVCAPI.verifyAuth().then((myipvc) {
-      SAS.fetchAccessToken().then((_) => {
-        Navigator.pushReplacement(
-          context,
-            // check myipvc authentication
-            myipvc
-            ? MaterialPageRoute(builder: (context) => const IndexView())
-            : MaterialPageRoute(builder: (context) => LoginView())
-        )
+    MyIPVCAPI.verifyAuth().then((myipvcStatus) {
+      SAS.fetchAccessToken().then((sasStatus) {
+        if(myipvcStatus == -1 || sasStatus == -1){
+          Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(builder: (context) => Scaffold(
+                body: ErrorView(
+                  error: "Erro a estabelecer conexão ao servidor",
+                  displayError: true,
+                  icon: Icons.wifi_off,
+                  callback: () {
+                    Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(builder: (context) => const InitView())
+                    );
+                  },
+                ),
+              ))
+          );
+          return;
+        }
+
+        if(myipvcStatus == 1 || sasStatus == 1){
+          Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => const IndexView()));
+          return;
+        }
+
+        Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => LoginView()));
       });
     });
   }

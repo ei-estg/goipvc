@@ -110,7 +110,7 @@ class MyIPVCAPI {
     return double.parse(response.data["data"]);
   }
 
-  static Future<bool> verifyAuth() async {
+  static Future<int> verifyAuth() async {
     try {
       await _dio.get(
         "/api/myipvc/profile",
@@ -119,9 +119,12 @@ class MyIPVCAPI {
         }),
       );
 
-      return true;
-    } catch (error) {
-      return false;
+      return 1;
+    } on DioException catch(exception) {
+      if(exception.type == DioExceptionType.connectionTimeout) {
+        return -1;
+      }
+      return 0;
     }
   }
 

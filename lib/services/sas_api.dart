@@ -26,30 +26,32 @@ class SAS {
     return prefs.getString("sas_token") ?? "";
   }
 
-  static Future<bool> fetchAccessToken() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
+  static Future<int> fetchAccessToken() async {
+    try {
+      SharedPreferences prefs = await SharedPreferences.getInstance();
 
-    final response = await _dio.post(
-      "/authorization/authorize/refresh-token/WEB",
-      options: Options(
-        headers: {
-          'Cookie': 'refreshTokenWEB=${prefs.getString("sas_refresh")}',
-        },
-        validateStatus: (status) {
-          return status! <= 401;
-        },
-      ),
-    );
+      final response = await _dio.post(
+        "/authorization/authorize/refresh-token/WEB",
+        options: Options(
+          headers: {
+            'Cookie': 'refreshTokenWEB=${prefs.getString("sas_refresh")}',
+          }
+        ),
+      );
 
-    if(response.statusCode == 401) return false;
+      final setCookieHeader = response.headers['set-cookie'] as List<String>;
+      prefs.setString("sas_refresh",
+          setCookieHeader[0].split('=')[1].split(';')[0]
+      );
+      prefs.setString("sas_token", response.data['data'][0]['token'] as String);
 
-    final setCookieHeader = response.headers['set-cookie'] as List<String>;
-    prefs.setString("sas_refresh",
-        setCookieHeader[0].split('=')[1].split(';')[0]
-    );
-    prefs.setString("sas_token", response.data['data'][0]['token'] as String);
-
-    return true;
+      return 1;
+    } on DioException catch(exception) {
+      if(exception.type == DioExceptionType.connectionTimeout){
+        return -1;
+      }
+      return 0;
+    }
   }
 
   static Future<int> login(String username, String password) async {
