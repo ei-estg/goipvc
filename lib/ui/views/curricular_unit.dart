@@ -42,6 +42,47 @@ class CurricularUnitView extends StatelessWidget {
             ? double.parse(curricularUnit.tp)
             : 0;
 
+    Widget buildRichText(String text) {
+      final List<InlineSpan> children = [];
+
+      int pMatchEnd = 0;
+      Iterable<RegExpMatch> matches = RegExp(
+              r'(https?:\/\/|www\.)[-a-zA-Z0-9@:%._\+~#=]+\.[a-zA-Z0-9()]+\b[-a-zA-Z0-9(!@:%_+.~#?&\/=]+')
+          .allMatches(text);
+      for (RegExpMatch match in matches) {
+        children.add(
+          TextSpan(
+            text: text.substring(pMatchEnd, match.start),
+            style: const TextStyle(color: Colors.black),
+          ),
+        );
+
+        children.add(
+          TextSpan(
+            text: match.group(0),
+            style: const TextStyle(color: Colors.blue),
+          ),
+        );
+
+        pMatchEnd = match.end;
+      }
+
+      if (pMatchEnd < text.length) {
+        children.add(
+          TextSpan(
+            text: text.substring(pMatchEnd),
+            style: const TextStyle(color: Colors.black),
+          ),
+        );
+      }
+
+      return RichText(
+        text: TextSpan(
+          children: children,
+        ),
+      );
+    }
+
     return Scaffold(
         appBar: AppBar(
           title: const Text("Programa"),
@@ -121,11 +162,11 @@ class CurricularUnitView extends StatelessWidget {
                                 body: Text(snapshot.data!.avaliacao)),
                             CurricularUnitInfoCard(
                                 title: "Bibliografia principal",
-                                body:
-                                    Text(snapshot.data!.bibliografiaPrincipal)),
+                                body: buildRichText(
+                                    snapshot.data!.bibliografiaPrincipal)),
                             CurricularUnitInfoCard(
                                 title: "Bibliografia complementar",
-                                body: Text(
+                                body: buildRichText(
                                     snapshot.data!.bibliografiaComplementar))
                           ],
                         );
