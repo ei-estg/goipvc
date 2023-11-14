@@ -6,6 +6,7 @@ import 'package:goipvc/models/myipvc/exam.dart';
 import 'package:goipvc/models/myipvc/lesson.dart';
 import 'package:goipvc/services/encryptor.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:html_unescape/html_unescape.dart';
 
 import '../models/myipvc/card.dart';
 import '../models/myipvc/detailed_curricular_unit.dart';
@@ -14,13 +15,9 @@ import '../models/myipvc/user.dart';
 
 class MyIPVCAPI {
   static final _dio = Dio(BaseOptions(
-    baseUrl: "https://app.ipvc.pt",
-    headers: {
-      "x-version": "999999"
-    }
-  ));
+      baseUrl: "https://app.ipvc.pt", headers: {"x-version": "999999"}));
 
-  static Future<String> getToken() async{
+  static Future<String> getToken() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
 
     return prefs.getString("token")!;
@@ -36,7 +33,7 @@ class MyIPVCAPI {
     SharedPreferences prefs = await SharedPreferences.getInstance();
 
     String userData = prefs.getString("user")!;
-    
+
     return MyIPVCUser.fromJson(jsonDecode(userData));
   }
 
@@ -51,8 +48,8 @@ class MyIPVCAPI {
       }),
     );
 
-    if(response.statusCode == 200) {
-      if(response.data["status"] == true) {
+    if (response.statusCode == 200) {
+      if (response.data["status"] == true) {
         await saveToken(response.data["jwtToken"]);
         return jsonEncode(response.data["user"]);
       }
@@ -80,9 +77,9 @@ class MyIPVCAPI {
 
     List<MyIPVCGrade> gradeList = [];
 
-    for(var grade in response.data["data"]){
-      if(grade["duracao"] == "S1") grade["duracao"] = "1º Semestre";
-      if(grade["duracao"] == "S2") grade["duracao"] = "2º Semestre";
+    for (var grade in response.data["data"]) {
+      if (grade["duracao"] == "S1") grade["duracao"] = "1º Semestre";
+      if (grade["duracao"] == "S2") grade["duracao"] = "2º Semestre";
 
       gradeList.add(MyIPVCGrade.fromJson(grade));
     }
@@ -91,19 +88,16 @@ class MyIPVCAPI {
   }
 
   static Future<double> getFinalGrade() async {
-    final response = await _dio.post(
-      "/api/academicos/getMediaFinal",
-      data: jsonEncode(<String, String>{
-        'token': await getToken(),
-      }),
-      options: Options(
-        validateStatus: (status) {
-          return status! < 500;
-        },
-      )
-    );
+    final response = await _dio.post("/api/academicos/getMediaFinal",
+        data: jsonEncode(<String, String>{
+          'token': await getToken(),
+        }), options: Options(
+      validateStatus: (status) {
+        return status! < 500;
+      },
+    ));
 
-    if(response.statusCode == 400){
+    if (response.statusCode == 400) {
       return -1;
     }
 
@@ -120,8 +114,8 @@ class MyIPVCAPI {
       );
 
       return 1;
-    } on DioException catch(exception) {
-      if(exception.type == DioExceptionType.connectionTimeout) {
+    } on DioException catch (exception) {
+      if (exception.type == DioExceptionType.connectionTimeout) {
         return -1;
       }
       return 0;
@@ -138,34 +132,34 @@ class MyIPVCAPI {
 
     List<MyIPVCLesson> schedule = [];
 
-    for(var lesson in response.data){
-      var lessonNamePattern = RegExp(r"^(\d+( . |.))(.*?(?=\s*[/|+-;\\]))", unicode: true)
-        .firstMatch(lesson["hor_nome"]);
+    for (var lesson in response.data) {
+      var lessonNamePattern =
+          RegExp(r"^(\d+( . |.))(.*?(?=\s*[/|+-;\\]))", unicode: true)
+              .firstMatch(lesson["hor_nome"]);
 
       // Filtering the title out of a string of random stuff
-      if(lessonNamePattern != null) {
-        lesson["hor_nome"] = lessonNamePattern.group(3)?.trim() ?? "Desconhecido";
+      if (lessonNamePattern != null) {
+        lesson["hor_nome"] =
+            lessonNamePattern.group(3)?.trim() ?? "Desconhecido";
       }
 
       // Trimming down the teachers names
       List<String> teachers = lesson["nomesDocentes"].split("; ");
       teachers.removeWhere((element) => element == "N/D");
-      for(int i = 0; i < teachers.length; i++) {
+      for (int i = 0; i < teachers.length; i++) {
         List<String> splitName = teachers[i].split(" ");
 
         teachers[i] = "${splitName[0]} ${splitName[splitName.length - 1]}";
       }
-      lesson["nomesDocentes"] = teachers
-          .map((e) => e)
-          .join("; ");
+      lesson["nomesDocentes"] = teachers.map((e) => e).join("; ");
 
-      if(lesson["nomesDocentes"] == "") {
+      if (lesson["nomesDocentes"] == "") {
         lesson["nomesDocentes"] = "Desconhecido";
       }
 
       // If the room name matches the pattern School - Room
       // remove the School part
-      if(RegExp(r"^\S+ - \S+$").hasMatch(lesson["sala"])) {
+      if (RegExp(r"^\S+ - \S+$").hasMatch(lesson["sala"])) {
         lesson["sala"] = lesson["sala"].split(" - ")[1];
       }
 
@@ -185,49 +179,53 @@ class MyIPVCAPI {
 
     List<MyIPVCCurricularUnit> curricularPlan = [];
 
-    for(var curricularUnit in response.data["data"]){
+    for (var curricularUnit in response.data["data"]) {
       curricularPlan.add(MyIPVCCurricularUnit.fromJson(curricularUnit));
     }
 
     return curricularPlan;
   }
 
-  static Future<MyIPVCDetailedCurricularUnit> getDetailedCurricularUnit(MyIPVCCurricularUnit curricularUnit) async {
-    final params = {
-      "lang": "pt",
-      "params": curricularUnit.toJson()
-    };
+  static Future<MyIPVCDetailedCurricularUnit> getDetailedCurricularUnit(
+      MyIPVCCurricularUnit curricularUnit) async {
+    final params = {"lang": "pt", "params": curricularUnit.toJson()};
 
     final response = await _dio.post(
       "/api/Ipvc/getPUC",
       data: jsonEncode(params),
     );
 
-    MyIPVCDetailedCurricularUnit data = MyIPVCDetailedCurricularUnit.fromJson(response.data["data"][0]);
+    MyIPVCDetailedCurricularUnit data =
+        MyIPVCDetailedCurricularUnit.fromJson(response.data["data"][0]);
 
-    data.docentes = data.docentes.replaceAll(RegExp(r'::\d::\d*.\d*\|\|'), "\n").trim();
-    data.objetivos = data.objetivos
+    HtmlUnescape unescape = HtmlUnescape();
+
+    data.docentes = unescape.convert(
+        data.docentes.replaceAll(RegExp(r'::\d::\d*.\d*\|\|'), "\n").trim());
+    data.objetivos = unescape.convert(data.objetivos
         .replaceAll(RegExp(r'::\d\|\|'), "\n")
-        .replaceAll(RegExp(r'\d*-(?= *[A-Z])'), "");
+        .replaceAll(RegExp(r'\d*-(?= *[A-Z])'), ""));
 
-    data.objetivos = data.objetivos
+    data.objetivos = unescape.convert(data.objetivos
         .replaceRange(data.objetivos.length - 1, data.objetivos.length, "")
-        .trim();
+        .trim());
 
-    data.conteudos = data.conteudos
+    data.conteudos = unescape.convert(data.conteudos
         .replaceAll(RegExp(r' (?=\d+.\d+)'), "\n")
         .replaceAll(RegExp(r'::\d*.\d*::\|\|'), "\n\n")
         .replaceAll(RegExp(r'(?<=\d\.) (?=\d)'), "")
         .replaceAll(RegExp(r'(?<=[a-zA-Z]+)(?<=.)(?!$)(?=(\d\.)*\d)'), "\n")
         .replaceAll(RegExp(r'(?<=[a-zA-Z])\.(?=\d)'), ".\n")
         .replaceAll(RegExp(r'::\d*\.\d*::\d*\|\|'), "\n\n")
-        .trim();
+        .trim());
 
-    data.resumo = data.resumo.trim();
-    data.metodologias = data.metodologias.trim();
-    data.avaliacao = data.avaliacao.trim();
-    data.bibliografiaPrincipal = data.bibliografiaPrincipal.trim();
-    data.bibliografiaComplementar = data.bibliografiaComplementar.trim();
+    data.resumo = unescape.convert(data.resumo.trim());
+    data.metodologias = unescape.convert(data.metodologias.trim());
+    data.avaliacao = unescape.convert(data.avaliacao.trim());
+    data.bibliografiaPrincipal =
+        unescape.convert(data.bibliografiaPrincipal.trim());
+    data.bibliografiaComplementar =
+        unescape.convert(data.bibliografiaComplementar.trim());
 
     return data;
   }
@@ -258,7 +256,7 @@ class MyIPVCAPI {
 
     List<MyIPVCExam> exams = [];
 
-    for(var exam in response.data["data"]){
+    for (var exam in response.data["data"]) {
       exams.add(MyIPVCExam.fromJson(exam));
     }
 
