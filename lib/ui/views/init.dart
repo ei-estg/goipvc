@@ -22,7 +22,8 @@ class _InitViewState extends State<InitView> {
     checkIfAppWasUpdated();
     MyIPVCAPI.verifyAuth().then((myipvcStatus) {
       SAS.fetchAccessToken().then((sasStatus) {
-        if(myipvcStatus == -1 || sasStatus == -1){
+        if (myipvcStatus == MyIPVCStatus.noConnection ||
+            sasStatus == SASApiStatus.noConnection) {
           Navigator.pushReplacement(
               context,
               MaterialPageRoute(builder: (context) => Scaffold(
@@ -42,8 +43,10 @@ class _InitViewState extends State<InitView> {
           return;
         }
 
-        if(myipvcStatus == 0 || sasStatus == 0){
-          Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => LoginView()));
+        if (myipvcStatus == MyIPVCStatus.loggedOut ||
+            sasStatus == SASApiStatus.loggedOut) {
+          Navigator.pushReplacement(
+              context, MaterialPageRoute(builder: (context) => LoginView()));
           return;
         }
 

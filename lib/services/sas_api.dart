@@ -6,6 +6,8 @@ import 'package:goipvc/models/myipvc/user.dart';
 import 'package:goipvc/models/sas/meal.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+enum SASApiStatus { noConnection, loggedOut, loggedIn }
+
 class SAS {
   static final Dio _dio = Dio(BaseOptions(
     baseUrl: "https://sasocial.sas.ipvc.pt/api"
@@ -26,7 +28,7 @@ class SAS {
     return prefs.getString("sas_token") ?? "";
   }
 
-  static Future<int> fetchAccessToken() async {
+  static Future<SASApiStatus> fetchAccessToken() async {
     try {
       SharedPreferences prefs = await SharedPreferences.getInstance();
 
@@ -45,12 +47,12 @@ class SAS {
       );
       prefs.setString("sas_token", response.data['data'][0]['token'] as String);
 
-      return 1;
+      return SASApiStatus.loggedIn;
     } on DioException catch(exception) {
       if(exception.type == DioExceptionType.connectionTimeout){
-        return -1;
+        return SASApiStatus.loggedOut;
       }
-      return 0;
+      return SASApiStatus.loggedOut;
     }
   }
 

@@ -12,6 +12,8 @@ import '../models/myipvc/detailed_curricular_unit.dart';
 import '../models/myipvc/grade.dart';
 import '../models/myipvc/user.dart';
 
+enum MyIPVCStatus { noConnection, loggedOut, loggedIn }
+
 class MyIPVCAPI {
   static final _dio = Dio(BaseOptions(
       baseUrl: "https://app.ipvc.pt", headers: {"x-version": "999999"}));
@@ -103,10 +105,10 @@ class MyIPVCAPI {
     return double.parse(response.data["data"]);
   }
 
-  static Future<int> verifyAuth() async {
+  static Future<MyIPVCStatus> verifyAuth() async {
     try {
       final token = await getToken();
-      if (token == "") return 0;
+      if (token == "") return MyIPVCStatus.loggedOut;
 
       await _dio.get(
         "/api/myipvc/profile",
@@ -115,12 +117,12 @@ class MyIPVCAPI {
         }),
       );
 
-      return 1;
+      return MyIPVCStatus.loggedIn;
     } on DioException catch (exception) {
       if (exception.type == DioExceptionType.connectionTimeout) {
-        return -1;
+        return MyIPVCStatus.noConnection;
       }
-      return 0;
+      return MyIPVCStatus.loggedOut;
     }
   }
 
