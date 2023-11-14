@@ -6,6 +6,8 @@ import 'package:goipvc/ui/views/error.dart';
 import 'package:goipvc/ui/views/loading.dart';
 import 'package:goipvc/ui/widgets/curricular_unit_info_card.dart';
 import 'package:tuple/tuple.dart';
+import 'package:flutter/gestures.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 final Map<String, String> classType = {
   'P': 'Prática',
@@ -42,6 +44,14 @@ class CurricularUnitView extends StatelessWidget {
             ? double.parse(curricularUnit.tp)
             : 0;
 
+    void launchURL(Uri url) async {
+      if (await canLaunchUrl(url)) {
+        await launchUrl(url);
+      } else {
+        throw 'Couldn\'t launch $url';
+      }
+    }
+
     Widget buildRichText(String text) {
       final List<InlineSpan> children = [];
 
@@ -61,6 +71,10 @@ class CurricularUnitView extends StatelessWidget {
           TextSpan(
             text: match.group(0),
             style: const TextStyle(color: Colors.blue),
+            recognizer: TapGestureRecognizer()
+              ..onTap = () {
+                launchURL(Uri.parse(match.group(0)!));
+              },
           ),
         );
 
