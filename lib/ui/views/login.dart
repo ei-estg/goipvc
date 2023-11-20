@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:goipvc/providers/profile_provider.dart';
-import 'package:goipvc/providers/settings_provider.dart';
 import 'package:goipvc/providers/shared_preferences_provider.dart';
 import 'package:goipvc/services/myipvc_api.dart';
+import 'package:goipvc/ui/views/first_time.dart';
 import 'package:goipvc/ui/views/index.dart';
 import 'package:goipvc/ui/widgets/goipvc_logo.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -68,13 +68,14 @@ class LoginView extends ConsumerWidget {
       } else {
         ref.read(profileProvider.notifier).set(user);
 
-        if (prefs.getString("theme") == null) {
-          ref.read(settingsProvider.notifier).setColorScheme("school");
-        }
-
         if (context.mounted) {
-          Navigator.pushReplacement(context,
-              MaterialPageRoute(builder: (context) => const IndexView()));
+          if(prefs.getBool("hasSeenFirstTimeSetup") ?? false) {
+            Navigator.pushReplacement(context,
+                MaterialPageRoute(builder: (context) => const IndexView()));
+          } else {
+            Navigator.pushReplacement(context,
+                MaterialPageRoute(builder: (context) => const FirstTimeView()));
+          }
         }
       }
     } catch (error) {

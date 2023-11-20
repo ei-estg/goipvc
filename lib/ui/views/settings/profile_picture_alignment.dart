@@ -6,6 +6,42 @@ import 'package:goipvc/ui/widgets/profile_picture.dart';
 import '../../../models/myipvc/user.dart';
 import '../../../providers/profile_provider.dart';
 
+class ProfilePictureAlignmentControls extends ConsumerWidget {
+  const ProfilePictureAlignmentControls({super.key});
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    MyIPVCUser? profile = ref.watch(profileProvider);
+
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        if(profile != null)
+          Padding(
+              padding: const EdgeInsets.fromLTRB(0, 0, 0, 16),
+              child: ProfilePicture(imageData: profile.fotografia, size: 96)
+          ),
+
+        DropdownMenu<String>(
+          dropdownMenuEntries: <DropdownMenuEntry<String>>[
+            for(var alignment in ref.read(settingsProvider.notifier).getAlignmentMapKeys())
+              DropdownMenuEntry<String>(
+                value: alignment,
+                label: alignment,
+              ),
+          ],
+          initialSelection: ref.read(settingsProvider).pictureAlignment,
+          label: const Text("Alinhamento"),
+          onSelected: (String? alignment) {
+            ref.read(settingsProvider.notifier)
+                .setPictureAlignment(alignment ?? "center");
+          },
+        )
+      ],
+    );
+  }
+}
+
 class _PopUpNotifier extends StateNotifier<bool> {
   _PopUpNotifier() : super(false);
 
@@ -22,39 +58,12 @@ class ProfilePictureAlignmentSettings<T> extends ConsumerWidget {
   const ProfilePictureAlignmentSettings({super.key});
 
   void _showAppearanceMenu(BuildContext context, WidgetRef ref) {
-    MyIPVCUser? profile = ref.watch(profileProvider);
-
     showDialog(
       context: context,
       builder: (BuildContext context) {
-        return AlertDialog(
-          title: const Text("Alinhamento de foto", textAlign: TextAlign.center),
-          content: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              if(profile != null)
-                Padding(
-                  padding: const EdgeInsets.fromLTRB(0, 0, 0, 16),
-                  child: ProfilePicture(imageData: profile.fotografia, size: 96)
-                ),
-              
-              DropdownMenu<String>(
-                dropdownMenuEntries: <DropdownMenuEntry<String>>[
-                  for(var alignment in ref.read(settingsProvider.notifier).getAlignmentMapKeys())
-                    DropdownMenuEntry<String>(
-                      value: alignment,
-                      label: alignment,
-                    ),
-                ],
-                initialSelection: ref.read(settingsProvider).pictureAlignment,
-                label: const Text("Alinhamento"),
-                onSelected: (String? alignment) {
-                  ref.read(settingsProvider.notifier)
-                      .setPictureAlignment(alignment ?? "center");
-                },
-              )
-            ],
-          ),
+        return const AlertDialog(
+          title: Text("Alinhamento de foto", textAlign: TextAlign.center),
+          content: ProfilePictureAlignmentControls(),
         );
       },
     );
