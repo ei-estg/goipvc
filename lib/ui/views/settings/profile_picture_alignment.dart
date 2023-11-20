@@ -28,7 +28,7 @@ class ProfilePictureAlignmentSettings<T> extends ConsumerWidget {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: const Text("Alinhamento de foto"),
+          title: const Text("Alinhamento de foto", textAlign: TextAlign.center),
           content: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
