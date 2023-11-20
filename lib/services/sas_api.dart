@@ -6,7 +6,13 @@ import 'package:goipvc/models/myipvc/user.dart';
 import 'package:goipvc/models/sas/meal.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-enum SASApiStatus { noConnection, loggedOut, loggedIn }
+enum SASApiStatus {
+  noConnection,
+  loggedOut,
+  loggedIn,
+  incorrectCreds,
+  unknownError
+}
 
 class SAS {
   static final Dio _dio = Dio(BaseOptions(
@@ -21,7 +27,7 @@ class SAS {
     "ESCE": 5,
     "ESA": 7
   });
-  
+
   static Future<String> getAccessToken() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
 
@@ -56,7 +62,7 @@ class SAS {
     }
   }
 
-  static Future<int> login(String username, String password) async {
+  static Future<SASApiStatus> login(String username, String password) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
 
     final response = await _dio.post(
@@ -72,7 +78,7 @@ class SAS {
       )
     );
 
-    if(response.statusCode == 400) return -1;
+    if(response.statusCode == 400) return SASApiStatus.unknownError;
 
     if(response.data["status"] == "success") {
       final setCookieHeader = response.headers['set-cookie'] as List<String>;
@@ -82,10 +88,10 @@ class SAS {
           setCookieHeader[0].split('=')[1].split(';')[0]
       );
 
-      return 1;
+      return SASApiStatus.loggedIn;
     }
 
-    return 0;
+    return SASApiStatus.incorrectCreds;
   }
 
   static Future<List<SASMeal>> getMeals(String date, String mealType) async {
