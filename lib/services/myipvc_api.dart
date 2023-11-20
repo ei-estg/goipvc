@@ -50,7 +50,7 @@ class MyIPVCAPI {
     );
 
     if (response.statusCode == 200) {
-      if (response.data["status"] == true) {
+      if (response.data["status"]) {
         await saveToken(response.data["jwtToken"]);
         return jsonEncode(response.data["user"]);
       }
