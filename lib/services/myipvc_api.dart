@@ -12,18 +12,16 @@ import '../models/myipvc/detailed_curricular_unit.dart';
 import '../models/myipvc/grade.dart';
 import '../models/myipvc/user.dart';
 
+enum MyIPVCStatus { noConnection, loggedOut, loggedIn }
+
 class MyIPVCAPI {
   static final _dio = Dio(BaseOptions(
-    baseUrl: "https://app.ipvc.pt",
-    headers: {
-      "x-version": "999999"
-    }
-  ));
+      baseUrl: "https://app.ipvc.pt", headers: {"x-version": "999999"}));
 
-  static Future<String> getToken() async{
+  static Future<String> getToken() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
 
-    return prefs.getString("token")!;
+    return prefs.getString("token") ?? "";
   }
 
   static Future<void> saveToken(String token) async {
@@ -36,7 +34,7 @@ class MyIPVCAPI {
     SharedPreferences prefs = await SharedPreferences.getInstance();
 
     String userData = prefs.getString("user")!;
-    
+
     return MyIPVCUser.fromJson(jsonDecode(userData));
   }
 
@@ -51,8 +49,8 @@ class MyIPVCAPI {
       }),
     );
 
-    if(response.statusCode == 200) {
-      if(response.data["status"] == true) {
+    if (response.statusCode == 200) {
+      if (response.data["status"]) {
         await saveToken(response.data["jwtToken"]);
         return jsonEncode(response.data["user"]);
       }
@@ -80,9 +78,9 @@ class MyIPVCAPI {
 
     List<MyIPVCGrade> gradeList = [];
 
-    for(var grade in response.data["data"]){
-      if(grade["duracao"] == "S1") grade["duracao"] = "1º Semestre";
-      if(grade["duracao"] == "S2") grade["duracao"] = "2º Semestre";
+    for (var grade in response.data["data"]) {
+      if (grade["duracao"] == "S1") grade["duracao"] = "1º Semestre";
+      if (grade["duracao"] == "S2") grade["duracao"] = "2º Semestre";
 
       gradeList.add(MyIPVCGrade.fromJson(grade));
     }
@@ -91,40 +89,40 @@ class MyIPVCAPI {
   }
 
   static Future<double> getFinalGrade() async {
-    final response = await _dio.post(
-      "/api/academicos/getMediaFinal",
-      data: jsonEncode(<String, String>{
-        'token': await getToken(),
-      }),
-      options: Options(
-        validateStatus: (status) {
-          return status! < 500;
-        },
-      )
-    );
+    final response = await _dio.post("/api/academicos/getMediaFinal",
+        data: jsonEncode(<String, String>{
+          'token': await getToken(),
+        }), options: Options(
+      validateStatus: (status) {
+        return status! < 500;
+      },
+    ));
 
-    if(response.statusCode == 400){
+    if (response.statusCode == 400) {
       return -1;
     }
 
     return double.parse(response.data["data"]);
   }
 
-  static Future<int> verifyAuth() async {
+  static Future<MyIPVCStatus> verifyAuth() async {
     try {
+      final token = await getToken();
+      if (token == "") return MyIPVCStatus.loggedOut;
+
       await _dio.get(
         "/api/myipvc/profile",
         data: jsonEncode(<String, String>{
-          'token': await getToken(),
+          'token': token,
         }),
       );
 
-      return 1;
-    } on DioException catch(exception) {
-      if(exception.type == DioExceptionType.connectionTimeout) {
-        return -1;
+      return MyIPVCStatus.loggedIn;
+    } on DioException catch (exception) {
+      if (exception.type == DioExceptionType.connectionTimeout) {
+        return MyIPVCStatus.noConnection;
       }
-      return 0;
+      return MyIPVCStatus.loggedOut;
     }
   }
 
@@ -138,34 +136,34 @@ class MyIPVCAPI {
 
     List<MyIPVCLesson> schedule = [];
 
-    for(var lesson in response.data){
-      var lessonNamePattern = RegExp(r"^(\d+( . |.))(.*?(?=\s*[/|+-;\\]))", unicode: true)
-        .firstMatch(lesson["hor_nome"]);
+    for (var lesson in response.data) {
+      var lessonNamePattern =
+          RegExp(r"^(\w+\d+( . |.))(.*?(?=\s*[\/|+-;[\\]))", unicode: true)
+              .firstMatch(lesson["hor_nome"]);
 
       // Filtering the title out of a string of random stuff
-      if(lessonNamePattern != null) {
-        lesson["hor_nome"] = lessonNamePattern.group(3)?.trim() ?? "Desconhecido";
+      if (lessonNamePattern != null) {
+        lesson["hor_nome"] =
+            lessonNamePattern.group(3)?.trim() ?? "Desconhecido";
       }
 
       // Trimming down the teachers names
       List<String> teachers = lesson["nomesDocentes"].split("; ");
       teachers.removeWhere((element) => element == "N/D");
-      for(int i = 0; i < teachers.length; i++) {
+      for (int i = 0; i < teachers.length; i++) {
         List<String> splitName = teachers[i].split(" ");
 
         teachers[i] = "${splitName[0]} ${splitName[splitName.length - 1]}";
       }
-      lesson["nomesDocentes"] = teachers
-          .map((e) => e)
-          .join("; ");
+      lesson["nomesDocentes"] = teachers.map((e) => e).join("; ");
 
-      if(lesson["nomesDocentes"] == "") {
+      if (lesson["nomesDocentes"] == "") {
         lesson["nomesDocentes"] = "Desconhecido";
       }
 
       // If the room name matches the pattern School - Room
       // remove the School part
-      if(RegExp(r"^\S+ - \S+$").hasMatch(lesson["sala"])) {
+      if (RegExp(r"^\S+ - \S+$").hasMatch(lesson["sala"])) {
         lesson["sala"] = lesson["sala"].split(" - ")[1];
       }
 
@@ -185,27 +183,27 @@ class MyIPVCAPI {
 
     List<MyIPVCCurricularUnit> curricularPlan = [];
 
-    for(var curricularUnit in response.data["data"]){
+    for (var curricularUnit in response.data["data"]) {
       curricularPlan.add(MyIPVCCurricularUnit.fromJson(curricularUnit));
     }
 
     return curricularPlan;
   }
 
-  static Future<MyIPVCDetailedCurricularUnit> getDetailedCurricularUnit(MyIPVCCurricularUnit curricularUnit) async {
-    final params = {
-      "lang": "pt",
-      "params": curricularUnit.toJson()
-    };
+  static Future<MyIPVCDetailedCurricularUnit> getDetailedCurricularUnit(
+      MyIPVCCurricularUnit curricularUnit) async {
+    final params = {"lang": "pt", "params": curricularUnit.toJson()};
 
     final response = await _dio.post(
       "/api/Ipvc/getPUC",
       data: jsonEncode(params),
     );
 
-    MyIPVCDetailedCurricularUnit data = MyIPVCDetailedCurricularUnit.fromJson(response.data["data"][0]);
+    MyIPVCDetailedCurricularUnit data =
+        MyIPVCDetailedCurricularUnit.fromJson(response.data["data"][0]);
 
-    data.docentes = data.docentes.replaceAll(RegExp(r'::\d::\d*.\d*\|\|'), "\n").trim();
+    data.docentes =
+        data.docentes.replaceAll(RegExp(r'::\d::\d*.\d*\|\|'), "\n").trim();
     data.objetivos = data.objetivos
         .replaceAll(RegExp(r'::\d\|\|'), "\n")
         .replaceAll(RegExp(r'\d*-(?= *[A-Z])'), "");
@@ -258,7 +256,7 @@ class MyIPVCAPI {
 
     List<MyIPVCExam> exams = [];
 
-    for(var exam in response.data["data"]){
+    for (var exam in response.data["data"]) {
       exams.add(MyIPVCExam.fromJson(exam));
     }
 

@@ -56,14 +56,14 @@ class LoginView extends ConsumerWidget {
       String? user = await MyIPVCAPI
           .login(_usernameController.text, _passwordController.text);
 
-      int sasAuthSuccess = await SAS
+      SASApiStatus sasAuthSuccess = await SAS
           .login(_usernameController.text, _passwordController.text);
 
-      if(sasAuthSuccess == -1) {
+      if(sasAuthSuccess == SASApiStatus.unknownError) {
         throw Exception("Erro a obter token do SAS");
       }
 
-      if (user == null || sasAuthSuccess == 0) {
+      if (user == null || sasAuthSuccess == SASApiStatus.incorrectCreds) {
         throw Exception("Utilizador/Palavra-Passe incorreto");
       } else {
         ref.read(profileProvider.notifier).set(user);
