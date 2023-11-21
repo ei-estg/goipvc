@@ -1,4 +1,6 @@
+import 'package:animations/animations.dart';
 import 'package:flutter/material.dart';
+import 'package:goipvc/ui/animations/shared_axis_switcher.dart';
 import 'package:goipvc/ui/views/firstTime/profilePictureAlignment.dart';
 import 'package:goipvc/ui/views/firstTime/theme.dart';
 import 'package:goipvc/ui/views/index.dart';
@@ -40,13 +42,11 @@ class _FirstTimeViewState extends State<FirstTimeView> {
         }); },
         child: const Icon(Icons.navigate_next),
       ),
-      body: AnimatedSwitcher(
-        duration: const Duration(milliseconds: 200),
-        transitionBuilder: (Widget child, Animation<double> animation) {
-          return FadeTransition(opacity: animation, child: child);
-        },
+      body: SharedAxisSwitcher(
+        duration: const Duration(milliseconds: 750),
+        type: SharedAxisTransitionType.vertical,
         child: _pages[currentPageIndex],
-      ),
+      )
     );
   }
 }
