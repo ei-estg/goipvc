@@ -11,55 +11,61 @@ class LessonDetails extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return AlertDialog(
-      title: Column(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          Text(details.fullName, textAlign: TextAlign.center),
-          const Padding(padding: EdgeInsets.symmetric(vertical: 8)),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [
-              Column(
+    final lessonStart = DateFormat("HH:mm").format(details.from);
+    final lessonEnd = DateFormat("HH:mm").format(details.to);
+
+    return Dialog(
+      child: Padding(
+        padding: const EdgeInsets.all(16),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Text(
+              details.fullName,
+              style: const TextStyle(fontSize: 24),
+            ),
+            Text(
+              "Turno ${details.type}"
+            ),
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 8),
+              child:  Wrap(
+                spacing: 8,
+                alignment: WrapAlignment.center,
                 children: [
-                  Text(
-                      "Turno: ${details.type}",
-                      style: const TextStyle(fontSize: 14)
+                  Chip(
+                    avatar: const Icon(Icons.schedule),
+                    backgroundColor: Theme.of(context).dialogBackgroundColor,
+                    visualDensity: VisualDensity.compact,
+                    label: Text('$lessonStart - $lessonEnd'),
                   ),
-                  Text(
-                      "Inicio: ${DateFormat("HH:mm").format(details.from)}",
-                      style: const TextStyle(fontSize: 14)
+                  Chip(
+                    avatar: const Icon(Icons.room),
+                    visualDensity: VisualDensity.compact,
+                    label: Text(details.room)
                   ),
                 ],
               ),
-              Column(
-                children: [
-                  Text(
-                      "Sala: ${details.room}",
-                      style: const TextStyle(fontSize: 14)
-                  ),
-                  Text(
-                      "Fim: ${DateFormat("HH:mm").format(details.to)}",
-                      style: const TextStyle(fontSize: 14)
-                  ),
-                ],
-              )
-            ],
-          ),
-        ],
-      ),
-      content: Text(
-        "Prof(s).: ${details.teacher}\n"
-        "Estado: ${getStatusFromColor(details.originalColor)}"
-      ),
-      actions: [
-        TextButton(
-          onPressed: () {
-            Navigator.of(context).pop(); // Close the dialog
-          },
-          child: const Text('Fechar'),
+            ),
+            Column(
+              mainAxisSize: MainAxisSize.max,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text("Prof(s).: ${details.teacher}"),
+                Text("Estado: ${getStatusFromColor(details.originalColor)}")
+              ],
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [TextButton(
+                onPressed: (){Navigator.pop(context);},
+                child: const Text("Fechar"),
+              )],
+            )
+          ],
         ),
-      ],
+      ),
     );
   }
 }
