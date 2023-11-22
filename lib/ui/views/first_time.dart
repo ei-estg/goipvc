@@ -43,7 +43,7 @@ class _FirstTimeViewState extends State<FirstTimeView> {
         child: const Icon(Icons.navigate_next),
       ),
       body: SharedAxisSwitcher(
-        duration: const Duration(milliseconds: 750),
+        duration: const Duration(milliseconds: 500),
         type: SharedAxisTransitionType.vertical,
         child: _pages[currentPageIndex],
       )
