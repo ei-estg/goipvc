@@ -1,8 +1,10 @@
+import 'package:animations/animations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:goipvc/providers/profile_provider.dart';
 import 'package:goipvc/providers/shared_preferences_provider.dart';
 import 'package:goipvc/services/myipvc_api.dart';
+import 'package:goipvc/ui/animations/shared_axis_switcher.dart';
 import 'package:goipvc/ui/views/first_time.dart';
 import 'package:goipvc/ui/views/index.dart';
 import 'package:goipvc/ui/widgets/goipvc_logo.dart';
@@ -69,13 +71,21 @@ class LoginView extends ConsumerWidget {
         ref.read(profileProvider.notifier).set(user);
 
         if (context.mounted) {
-          if(prefs.getBool("hasSeenFirstTimeSetup") ?? false) {
-            Navigator.pushReplacement(context,
-                MaterialPageRoute(builder: (context) => const IndexView()));
-          } else {
-            Navigator.pushReplacement(context,
-                MaterialPageRoute(builder: (context) => const FirstTimeView()));
-          }
+          Navigator.pushReplacement(
+              context,
+              PageRouteBuilder(
+                pageBuilder: (_,__,___) => (prefs.getBool("hasSeenFirstTimeSetup") ?? false)
+                    ? const IndexView()
+                    : const FirstTimeView(),
+                transitionDuration: const Duration(milliseconds: 500),
+                transitionsBuilder: (_, a1, a2, child) => SharedAxisTransition(
+                  animation: a1,
+                  secondaryAnimation: a2,
+                  transitionType: SharedAxisTransitionType.vertical,
+                  child: child,
+                )
+              )
+          );
         }
       }
     } catch (error) {
