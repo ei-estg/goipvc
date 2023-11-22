@@ -1,6 +1,7 @@
 import 'package:animations/animations.dart';
 import 'package:flutter/material.dart';
 import 'package:goipvc/ui/animations/shared_axis_switcher.dart';
+import 'package:goipvc/ui/views/firstTime/notifications.dart';
 import 'package:goipvc/ui/views/firstTime/profilePictureAlignment.dart';
 import 'package:goipvc/ui/views/firstTime/theme.dart';
 import 'package:goipvc/ui/views/index.dart';
@@ -8,6 +9,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 final _pages = <Widget>[
   const FirstTimeThemeSettingsView(),
+  const FirstTimeNotificationsView(),
   const FirstTimeProfilePictureSettingsView()
 ];
 
