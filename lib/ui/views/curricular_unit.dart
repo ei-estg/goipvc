@@ -25,23 +25,25 @@ void launchURL(Uri url) async {
 }
 
 Widget buildRichText(String text) {
-  final List<InlineSpan> children = [];
+  final List<TextSpan> children = [];
 
   int pMatchEnd = 0;
   Iterable<RegExpMatch> matches = RegExp(
-          r'(https?:\/\/|www\.)[-a-zA-Z0-9@:%._\+~#=]+\.[a-zA-Z0-9()]+\b[-a-zA-Z0-9(!@:%_+.~#?&\/=]+')
-      .allMatches(text);
+    r'(https?:\/\/|www\.)[-a-zA-Z0-9@:%._\+~#=]+\.[a-zA-Z0-9()]+\b[-a-zA-Z0-9(!@:%_+.~#?&\/=]+',
+  ).allMatches(text);
+
   for (RegExpMatch match in matches) {
+    // preceding text
     children.add(
       TextSpan(
         text: text.substring(pMatchEnd, match.start),
-        style: const TextStyle(color: Colors.black),
       ),
     );
 
+    // clickable URL
     children.add(
       TextSpan(
-        text: match.group(0),
+        text: match.group(0)!,
         style: const TextStyle(color: Colors.blue),
         recognizer: TapGestureRecognizer()
           ..onTap = () {
@@ -53,19 +55,17 @@ Widget buildRichText(String text) {
     pMatchEnd = match.end;
   }
 
+  // remaining text
   if (pMatchEnd < text.length) {
     children.add(
       TextSpan(
         text: text.substring(pMatchEnd),
-        style: const TextStyle(color: Colors.black),
       ),
     );
   }
 
-  return RichText(
-    text: TextSpan(
-      children: children,
-    ),
+  return Text.rich(
+    TextSpan(children: children),
   );
 }
 
