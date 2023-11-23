@@ -164,7 +164,16 @@ class LoginView extends ConsumerWidget {
             ),
             FilledButton.icon(
               label: const Text("Entrar"),
-              icon: const Icon(Icons.login),
+              icon: loading
+                  ? Container(
+                      width: 24,
+                      height: 24,
+                      padding: const EdgeInsets.all(2.0),
+                      child: const CircularProgressIndicator(
+                        strokeWidth: 3,
+                      ),
+                    )
+                  : const Icon(Icons.login),
               onPressed: loading ? null : () => _login(context, ref),
               style: ButtonStyle(
                 shape: MaterialStatePropertyAll(
