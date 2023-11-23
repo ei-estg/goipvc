@@ -24,6 +24,7 @@ class LessonDetails extends StatelessWidget {
             Text(
               details.fullName,
               style: const TextStyle(fontSize: 24),
+              textAlign: TextAlign.center,
             ),
             Text(
               "Turno ${details.type}"
