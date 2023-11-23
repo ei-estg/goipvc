@@ -13,6 +13,8 @@ import '../models/myipvc/detailed_curricular_unit.dart';
 import '../models/myipvc/grade.dart';
 import '../models/myipvc/user.dart';
 
+enum MyIPVCStatus { noConnection, loggedOut, loggedIn }
+
 class MyIPVCAPI {
   static final _dio = Dio(BaseOptions(
       baseUrl: "https://app.ipvc.pt", headers: {"x-version": "999999"}));
@@ -20,7 +22,7 @@ class MyIPVCAPI {
   static Future<String> getToken() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
 
-    return prefs.getString("token")!;
+    return prefs.getString("token") ?? "";
   }
 
   static Future<void> saveToken(String token) async {
@@ -49,7 +51,7 @@ class MyIPVCAPI {
     );
 
     if (response.statusCode == 200) {
-      if (response.data["status"] == true) {
+      if (response.data["status"]) {
         await saveToken(response.data["jwtToken"]);
         return jsonEncode(response.data["user"]);
       }
@@ -104,21 +106,24 @@ class MyIPVCAPI {
     return double.parse(response.data["data"]);
   }
 
-  static Future<int> verifyAuth() async {
+  static Future<MyIPVCStatus> verifyAuth() async {
     try {
+      final token = await getToken();
+      if (token == "") return MyIPVCStatus.loggedOut;
+
       await _dio.get(
         "/api/myipvc/profile",
         data: jsonEncode(<String, String>{
-          'token': await getToken(),
+          'token': token,
         }),
       );
 
-      return 1;
+      return MyIPVCStatus.loggedIn;
     } on DioException catch (exception) {
       if (exception.type == DioExceptionType.connectionTimeout) {
-        return -1;
+        return MyIPVCStatus.noConnection;
       }
-      return 0;
+      return MyIPVCStatus.loggedOut;
     }
   }
 
@@ -134,7 +139,7 @@ class MyIPVCAPI {
 
     for (var lesson in response.data) {
       var lessonNamePattern =
-          RegExp(r"^(\d+( . |.))(.*?(?=\s*[/|+-;\\]))", unicode: true)
+          RegExp(r"^(\w+\d+( . |.))(.*?(?=\s*[\/|+-;[\\]))", unicode: true)
               .firstMatch(lesson["hor_nome"]);
 
       // Filtering the title out of a string of random stuff
