@@ -1,11 +1,11 @@
 name: goipvc
 description: A different frontend for the myipvc app
-publish_to: 'none'
+publish_to: "none"
 
 version: 0.24.2
 
 environment:
-  sdk: '>=3.1.0 <4.0.0'
+  sdk: ">=3.1.0 <4.0.0"
 
 dependencies:
   flutter:
@@ -37,6 +37,7 @@ dependencies:
   flutter_local_notifications: ^16.1.0
   timezone: ^0.9.2
   workmanager: ^0.5.1
+  html_unescape: ^2.0.0
 
 dev_dependencies:
   flutter_test:
@@ -50,24 +51,24 @@ flutter:
   uses-material-design: true
 
   assets:
-     - assets/ipvc.png
-     - assets/ipvc-divider.svg
-     - assets/ipvc-logo.svg
-     - assets/ESA-logo.svg
-     - assets/ESCE-logo.svg
-     - assets/ESDL-logo.svg
-     - assets/ESE-logo.svg
-     - assets/ESS-logo.svg
-     - assets/ESTG-logo.svg
-     - assets/logo.png
+    - assets/ipvc.png
+    - assets/ipvc-divider.svg
+    - assets/ipvc-logo.svg
+    - assets/ESA-logo.svg
+    - assets/ESCE-logo.svg
+    - assets/ESDL-logo.svg
+    - assets/ESE-logo.svg
+    - assets/ESS-logo.svg
+    - assets/ESTG-logo.svg
+    - assets/logo.png
 
-     - assets/floors/estg/dark1.png
-     - assets/floors/estg/dark2.png
-     - assets/floors/estg/dark3.png
-     - assets/floors/estg/light1.png
-     - assets/floors/estg/light2.png
-     - assets/floors/estg/light3.png
+    - assets/floors/estg/dark1.png
+    - assets/floors/estg/dark2.png
+    - assets/floors/estg/dark3.png
+    - assets/floors/estg/light1.png
+    - assets/floors/estg/light2.png
+    - assets/floors/estg/light3.png
 
-     - assets/calendar.png
+    - assets/calendar.png
 
-     - assets/default_meal.jpeg
+    - assets/default_meal.jpeg
