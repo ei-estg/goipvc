@@ -164,7 +164,7 @@ class MyIPVCAPI {
 
       // If the room name matches the pattern School - Room
       // remove the School part
-      if (RegExp(r"^\S+ - \S+$").hasMatch(lesson["sala"])) {
+      if (RegExp(r"^\S+ - (.*)$").hasMatch(lesson["sala"])) {
         lesson["sala"] = lesson["sala"].split(" - ")[1];
       }
 
