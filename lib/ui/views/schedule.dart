@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:goipvc/providers/settings_provider.dart';
 import 'package:goipvc/ui/widgets/lesson_details.dart';
+import 'package:goipvc/ui/widgets/schedule_settings.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart';
 
 import '../../models/calendar_meeting.dart';
@@ -41,9 +43,18 @@ class ScheduleView extends ConsumerWidget {
         });
   }
 
+  void _showScheduleSettings(BuildContext context) {
+    showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return ScheduleSettings();
+        });
+  }
+  
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     AsyncValue<List<MyIPVCLesson>> schedule = ref.watch(scheduleProvider);
+    var settings = ref.watch(settingsProvider);
 
     if(schedule.isRefreshing){
       return const LoadingView();
@@ -60,7 +71,9 @@ class ScheduleView extends ConsumerWidget {
             children: [
               SfCalendar(
                 key: ValueKey(DateTime.now()),
-                view: CalendarView.week,
+                view: settings.showWeekend
+                  ? CalendarView.week
+                  : CalendarView.workWeek,
                 dataSource: MeetingDataSource(_getDataSource(schedule)),
                 timeSlotViewSettings: const TimeSlotViewSettings(
                     timeFormat: 'H:mm',
@@ -81,10 +94,18 @@ class ScheduleView extends ConsumerWidget {
               Positioned(
                 right: 1,
                 top: -5,
-                child: IconButton(
-                  icon: const Icon(Icons.refresh),
-                  onPressed: () {return ref.refresh(scheduleProvider);},
-                ),
+                child: Row(
+                  children: [
+                    IconButton(
+                      icon: const Icon(Icons.refresh),
+                      onPressed: () {return ref.refresh(scheduleProvider);},
+                    ),
+                    IconButton(
+                      icon: const Icon(Icons.settings),
+                      onPressed: () {_showScheduleSettings(context);},
+                    ),
+                  ],
+                )
               )
             ],
           );
