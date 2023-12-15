@@ -47,15 +47,23 @@ class LessonCard<T> extends StatelessWidget {
                           style: const TextStyle(fontSize: 18),
                           overflow: TextOverflow.ellipsis,
                         ),
-                        Text("Docente: ${lesson.nomesDocentes}",
+                        Text("Turno ${lesson.horNomeTurno}",
                             style: const TextStyle(
                                 fontSize: 12, fontWeight: FontWeight.w300)),
-                        Text("Sala: ${lesson.sala}",
-                            style: const TextStyle(
-                                fontSize: 12, fontWeight: FontWeight.w300)),
-                        Text("Turno: ${lesson.horNomeTurno}",
-                            style: const TextStyle(
-                                fontSize: 12, fontWeight: FontWeight.w300)),
+                        Text.rich(TextSpan(children: [
+                          const WidgetSpan(child: Padding(
+                            padding: EdgeInsets.only(right: 4),
+                            child: Icon(Icons.person, size: 16),
+                          )),
+                          TextSpan(text: lesson.nomesDocentes)
+                        ])),
+                        Text.rich(TextSpan(children: [
+                          const WidgetSpan(child: Padding(
+                            padding: EdgeInsets.only(right: 4),
+                            child: Icon(Icons.room, size: 16),
+                          )),
+                          TextSpan(text: lesson.sala)
+                        ]))
                       ]))),
           Row(children: [
             //progress bar with text inside it
