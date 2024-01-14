@@ -12,6 +12,7 @@ import 'package:goipvc/providers/shared_preferences_provider.dart';
 import 'package:goipvc/services/background_actions.dart';
 import 'package:goipvc/services/notifications.dart';
 import 'package:goipvc/ui/views/init.dart';
+import 'package:goipvc/utils/multiplatform/multiplatform.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:syncfusion_localizations/syncfusion_localizations.dart';
@@ -23,7 +24,6 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   final sharedPreferences = await SharedPreferences.getInstance();
   AndroidDeviceInfo? androidDeviceInfo;
-
   tz.initializeTimeZones();
   tz.setLocalLocation(tz.getLocation("Europe/Lisbon"));
 
@@ -33,13 +33,13 @@ void main() async {
     androidDeviceInfo = null;
   }
 
-  if(Platform.isAndroid || Platform.isIOS) {
+  if([Platform.ios, Platform.android].contains(getPlatform())) {
     await Permission.notification.request();
   }
 
   await Notifications.init();
 
-  if(Platform.isAndroid || Platform.isIOS){
+  if([Platform.ios, Platform.android].contains(getPlatform())){
     if(await Permission.notification.isGranted) {
       Workmanager().initialize(callbackDispatcher);
       Workmanager().registerPeriodicTask(
