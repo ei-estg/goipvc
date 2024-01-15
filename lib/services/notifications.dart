@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'dart:math';
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:goipvc/models/myipvc/lesson.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -71,7 +72,7 @@ class Notifications {
 
   static Future<void> discardLessonWarningNotifications() async {
     // Scheduled notifications are not implemented in these platforms
-    if(Platform.isLinux || Platform.isWindows) {
+    if(kIsWeb || Platform.isLinux || Platform.isWindows) {
       return;
     }
 

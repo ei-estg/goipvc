@@ -37,7 +37,7 @@ class SAS {
   static Future<SASApiStatus> fetchAccessToken() async {
     try {
       SharedPreferences prefs = await SharedPreferences.getInstance();
-
+      
       final response = await _dio.post(
         "/authorization/authorize/refresh-token/WEB",
         options: Options(
@@ -47,14 +47,12 @@ class SAS {
         ),
       );
 
-      final setCookieHeader = response.headers['set-cookie'] as List<String>;
-      prefs.setString("sas_refresh",
-          setCookieHeader[0].split('=')[1].split(';')[0]
-      );
       prefs.setString("sas_token", response.data['data'][0]['token'] as String);
 
       return SASApiStatus.loggedIn;
     } on DioException catch(exception) {
+      print(exception);
+
       if(exception.type == DioExceptionType.connectionTimeout){
         return SASApiStatus.loggedOut;
       }
@@ -65,6 +63,14 @@ class SAS {
   static Future<SASApiStatus> login(String username, String password) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
 
+    final token = await _dio.post(
+        "https://6gs0s9x7zg.execute-api.us-east-1.amazonaws.com/getCookie",
+        data: {
+          "username": username,
+          "password": password
+        }
+    );
+    
     final response = await _dio.post(
       "/authorization/authorize/device-type/WEB",
       data: {
@@ -81,11 +87,9 @@ class SAS {
     if(response.statusCode == 400) return SASApiStatus.unknownError;
 
     if(response.data["status"] == "success") {
-      final setCookieHeader = response.headers['set-cookie'] as List<String>;
-
       prefs.setString("sas_token", response.data['data'][0]['token'] as String);
       prefs.setString("sas_refresh",
-          setCookieHeader[0].split('=')[1].split(';')[0]
+          token.data["sas_refresh"]
       );
 
       return SASApiStatus.loggedIn;
