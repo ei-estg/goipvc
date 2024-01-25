@@ -6,7 +6,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 Future<String?> getNewRelease() async{
   final response = await Dio().get(
-    "https://api.github.com/repos/joaoalves03/goipvc/releases/latest"
+    "https://api.github.com/repos/ei-estg/goipvc/releases/latest"
   );
 
   PackageInfo packageInfo = await PackageInfo.fromPlatform();
@@ -21,7 +21,7 @@ Future<String?> getNewRelease() async{
 Future<bool> downloadUpdateAndroid() async {
   try {
     const fileURL =
-        "https://github.com/joaoalves03/goipvc/releases/latest/download/app-release-signed.apk";
+        "https://github.com/ei-estg/goipvc/releases/latest/download/app-release-signed.apk";
     DefaultCacheManager cacheManager = DefaultCacheManager();
     SharedPreferences prefs = await SharedPreferences.getInstance();
 

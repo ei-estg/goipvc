@@ -23,7 +23,7 @@ void _errorSnackbar (BuildContext context) {
           ),
           TextButton(
               onPressed: () {
-                launchUrl(Uri.parse("https://github.com/joaoalves03/goipvc/releases/latest"));
+                launchUrl(Uri.parse("https://github.com/ei-estg/goipvc/releases/latest"));
               },
               child: const Text("Github")
           )
@@ -82,7 +82,7 @@ class _IndexViewState extends State<IndexView> {
                           _errorSnackbar(context);
                         }
                       } else {
-                        launchUrl(Uri.parse("https://github.com/joaoalves03/goipvc/releases/latest"));
+                        launchUrl(Uri.parse("https://github.com/ei-estg/goipvc/releases/latest"));
                       }
                     },
                     child: Text(
