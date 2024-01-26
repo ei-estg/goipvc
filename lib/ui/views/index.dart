@@ -7,6 +7,7 @@ import 'package:goipvc/ui/views/menu.dart';
 import 'package:goipvc/ui/views/schedule.dart';
 import 'package:goipvc/ui/views/school_map.dart';
 import 'package:goipvc/ui/widgets/logo.dart';
+import 'package:goipvc/ui/widgets/update_indicator.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../../services/github.dart';
@@ -137,17 +138,7 @@ class _IndexViewState extends State<IndexView> {
           surfaceTintColor: Colors.transparent,
           title: const Logo(),
           actions: const <Widget>[
-            IconButton(
-              onPressed: null,
-              icon: Icon(
-                Icons.notifications_none_outlined,
-                size: 28,
-              ),
-              // TODO: detect notifications, and use this badge
-              /*Badge(
-                child: Icon(Icons.notifications_none_outlined),
-              ),*/
-            )
+            UpdateIndicator()
           ],
         ),
         bottomNavigationBar:
