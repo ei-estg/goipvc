@@ -39,7 +39,7 @@ class AcademicCalendarView extends ConsumerWidget {
                     ],
                   ),
                   _CalendarCard(
-                    title: "Paragem Letiva",
+                    title: "Paragem letiva",
                     body: [
                       const Text("Natal:",
                           style: TextStyle(fontWeight: FontWeight.bold)),
