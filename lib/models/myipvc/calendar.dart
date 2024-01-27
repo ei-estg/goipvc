@@ -18,6 +18,9 @@ class MyIPVCCalendar {
   String secondSemesterExamDates;
   String specialSeasonExamDates;
 
+  String firstFee;
+  String followingFees;
+
   MyIPVCCalendar(
       {required this.firstSemesterDates,
       required this.secondSemesterDates,
@@ -30,5 +33,7 @@ class MyIPVCCalendar {
       required this.commemorativeDays,
       required this.firstSemesterExamDates,
       required this.secondSemesterExamDates,
-      required this.specialSeasonExamDates});
+      required this.specialSeasonExamDates,
+      required this.firstFee,
+      required this.followingFees});
 }

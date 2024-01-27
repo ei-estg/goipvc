@@ -8,6 +8,7 @@ import 'package:goipvc/services/encryptor.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:html_unescape/html_unescape.dart';
 
+import '../models/myipvc/calendar.dart';
 import '../models/myipvc/card.dart';
 import '../models/myipvc/detailed_curricular_unit.dart';
 import '../models/myipvc/grade.dart';
@@ -266,5 +267,36 @@ class MyIPVCAPI {
     }
 
     return exams;
+  }
+
+  static Future<MyIPVCCalendar> getCalendar() async {
+    final response = await _dio.post(
+      "/api/atividadeLetiva/getCalendarioLetivo",
+      data: jsonEncode(<String, String>{
+        'lang': 'pt',
+      }),
+    );
+
+    final data = response.data['data'];
+
+    return MyIPVCCalendar(
+        firstSemesterDates: data['Periodos']['PrimeiroSemestre'],
+        secondSemesterDates: data['Periodos']['SegundoSemestre'],
+        christmasBreak: data['ParagemLetiva']['Natal'],
+        carnivalBreak: data['ParagemLetiva']['Carnaval'],
+        easterBreak: data['ParagemLetiva']['Pascoa'],
+        academicWeek: data['ParagemLetiva']['SemanaAcademica'],
+        firstSemesterHolidays:
+            List.castFrom(data['Feriados']['PrimeiroSemestre']),
+        secondSemesterHolidays:
+            List.castFrom(data['Feriados']['SegundoSemestre']),
+        commemorativeDays: Map<String, String>.from(data['DiasComemorativos']),
+        firstSemesterExamDates: data['PeriododeExames']
+            ['EpocanormaleEpocadeRecurso']['PrimeiroSemestre'],
+        secondSemesterExamDates: data['PeriododeExames']
+            ['EpocanormaleEpocadeRecurso']['SegundoSemestre'],
+        specialSeasonExamDates: data['PeriododeExames']['EpocaEspecial'],
+        firstFee: data['PagamentodePropinas']['PrimeiraPrestacao'],
+        followingFees: data['PagamentodePropinas']['Restantesprestacoes']);
   }
 }
