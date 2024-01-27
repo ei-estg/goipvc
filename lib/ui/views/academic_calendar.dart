@@ -27,65 +27,93 @@ class AcademicCalendarView extends ConsumerWidget {
               return ListView(
                 children: [
                   _CalendarCard(
-                    title: const Text("Períodos"),
+                    title: "Períodos",
                     body: [
-                      const Text("Primeiro Semestre:"),
+                      const Text("Primeiro Semestre:",
+                          style: TextStyle(fontWeight: FontWeight.bold)),
                       Text(calendar.firstSemesterDates),
-                      const Text("Segundo Semestre:"),
+                      const Padding(padding: EdgeInsets.symmetric(vertical: 4)),
+                      const Text("Segundo Semestre:",
+                          style: TextStyle(fontWeight: FontWeight.bold)),
                       Text(calendar.firstSemesterDates)
                     ],
                   ),
                   _CalendarCard(
-                    title: const Text("Paragem Letiva"),
+                    title: "Paragem Letiva",
                     body: [
-                      const Text("Natal:"),
+                      const Text("Natal:",
+                          style: TextStyle(fontWeight: FontWeight.bold)),
                       Text(calendar.christmasBreak),
-                      const Text("Carnaval:"),
+                      const Padding(padding: EdgeInsets.symmetric(vertical: 4)),
+                      const Text("Carnaval:",
+                          style: TextStyle(fontWeight: FontWeight.bold)),
                       Text(calendar.carnivalBreak),
-                      const Text("Páscoa:"),
+                      const Padding(padding: EdgeInsets.symmetric(vertical: 4)),
+                      const Text("Páscoa:",
+                          style: TextStyle(fontWeight: FontWeight.bold)),
                       Text(calendar.easterBreak),
-                      const Text("Semana Académica:"),
+                      const Padding(padding: EdgeInsets.symmetric(vertical: 4)),
+                      const Text("Semana Académica:",
+                          style: TextStyle(fontWeight: FontWeight.bold)),
                       Text(calendar.academicWeek)
                     ],
                   ),
                   _CalendarCard(
-                    title: const Text("Dias comemorativos"),
+                    title: "Dias comemorativos",
                     body: [
                       for (var commemorativeDay
                           in calendar.commemorativeDays.entries)
-                        Text(
-                            "${commemorativeDay.key}: ${commemorativeDay.value}")
+                        Text.rich(TextSpan(children: [
+                          TextSpan(
+                              text: "${commemorativeDay.key}: ",
+                              style:
+                                  const TextStyle(fontWeight: FontWeight.bold)),
+                          TextSpan(text: commemorativeDay.value)
+                        ]))
                     ],
                   ),
                   _CalendarCard(
-                    title: const Text("Período de exames"),
+                    title: "Período de exames",
                     body: [
-                      const Text("Época normal / recurso"),
-                      const Text("1º Semestre"),
+                      const Text("Época normal / recurso",
+                          style: TextStyle(fontWeight: FontWeight.bold)),
+                      const Padding(padding: EdgeInsets.symmetric(vertical: 4)),
+                      const Text("1º Semestre",
+                          style: TextStyle(fontWeight: FontWeight.bold)),
                       Text(calendar.firstSemesterExamDates),
-                      const Text("2º Semestre"),
+                      const Padding(padding: EdgeInsets.symmetric(vertical: 4)),
+                      const Text("2º Semestre",
+                          style: TextStyle(fontWeight: FontWeight.bold)),
                       Text(calendar.secondSemesterExamDates),
-                      const Text("Época especial"),
+                      const Padding(padding: EdgeInsets.symmetric(vertical: 8)),
+                      const Text("Época especial",
+                          style: TextStyle(fontWeight: FontWeight.bold)),
                       Text(calendar.specialSeasonExamDates)
                     ],
                   ),
                   _CalendarCard(
-                    title: const Text("Pagamento de propinas"),
+                    title: "Pagamento de propinas",
                     body: [
-                      const Text("Primeira prestação"),
+                      const Text("Primeira prestação:",
+                          style: TextStyle(fontWeight: FontWeight.bold)),
                       Text(calendar.firstFee),
-                      const Text("Restantes prestações"),
+                      const Padding(padding: EdgeInsets.symmetric(vertical: 4)),
+                      const Text("Restantes prestações:",
+                          style: TextStyle(fontWeight: FontWeight.bold)),
                       Text(calendar.followingFees),
                     ],
                   ),
                   _CalendarCard(
-                    title: const Text("Feriados"),
+                    title: "Feriados",
                     body: [
-                      const Text("Primeiro semestre"),
-                      for(var holiday in calendar.firstSemesterHolidays)
+                      const Text("Primeiro semestre:",
+                          style: TextStyle(fontWeight: FontWeight.bold)),
+                      for (var holiday in calendar.firstSemesterHolidays)
                         Text(holiday),
-                      const Text("Segundo semestre"),
-                      for(var holiday in calendar.secondSemesterHolidays)
+                      const Padding(padding: EdgeInsets.symmetric(vertical: 4)),
+                      const Text("Segundo semestre:",
+                          style: TextStyle(fontWeight: FontWeight.bold)),
+                      for (var holiday in calendar.secondSemesterHolidays)
                         Text(holiday),
                     ],
                   ),
@@ -96,21 +124,38 @@ class AcademicCalendarView extends ConsumerWidget {
 }
 
 class _CalendarCard extends StatelessWidget {
-  final Text title;
+  final String title;
   final List<Widget> body;
 
   const _CalendarCard({required this.title, required this.body});
 
   @override
   Widget build(BuildContext context) {
-    return Card(
-        elevation: 2,
-        child: Theme(
-          data: Theme.of(context).copyWith(dividerColor: Colors.transparent),
-          child: ExpansionTile(
-            title: title,
-            children: body,
-          ),
-        ));
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 10),
+      child: Card(
+          elevation: 2,
+          child: Theme(
+            data: Theme.of(context).copyWith(dividerColor: Colors.transparent),
+            child: ExpansionTile(
+              title: Text(
+                title,
+                style: const TextStyle(fontWeight: FontWeight.bold),
+              ),
+              children: [
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(12, 6, 12, 6),
+                  child: Align(
+                    alignment: Alignment.topLeft,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: body,
+                    ),
+                  ),
+                )
+              ],
+            ),
+          )),
+    );
   }
 }
