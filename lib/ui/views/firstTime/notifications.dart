@@ -12,12 +12,14 @@ class FirstTimeNotificationsView extends StatelessWidget {
         children: [
           Text(
             "Notificações",
-            style: TextStyle(
-                fontSize: 24
-            ),
+            style: TextStyle(fontSize: 24),
           ),
           Text("Podes alterar isto mais tarde nas definições"),
-          Padding(padding: EdgeInsets.symmetric(vertical: 8)),
+          Padding(padding: EdgeInsets.symmetric(vertical: 2)),
+          Text(
+              "Nota: O sistema de notificações ainda não está completo, podem não funcionar corretamente",
+              textAlign: TextAlign.center),
+          Padding(padding: EdgeInsets.symmetric(vertical: 4)),
           NotificationsSettings()
         ],
       ),
