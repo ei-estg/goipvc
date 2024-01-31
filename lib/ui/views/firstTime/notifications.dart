@@ -6,21 +6,28 @@ class FirstTimeNotificationsView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Center(
+    return Center(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Text(
+          const Text(
             "Notificações",
             style: TextStyle(fontSize: 24),
           ),
-          Text("Podes alterar isto mais tarde nas definições"),
-          Padding(padding: EdgeInsets.symmetric(vertical: 2)),
-          Text(
-              "Nota: O sistema de notificações ainda não está completo, podem não funcionar corretamente",
-              textAlign: TextAlign.center),
-          Padding(padding: EdgeInsets.symmetric(vertical: 4)),
-          NotificationsSettings()
+          const Text("Podes alterar isto mais tarde nas definições"),
+          const Padding(padding: EdgeInsets.symmetric(vertical: 4)),
+          const NotificationsSettings(),
+          const Padding(padding: EdgeInsets.symmetric(vertical: 4)),
+          RichText(
+            text: TextSpan(
+              style: DefaultTextStyle.of(context).style,
+              children: const <TextSpan>[
+                TextSpan(text: 'Nota: ', style: TextStyle(fontWeight: FontWeight.bold)),
+                TextSpan(text: 'O sistema de notificações ainda não está completo, pode não funcionar corretamente'),
+              ],
+            ),
+            textAlign: TextAlign.center
+          ),
         ],
       ),
     );
