@@ -32,23 +32,53 @@ class _FirstTimeViewState extends State<FirstTimeView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      floatingActionButton: FloatingActionButton(
-        onPressed: () { setState(() {
-          if(currentPageIndex == _pages.length - 1) {
-            setFirstTimeAsSeen(true);
-            Navigator.pushReplacement(context,
-                MaterialPageRoute(builder: (context) => const IndexView()));
-          } else {
-            currentPageIndex++;
-          }
-        }); },
-        child: const Icon(Icons.navigate_next),
-      ),
-      body: SharedAxisSwitcher(
-        duration: const Duration(milliseconds: 500),
-        type: SharedAxisTransitionType.vertical,
-        child: _pages[currentPageIndex],
-      )
-    );
+        floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
+        floatingActionButton: Stack(
+          children: [
+            if (currentPageIndex != 0)
+              Align(
+                alignment: Alignment.bottomLeft,
+                child: Padding(
+                    padding: const EdgeInsets.only(left: 16),
+                    child: FloatingActionButton(
+                      heroTag: null,
+                      onPressed: () {
+                        setState(() {
+                          currentPageIndex--;
+                        });
+                      },
+                      child: const Icon(Icons.navigate_before),
+                    )),
+              ),
+            Align(
+              alignment: Alignment.bottomRight,
+              child: Padding(
+                padding: const EdgeInsets.only(right: 16),
+                child: FloatingActionButton(
+                  heroTag: null,
+                  onPressed: () {
+                    setState(() {
+                      if (currentPageIndex == _pages.length - 1) {
+                        setFirstTimeAsSeen(true);
+                        Navigator.pushReplacement(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => const IndexView()));
+                      } else {
+                        currentPageIndex++;
+                      }
+                    });
+                  },
+                  child: const Icon(Icons.navigate_next),
+                ),
+              ),
+            )
+          ],
+        ),
+        body: SharedAxisSwitcher(
+          duration: const Duration(milliseconds: 500),
+          type: SharedAxisTransitionType.vertical,
+          child: _pages[currentPageIndex],
+        ));
   }
 }
