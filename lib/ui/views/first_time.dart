@@ -33,13 +33,13 @@ class _FirstTimeViewState extends State<FirstTimeView> {
   Widget build(BuildContext context) {
     return Scaffold(
         floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
-        floatingActionButton: Stack(
-          children: [
-            if (currentPageIndex != 0)
-              Align(
-                alignment: Alignment.bottomLeft,
-                child: Padding(
-                    padding: const EdgeInsets.only(left: 16),
+        floatingActionButton: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 16),
+          child: Stack(
+            children: [
+              if (currentPageIndex != 0)
+                Align(
+                    alignment: Alignment.bottomLeft,
                     child: FloatingActionButton(
                       heroTag: null,
                       onPressed: () {
@@ -49,11 +49,8 @@ class _FirstTimeViewState extends State<FirstTimeView> {
                       },
                       child: const Icon(Icons.navigate_before),
                     )),
-              ),
-            Align(
-              alignment: Alignment.bottomRight,
-              child: Padding(
-                padding: const EdgeInsets.only(right: 16),
+              Align(
+                alignment: Alignment.bottomRight,
                 child: FloatingActionButton(
                   heroTag: null,
                   onPressed: () {
@@ -71,9 +68,9 @@ class _FirstTimeViewState extends State<FirstTimeView> {
                   },
                   child: const Icon(Icons.navigate_next),
                 ),
-              ),
-            )
-          ],
+              )
+            ],
+          ),
         ),
         body: SharedAxisSwitcher(
           duration: const Duration(milliseconds: 500),
