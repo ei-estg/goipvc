@@ -6,6 +6,8 @@ import 'package:goipvc/ui/views/error.dart';
 import 'package:goipvc/ui/views/loading.dart';
 import 'package:goipvc/ui/widgets/curricular_unit_info_card.dart';
 import 'package:tuple/tuple.dart';
+import 'package:flutter/gestures.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 final Map<String, String> classType = {
   'P': 'Prática',
@@ -13,6 +15,59 @@ final Map<String, String> classType = {
   'T': 'Teórica',
   'TP': 'Teórico-Prática',
 };
+
+void launchURL(Uri url) async {
+  if (await canLaunchUrl(url)) {
+    await launchUrl(url);
+  } else {
+    throw 'Couldn\'t launch $url';
+  }
+}
+
+Widget buildRichText(String text) {
+  final List<TextSpan> children = [];
+
+  int pMatchEnd = 0;
+  Iterable<RegExpMatch> matches = RegExp(
+    r'(https?:\/\/|www\.)[-a-zA-Z0-9@:%._\+~#=]+\.[a-zA-Z0-9()]+\b[-a-zA-Z0-9(!@:%_+.~#?&\/=]+',
+  ).allMatches(text);
+
+  for (RegExpMatch match in matches) {
+    // preceding text
+    children.add(
+      TextSpan(
+        text: text.substring(pMatchEnd, match.start),
+      ),
+    );
+
+    // clickable URL
+    children.add(
+      TextSpan(
+        text: match.group(0)!,
+        style: const TextStyle(color: Colors.blue),
+        recognizer: TapGestureRecognizer()
+          ..onTap = () {
+            launchURL(Uri.parse(match.group(0)!));
+          },
+      ),
+    );
+
+    pMatchEnd = match.end;
+  }
+
+  // remaining text
+  if (pMatchEnd < text.length) {
+    children.add(
+      TextSpan(
+        text: text.substring(pMatchEnd),
+      ),
+    );
+  }
+
+  return Text.rich(
+    TextSpan(children: children),
+  );
+}
 
 class CurricularUnitView extends StatelessWidget {
   final MyIPVCCurricularUnit curricularUnit;
@@ -121,11 +176,11 @@ class CurricularUnitView extends StatelessWidget {
                                 body: Text(snapshot.data!.avaliacao)),
                             CurricularUnitInfoCard(
                                 title: "Bibliografia principal",
-                                body:
-                                    Text(snapshot.data!.bibliografiaPrincipal)),
+                                body: buildRichText(
+                                    snapshot.data!.bibliografiaPrincipal)),
                             CurricularUnitInfoCard(
                                 title: "Bibliografia complementar",
-                                body: Text(
+                                body: buildRichText(
                                     snapshot.data!.bibliografiaComplementar))
                           ],
                         );

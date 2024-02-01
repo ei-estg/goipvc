@@ -63,7 +63,9 @@ class SettingsNotifier extends StateNotifier<Settings> {
             pictureAlignment:
                 sharedPreferences.getString("pictureAlignment") ?? 'Centro',
             lessonAlert:
-              sharedPreferences.getInt("lessonAlert") ?? 0
+              sharedPreferences.getInt("lessonAlert") ?? 0,
+            showWeekend:
+              sharedPreferences.getBool("showWeekend") ?? false
           ));
 
   void setTheme(String theme) {
@@ -122,6 +124,11 @@ class SettingsNotifier extends StateNotifier<Settings> {
 
   int getLessonAlert() {
     return sharedPreferences.getInt("lessonAlert") ?? 0;
+  }
+
+  void setShowWeekend(bool value) {
+    sharedPreferences.setBool("showWeekend", value);
+    state = state.copyWith(showWeekend: value);
   }
 
   static String getLessonAlertString(int val) {

@@ -1,5 +1,8 @@
+import 'dart:collection';
+
 import 'package:flutter/material.dart';
 import 'package:goipvc/models/myipvc/exam.dart';
+import 'package:intl/intl.dart';
 
 class ExamCard<T> extends StatelessWidget {
   final MyIPVCExam exam;
@@ -7,6 +10,13 @@ class ExamCard<T> extends StatelessWidget {
   const ExamCard({
     super.key,
     required this.exam,
+  });
+
+  static final _examCodeMap = HashMap.from({
+    "3": "Exame Recurso",
+    "4": "Melhoria",
+    "20": "Exame Especial / Trab. Estudante",
+    "21": "Exame Especial / Finalista"
   });
 
   @override
@@ -19,21 +29,21 @@ class ExamCard<T> extends StatelessWidget {
             children: <Widget>[
               Expanded(
                 child: ListTile(
-                  title:
-                  Text(
+                  title: Text(
                     exam.uc,
                     overflow: TextOverflow.ellipsis,
-                    style: TextStyle(color: Theme.of(context).colorScheme.primary, fontSize: 18, fontWeight: FontWeight.bold),
+                    style: TextStyle(
+                        color: Theme.of(context).colorScheme.primary,
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold),
                   ),
                   subtitle: Text(
-                      "${exam.codigoGruAva}\n"
-                      "${exam.dataExame}"
-                  ),
+                      "${_examCodeMap[exam.codigoGruAva] ?? "Tipo de exame desconhecido"}\n"
+                      "${DateFormat("dd-MM-yyyy HH:mm").format(DateTime.parse(exam.dataExame))}"),
                 ),
               ),
             ],
           ),
-        )
-    );
+        ));
   }
 }

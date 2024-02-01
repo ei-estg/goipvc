@@ -1,13 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:goipvc/services/myipvc_api.dart';
 import 'package:goipvc/ui/views/about.dart';
 import 'package:goipvc/ui/views/academic_calendar.dart';
 import 'package:goipvc/ui/views/curricular_plan.dart';
 import 'package:goipvc/ui/views/exams.dart';
 import 'package:goipvc/ui/views/grades.dart';
-import 'package:goipvc/ui/views/login.dart';
 import 'package:goipvc/ui/views/meals.dart';
 import 'package:goipvc/ui/views/settings.dart';
+import 'package:goipvc/ui/widgets/logout_prompt.dart';
 import 'package:goipvc/ui/widgets/menu_list_tile.dart';
 import 'package:goipvc/ui/widgets/profile_card.dart';
 
@@ -99,11 +98,9 @@ class _MenuViewState extends State<MenuView> {
             icon: const Icon(Icons.logout),
             text: const Text("Terminar sessão"),
             onTap: () {
-              MyIPVCAPI.logout();
-              Navigator.pushReplacement(
-                  context,
-                  MaterialPageRoute(builder: (context) => LoginView())
-              );
+              showDialog(context: context, builder: (_) {
+                return const LogoutPrompt();
+              });
             }
         )
       ],
