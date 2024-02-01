@@ -11,7 +11,7 @@ class FirstTimeThemeSettingsView extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Text(
-            "Customiza a tua app",
+            "Personaliza a tua app",
             style: TextStyle(
               fontSize: 24
             ),
