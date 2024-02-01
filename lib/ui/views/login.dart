@@ -1,9 +1,10 @@
+import 'package:animations/animations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:goipvc/providers/profile_provider.dart';
-import 'package:goipvc/providers/settings_provider.dart';
 import 'package:goipvc/providers/shared_preferences_provider.dart';
 import 'package:goipvc/services/myipvc_api.dart';
+import 'package:goipvc/ui/views/first_time.dart';
 import 'package:goipvc/ui/views/index.dart';
 import 'package:goipvc/ui/widgets/goipvc_logo.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -68,13 +69,22 @@ class LoginView extends ConsumerWidget {
       } else {
         ref.read(profileProvider.notifier).set(user);
 
-        if (prefs.getString("theme") == null) {
-          ref.read(settingsProvider.notifier).setColorScheme("school");
-        }
-
         if (context.mounted) {
-          Navigator.pushReplacement(context,
-              MaterialPageRoute(builder: (context) => const IndexView()));
+          Navigator.pushReplacement(
+              context,
+              PageRouteBuilder(
+                pageBuilder: (_,__,___) => (prefs.getBool("hasSeenFirstTimeSetup") ?? false)
+                    ? const IndexView()
+                    : const FirstTimeView(),
+                transitionDuration: const Duration(milliseconds: 500),
+                transitionsBuilder: (_, a1, a2, child) => SharedAxisTransition(
+                  animation: a1,
+                  secondaryAnimation: a2,
+                  transitionType: SharedAxisTransitionType.vertical,
+                  child: child,
+                )
+              )
+          );
         }
       }
     } catch (error) {
@@ -154,7 +164,16 @@ class LoginView extends ConsumerWidget {
             ),
             FilledButton.icon(
               label: const Text("Entrar"),
-              icon: const Icon(Icons.login),
+              icon: loading
+                  ? Container(
+                      width: 24,
+                      height: 24,
+                      padding: const EdgeInsets.all(2.0),
+                      child: const CircularProgressIndicator(
+                        strokeWidth: 3,
+                      ),
+                    )
+                  : const Icon(Icons.login),
               onPressed: loading ? null : () => _login(context, ref),
               style: ButtonStyle(
                 shape: MaterialStatePropertyAll(

@@ -1,6 +1,8 @@
 import 'dart:io';
 
+import 'package:animations/animations.dart';
 import 'package:flutter/material.dart';
+import 'package:goipvc/ui/animations/shared_axis_switcher.dart';
 
 import 'package:goipvc/ui/views/home.dart';
 import 'package:goipvc/ui/views/menu.dart';
@@ -34,6 +36,36 @@ void _errorSnackbar (BuildContext context) {
   );
 }
 
+final _pages = <Widget>[
+  const HomeView(),
+  const ScheduleView(),
+  const SchoolMapView(),
+  const MenuView()
+];
+
+final _destinations = [
+  const NavigationRailDestination(
+    selectedIcon: Icon(Icons.home),
+    icon: Icon(Icons.home_outlined),
+    label: Text('Início'),
+  ),
+  const NavigationRailDestination(
+    selectedIcon: Icon(Icons.today),
+    icon: Icon(Icons.today_outlined),
+    label: Text('Horário'),
+  ),
+  const NavigationRailDestination(
+    selectedIcon: Icon(Icons.map),
+    icon: Icon(Icons.map_outlined),
+    label: Text('Plantas'),
+  ),
+  const NavigationRailDestination(
+    selectedIcon: Icon(Icons.menu),
+    icon: Icon(Icons.menu_outlined),
+    label: Text('Menu'),
+  ),
+];
+
 class IndexView extends StatefulWidget {
   const IndexView({super.key});
 
@@ -43,6 +75,7 @@ class IndexView extends StatefulWidget {
 
 class _IndexViewState extends State<IndexView> {
   int currentPageIndex = 0;
+  bool navigatingRight = true;
 
   @override
   void initState(){
@@ -101,36 +134,6 @@ class _IndexViewState extends State<IndexView> {
 
   @override
   Widget build(BuildContext context) {
-    final pages = <Widget>[
-      const HomeView(),
-      const ScheduleView(),
-      const SchoolMapView(),
-      const MenuView()
-    ];
-
-    const destinations = [
-      NavigationRailDestination(
-        selectedIcon: Icon(Icons.home),
-        icon: Icon(Icons.home_outlined),
-        label: Text('Início'),
-      ),
-      NavigationRailDestination(
-        selectedIcon: Icon(Icons.today),
-        icon: Icon(Icons.today_outlined),
-        label: Text('Horário'),
-      ),
-      NavigationRailDestination(
-        selectedIcon: Icon(Icons.map),
-        icon: Icon(Icons.map_outlined),
-        label: Text('Plantas'),
-      ),
-      NavigationRailDestination(
-        selectedIcon: Icon(Icons.menu),
-        icon: Icon(Icons.menu_outlined),
-        label: Text('Menu'),
-      ),
-    ];
-
     return Scaffold(
         appBar: AppBar(
           centerTitle: false,
@@ -158,12 +161,13 @@ class _IndexViewState extends State<IndexView> {
                 NavigationBar(
                   onDestinationSelected: (int index) {
                     setState(() {
+                      navigatingRight = index > currentPageIndex;
                       currentPageIndex = index;
                     });
                   },
                   indicatorColor: Theme.of(context).colorScheme.primary,
                   selectedIndex: currentPageIndex,
-                  destinations: destinations.map((destination) {
+                  destinations: _destinations.map((destination) {
                     return NavigationDestination(
                         icon: destination.icon,
                         selectedIcon: destination.selectedIcon,
@@ -174,21 +178,20 @@ class _IndexViewState extends State<IndexView> {
               ],
             )
             : null,
-
-
         body: Row(
           children: [
             if(MediaQuery.of(context).orientation == Orientation.landscape)
               NavigationRail(
                 onDestinationSelected: (int index) {
                   setState(() {
+                    navigatingRight = index > currentPageIndex;
                     currentPageIndex = index;
                   });
                 },
                 labelType: NavigationRailLabelType.all,
                 indicatorColor: Theme.of(context).colorScheme.primary,
                 selectedIndex: currentPageIndex,
-                destinations: destinations,
+                destinations: _destinations,
               ),
             Expanded(
               child: WillPopScope(
@@ -201,13 +204,12 @@ class _IndexViewState extends State<IndexView> {
                   }
                   return true;
                 },
-                child: AnimatedSwitcher(
-                  duration: const Duration(milliseconds: 200),
-                  transitionBuilder: (Widget child, Animation<double> animation) {
-                    return FadeTransition(opacity: animation, child: child);
-                  },
-                  child: pages[currentPageIndex],
-                ),
+                child: SharedAxisSwitcher(
+                  duration: const Duration(milliseconds: 250),
+                  type: SharedAxisTransitionType.horizontal,
+                  reverse: !navigatingRight,
+                  child: _pages[currentPageIndex],
+                )
               ),
             ),
           ],
