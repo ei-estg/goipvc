@@ -50,6 +50,21 @@ class ThemeSettings<T> extends ConsumerWidget {
 
     return Wrap(
       children: <Widget>[
+        Padding(
+          padding: const EdgeInsets.fromLTRB(20, 2, 0, 2),
+          child: Builder(
+            builder: (BuildContext context) {
+              return Text(
+                "Aparência",
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 15,
+                  color: Theme.of(context).colorScheme.primary,
+                ),
+              );
+            },
+          ),
+        ),
         ListTile(
           leading: const Icon(Icons.palette),
           title: const Text("Esquema de Cores"),
