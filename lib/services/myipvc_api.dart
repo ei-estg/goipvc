@@ -6,7 +6,9 @@ import 'package:goipvc/models/myipvc/exam.dart';
 import 'package:goipvc/models/myipvc/lesson.dart';
 import 'package:goipvc/services/encryptor.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:html_unescape/html_unescape.dart';
 
+import '../models/myipvc/calendar.dart';
 import '../models/myipvc/card.dart';
 import '../models/myipvc/detailed_curricular_unit.dart';
 import '../models/myipvc/grade.dart';
@@ -163,7 +165,7 @@ class MyIPVCAPI {
 
       // If the room name matches the pattern School - Room
       // remove the School part
-      if (RegExp(r"^\S+ - \S+$").hasMatch(lesson["sala"])) {
+      if (RegExp(r"^\S+ - (.*)$").hasMatch(lesson["sala"])) {
         lesson["sala"] = lesson["sala"].split(" - ")[1];
       }
 
@@ -202,30 +204,34 @@ class MyIPVCAPI {
     MyIPVCDetailedCurricularUnit data =
         MyIPVCDetailedCurricularUnit.fromJson(response.data["data"][0]);
 
-    data.docentes =
-        data.docentes.replaceAll(RegExp(r'::\d::\d*.\d*\|\|'), "\n").trim();
-    data.objetivos = data.objetivos
+    HtmlUnescape unescape = HtmlUnescape();
+
+    data.docentes = unescape.convert(
+        data.docentes.replaceAll(RegExp(r'::\d::\d*.\d*\|\|'), "\n").trim());
+    data.objetivos = unescape.convert(data.objetivos
         .replaceAll(RegExp(r'::\d\|\|'), "\n")
-        .replaceAll(RegExp(r'\d*-(?= *[A-Z])'), "");
+        .replaceAll(RegExp(r'\d*-(?= *[A-Z])'), ""));
 
-    data.objetivos = data.objetivos
+    data.objetivos = unescape.convert(data.objetivos
         .replaceRange(data.objetivos.length - 1, data.objetivos.length, "")
-        .trim();
+        .trim());
 
-    data.conteudos = data.conteudos
+    data.conteudos = unescape.convert(data.conteudos
         .replaceAll(RegExp(r' (?=\d+.\d+)'), "\n")
         .replaceAll(RegExp(r'::\d*.\d*::\|\|'), "\n\n")
         .replaceAll(RegExp(r'(?<=\d\.) (?=\d)'), "")
         .replaceAll(RegExp(r'(?<=[a-zA-Z]+)(?<=.)(?!$)(?=(\d\.)*\d)'), "\n")
         .replaceAll(RegExp(r'(?<=[a-zA-Z])\.(?=\d)'), ".\n")
         .replaceAll(RegExp(r'::\d*\.\d*::\d*\|\|'), "\n\n")
-        .trim();
+        .trim());
 
-    data.resumo = data.resumo.trim();
-    data.metodologias = data.metodologias.trim();
-    data.avaliacao = data.avaliacao.trim();
-    data.bibliografiaPrincipal = data.bibliografiaPrincipal.trim();
-    data.bibliografiaComplementar = data.bibliografiaComplementar.trim();
+    data.resumo = unescape.convert(data.resumo.trim());
+    data.metodologias = unescape.convert(data.metodologias.trim());
+    data.avaliacao = unescape.convert(data.avaliacao.trim());
+    data.bibliografiaPrincipal =
+        unescape.convert(data.bibliografiaPrincipal.trim());
+    data.bibliografiaComplementar =
+        unescape.convert(data.bibliografiaComplementar.trim());
 
     return data;
   }
@@ -261,5 +267,36 @@ class MyIPVCAPI {
     }
 
     return exams;
+  }
+
+  static Future<MyIPVCCalendar> getCalendar() async {
+    final response = await _dio.post(
+      "/api/atividadeLetiva/getCalendarioLetivo",
+      data: jsonEncode(<String, String>{
+        'lang': 'pt',
+      }),
+    );
+
+    final data = response.data['data'];
+
+    return MyIPVCCalendar(
+        firstSemesterDates: data['Periodos']['PrimeiroSemestre'],
+        secondSemesterDates: data['Periodos']['SegundoSemestre'],
+        christmasBreak: data['ParagemLetiva']['Natal'],
+        carnivalBreak: data['ParagemLetiva']['Carnaval'],
+        easterBreak: data['ParagemLetiva']['Pascoa'],
+        academicWeek: data['ParagemLetiva']['SemanaAcademica'],
+        firstSemesterHolidays:
+            List.castFrom(data['Feriados']['PrimeiroSemestre']),
+        secondSemesterHolidays:
+            List.castFrom(data['Feriados']['SegundoSemestre']),
+        commemorativeDays: Map<String, String>.from(data['DiasComemorativos']),
+        firstSemesterExamDates: data['PeriododeExames']
+            ['EpocanormaleEpocadeRecurso']['PrimeiroSemestre'],
+        secondSemesterExamDates: data['PeriododeExames']
+            ['EpocanormaleEpocadeRecurso']['SegundoSemestre'],
+        specialSeasonExamDates: data['PeriododeExames']['EpocaEspecial'],
+        firstFee: data['PagamentodePropinas']['PrimeiraPrestacao'],
+        followingFees: data['PagamentodePropinas']['Restantesprestacoes']);
   }
 }

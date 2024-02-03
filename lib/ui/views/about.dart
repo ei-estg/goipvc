@@ -12,7 +12,7 @@ class AboutView extends ConsumerWidget {
   const AboutView({super.key});
 
   Future<void> _launchUrl() async {
-    final url = Uri.parse("https://github.com/joaoalves03/goipvc");
+    final url = Uri.parse("https://github.com/ei-estg/goipvc");
 
     await launchUrl(url);
   }
