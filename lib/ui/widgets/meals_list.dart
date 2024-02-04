@@ -17,7 +17,6 @@ class MealsList extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     AsyncValue<Meals> mealsData = ref.watch(mealsProvider);
     SharedPreferences prefs = ref.read(sharedPreferencesProvider);
-    final deviceWidth = MediaQuery.of(context).size.width;
 
     if(mealsData.isRefreshing){
       return const LoadingView();
@@ -83,7 +82,14 @@ class MealsList extends ConsumerWidget {
                           ),
                         ),
                       ),
-                      GridView.builder(
+                      Wrap(
+                        children: [
+                          for(var meal in selectedMealType)
+                            MealCard(meal: meal)
+                        ],
+
+                      )
+                      /*GridView.builder(
                           shrinkWrap: true,
                           physics: const NeverScrollableScrollPhysics(),
                           gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
@@ -93,13 +99,13 @@ class MealsList extends ConsumerWidget {
                                   : ((deviceWidth * 0.75) / 250).round(),
                               mainAxisSpacing: 4.0,
                               crossAxisSpacing: 4.0,
-                              childAspectRatio: 0.75
+                              childAspectRatio: 0.618
                           ),
                           itemCount: selectedMealType.length,
                           itemBuilder: (BuildContext context, int mealIndex) {
                             return MealCard(meal: selectedMealType[mealIndex]);
                           }
-                      )
+                      )*/
                     ],
                   );
                 }
