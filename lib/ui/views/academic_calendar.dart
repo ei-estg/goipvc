@@ -35,7 +35,7 @@ class AcademicCalendarView extends ConsumerWidget {
                       const Padding(padding: EdgeInsets.symmetric(vertical: 4)),
                       const Text("Segundo Semestre:",
                           style: TextStyle(fontWeight: FontWeight.bold)),
-                      Text(calendar.firstSemesterDates)
+                      Text(calendar.secondSemesterDates)
                     ],
                   ),
                   _CalendarCard(
