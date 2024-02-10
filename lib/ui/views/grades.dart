@@ -98,23 +98,36 @@ class GradesView extends ConsumerWidget {
                             Row(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
-                                Text(
-                                  finalGrade.toStringAsPrecision(4),
-                                  style: const TextStyle(fontSize: 24),
-                                ),
-                                IconButton(
-                                  onPressed: () {
-                                    showModalBottomSheet<void>(
-                                      context: context,
-                                      builder: (BuildContext context) {
-                                        return bottomSheet;
+                                Row(
+                                  mainAxisSize: MainAxisSize.min,
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      finalGrade.toStringAsPrecision(4),
+                                      style: const TextStyle(fontSize: 24),
+                                    ),
+                                    const SizedBox(
+                                      width: 3,
+                                    ),
+                                    GestureDetector(
+                                      onTap: () {
+                                        showModalBottomSheet<void>(
+                                          context: context,
+                                          builder: (BuildContext context) {
+                                            return bottomSheet;
+                                          },
+                                        );
                                       },
-                                    );
-                                  },
-                                  icon: const Icon(Icons.info),
-                                )
+                                      child: const Icon(Icons.info_sharp, size: 20,),
+                                    ),
+                                  ],
+                                ),
                               ],
                             ),
+
+
+
                           ],
                         ),
                         const SizedBox(
