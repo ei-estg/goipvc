@@ -93,41 +93,33 @@ class GradesView extends ConsumerWidget {
                           children: <Widget>[
                             const Text("Média global",
                                 style: TextStyle(fontSize: 32)),
-                            const Padding(
-                                padding: EdgeInsets.fromLTRB(0, 0, 0, 8)),
+                            const SizedBox(
+                              height: 10,
+                            ),
                             Row(
                               mainAxisAlignment: MainAxisAlignment.center,
+                              crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                Row(
-                                  mainAxisSize: MainAxisSize.min,
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text(
-                                      finalGrade.toStringAsPrecision(4),
-                                      style: const TextStyle(fontSize: 24),
-                                    ),
-                                    const SizedBox(
-                                      width: 3,
-                                    ),
-                                    GestureDetector(
-                                      onTap: () {
-                                        showModalBottomSheet<void>(
-                                          context: context,
-                                          builder: (BuildContext context) {
-                                            return bottomSheet;
-                                          },
-                                        );
+                                Text(
+                                  finalGrade.toStringAsPrecision(4),
+                                  style: const TextStyle(fontSize: 24),
+                                ),
+                                const SizedBox(
+                                  width: 3,
+                                ),
+                                GestureDetector(
+                                  onTap: () {
+                                    showModalBottomSheet<void>(
+                                      context: context,
+                                      builder: (BuildContext context) {
+                                        return bottomSheet;
                                       },
-                                      child: const Icon(Icons.info_sharp, size: 20,),
-                                    ),
-                                  ],
+                                    );
+                                  },
+                                  child: const Icon(Icons.info_sharp, size: 20,),
                                 ),
                               ],
                             ),
-
-
-
                           ],
                         ),
                         const SizedBox(
