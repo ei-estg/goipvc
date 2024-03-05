@@ -45,7 +45,8 @@ app.*.map.json
 
 # Ignore generated dart files
 *.g.dart
-pubspec.lock
+
+# Ignore xcode files
 ios/Podfile
 ios/Podfile.lock
 ios/Flutter/AppFrameworkInfo.plist
