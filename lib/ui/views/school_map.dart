@@ -7,26 +7,10 @@ import 'package:goipvc/providers/settings_provider.dart';
 import 'package:goipvc/ui/floors.dart';
 import 'package:goipvc/ui/views/error.dart';
 import 'package:goipvc/ui/views/info.dart';
-import 'package:photo_view/photo_view.dart';
+import 'package:goipvc/ui/widgets/floor_selector.dart';
 
 class SchoolMapView extends ConsumerWidget {
   const SchoolMapView({super.key});
-
-  void _openImage(BuildContext context, String img) {
-    Navigator.of(context).push(MaterialPageRoute(
-        builder: (context) => Scaffold(
-          appBar: AppBar(title: const Text("Piso")),
-          body: Hero(
-            tag: img,
-            child: PhotoView(
-              imageProvider: AssetImage(img),
-              backgroundDecoration: BoxDecoration(
-                  color: Theme.of(context).colorScheme.surface
-              ),
-            ),
-          ),
-        )));
-  }
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -35,7 +19,6 @@ class SchoolMapView extends ConsumerWidget {
     final systemTheme =
         SchedulerBinding.instance.platformDispatcher.platformBrightness;
     var theme = "";
-    final deviceWidth = MediaQuery.of(context).size.width;
 
     if (settings.theme == "system") {
       if (systemTheme == Brightness.dark) {
@@ -53,27 +36,6 @@ class SchoolMapView extends ConsumerWidget {
       return const InfoView(message: "Não existem plantas para a sua escola");
     }
 
-    return GridView.builder(
-        shrinkWrap: true,
-        padding: const EdgeInsets.all(8),
-        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-            crossAxisCount: (deviceWidth / 500).round(),
-            mainAxisSpacing: 4.0,
-            crossAxisSpacing: 4.0,
-            childAspectRatio: 1.57
-        ),
-        itemCount: schoolMaps[profile.unidadeOrganica]!.length,
-        itemBuilder: (BuildContext context, int index) {
-          return GestureDetector(
-            onTap: () {
-              _openImage(context, schoolMaps[profile.unidadeOrganica]![index][theme]);
-            },
-            child: Hero(
-                tag: schoolMaps[profile.unidadeOrganica]![index][theme],
-                child: Image.asset(schoolMaps[profile.unidadeOrganica]![index][theme])
-            ),
-          );
-        }
-    );
+    return FloorSelector(profile: profile, theme: theme);
   }
 }

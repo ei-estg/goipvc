@@ -8,9 +8,9 @@
 
 O goIPVC é uma interface alternativa à aplicação oficial do IPVC (*my ipvc*), desenvolvida por estudantes e ex-estudantes do IPVC. Pode obter mais informações acerca desta aplicação a [aqui](https://play.google.com/store/apps/details?id=app.ipvc.pt&hl=pt_PT).
 
-**O goIPVC não tem qualquer afiliação com o [Instituto Politécnico de Viana do Castelo](https://ipvc.pt).**
+**O goIPVC não tem qualquer afiliação com o [Instituto Politécnico de Viana do Castelo](https://www.ipvc.pt).**
 
-[Sobre o goIPVC](#🤩-sobre-o-goipvc) · [Imagens](#👀-imagens) · [Transfere o goIPVC](#💪-transfere-o-goipvc) · [Queres contribuir?](#🤝-queres-contribuir)
+[Sobre o goIPVC](#-sobre-o-goipvc) · [Imagens](#-imagens) · [Transfere o goIPVC](#-transfere-o-goipvc) · [Queres contribuir?](#-queres-contribuir)
 
 [github-stars]: https://img.shields.io/github/stars/ei-estg/goipvc?style=to-the-badge&logo=github&labelColor=black&color=F9FF25
 [github-forks]: https://img.shields.io/github/forks/ei-estg/goipvc?style=to-the-badge&logo=github&labelColor=black&color=508CF9
@@ -23,9 +23,9 @@ O goIPVC é uma interface alternativa à aplicação oficial do IPVC (*my ipvc*)
 ## 🤩 Sobre o goIPVC
 
 > [!CAUTION]
-> O goIPVC não tem qualquer afiliação com o [Instituto Politécnico de Viana do Castelo](https://ipvc.pt).
+> O goIPVC não tem qualquer afiliação com o [Instituto Politécnico de Viana do Castelo](https://www.ipvc.pt).
 
-O goIPVC é uma aplicação desenvolvida no ambito de melhorar a experiência dos estudantes do [Instituto Politécnico de Viana do Castelo](https://ipvc.pt) com uma nova aplicação alternativa ao *my ipvc*. 
+O goIPVC é uma aplicação desenvolvida no ambito de melhorar a experiência dos estudantes do [Instituto Politécnico de Viana do Castelo](https://www.ipvc.pt) com uma nova aplicação alternativa ao *my ipvc*. 
 
 Esta aplicação, em desenvolvimento por estudantes e ex-estudantes do IPVC, visa proporcionar tudo o que é necessário de maneira rápida e acessível.
 
