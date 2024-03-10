@@ -39,6 +39,8 @@ dependencies:
   workmanager: ^0.5.1
   animations: ^2.0.8
   html_unescape: ^2.0.0
+  firebase_core: ^2.27.0
+  firebase_crashlytics: ^3.4.18
 
 dev_dependencies:
   flutter_test:
