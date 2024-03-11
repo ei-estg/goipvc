@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "701381215526",
+    "project_id": "goipvc-f41b5",
+    "storage_bucket": "goipvc-f41b5.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:701381215526:android:ab1a96915e715a10c3ade7",
+        "android_client_info": {
+          "package_name": "pt.joaoalves03.goipvc"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCnXR_oT8MW4ugB_-dGEmj9au9D0RKk8go"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
