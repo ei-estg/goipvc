@@ -5,6 +5,7 @@ import 'package:goipvc/models/myipvc/user.dart';
 import 'package:goipvc/providers/profile_provider.dart';
 import 'package:goipvc/ui/views/error.dart';
 import 'package:goipvc/ui/widgets/catchphrase.dart';
+import 'package:goipvc/ui/widgets/current_date.dart';
 import 'package:goipvc/ui/widgets/home_view_tabs.dart';
 import 'package:goipvc/ui/widgets/profile_picture.dart';
 
@@ -53,7 +54,6 @@ class HomeViewState extends State<HomeView> with SingleTickerProviderStateMixin 
                             Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                const CatchPhrase(),
                                 Text(
                                   "Olá ${profile.nome.split(" ")[0]}!",
                                   style: TextStyle(
@@ -61,13 +61,11 @@ class HomeViewState extends State<HomeView> with SingleTickerProviderStateMixin 
                                     color: Theme.of(context).colorScheme.primary,
                                   ),
                                   textAlign: TextAlign.left,
-                                )
+                                ),
+                                const CatchPhrase()
                               ],
                             ),
-                            ProfilePicture(
-                              imageData: profile.fotografia,
-                              size: 100,
-                            ),
+                            CurrentDate()
                           ],
                         ),
                       ),
