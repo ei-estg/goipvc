@@ -29,7 +29,64 @@ class LessonCard<T> extends StatelessWidget {
       progress = 0;
     }
 
-    return Card(
+    return Container(
+        margin: const EdgeInsets.all(8),
+        padding: const EdgeInsets.all(10),
+        decoration: BoxDecoration(
+            color: Theme.of(context).colorScheme.tertiaryContainer,
+            shape: BoxShape.rectangle,
+            border: Border.all(width: 1.5, color: Colors.black),
+            borderRadius: const BorderRadius.all(Radius.circular(12.0))),
+        child: Column(children: [
+          Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              mainAxisSize: MainAxisSize.max,
+              children: [
+                Expanded(
+                  flex: 7,
+                  child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(lesson.horNome, style: TextStyle(
+                          color: Theme.of(context).primaryColor,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 16
+                        ),),
+                        Text("${lesson.nomesDocentes} • ${lesson.sala}")
+                      ]),
+                ),
+                const Expanded(
+                    flex: 1,
+                    child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [Center(child: Icon(Icons.info_outline))]))
+              ]),
+          Row(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Text(formatter.format(start)),
+                Expanded(
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 8),
+                    child: ClipRRect(
+                      borderRadius: const BorderRadius.all(Radius.circular(8)),
+                      child: LinearProgressIndicator(
+                          minHeight: 16,
+                          value: progress,
+                          backgroundColor:
+                          Theme.of(context).colorScheme.primaryContainer,
+                          valueColor: AlwaysStoppedAnimation<Color>(
+                              Theme.of(context)
+                                  .colorScheme
+                                  .primary)),
+                    ),
+                  )
+                ),
+                Text(formatter.format(end))
+              ])
+        ]));
+
+    /*return Card(
       color: Theme.of(context).colorScheme.surface,
       margin: const EdgeInsets.fromLTRB(12, 6, 12, 6),
       elevation: 2,
@@ -105,6 +162,6 @@ class LessonCard<T> extends StatelessWidget {
           ])
         ],
       ),
-    );
+    );*/
   }
 }
