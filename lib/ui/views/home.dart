@@ -65,7 +65,7 @@ class HomeViewState extends State<HomeView> with SingleTickerProviderStateMixin 
                                 const CatchPhrase()
                               ],
                             ),
-                            CurrentDate()
+                            const CurrentDate()
                           ],
                         ),
                       ),
